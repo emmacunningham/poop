@@ -9,7 +9,7 @@ html, body {
   height: 100%;
   max-height: 100%;
   overflow: hidden;
-  color: #333;
+  color: #ccc;
   font-family: 'Open Sans';
 }
 
@@ -21,7 +21,7 @@ h1 {
 
 a {
   text-decoration: none;
-  color: #333;
+  color: #ccc;
 }
 
 a.nav-link {
@@ -37,11 +37,11 @@ ul {
 .homepage-container {
   width: 100%;
   height: 100%;
-  background-image: url('../img/mtbg1.jpg');
+  background-color: white;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: background-image 1s ease-in-out;
+  transition: background-image 0.5s ease-in-out;
 }
 
 .subnav-container {
@@ -65,7 +65,7 @@ ul {
 .sub-link.active::after {
   content: ' ';
   display: inline-block;
-  background-image: url('../img/icons/tumblr.png');
+  background-image: url('../img/icons/portfolio_icon_light.gif');
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
