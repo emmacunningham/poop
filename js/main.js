@@ -25,7 +25,15 @@ $(document).ready( function() {
      'background-image': "url('" + picture + "')"
   })
 
- });
+  if ((picture) == './img/bgs/homepage_bg1.jpg') {
+    $("html, body, a").addClass('dark-text');
+  }
+    else {
+      console.log ('false');
+    }
+  console.log (picture);
+
+});
 
 
 

@@ -13,6 +13,14 @@ html, body {
   font-family: 'Open Sans';
 }
 
+html.dark-text {
+  color: #333;
+}
+
+body.dark-text {
+  color: #333;
+}
+
 h1 {
   margin: 0;
   font-size: 23px;
@@ -22,6 +30,10 @@ h1 {
 a {
   text-decoration: none;
   color: #ccc;
+}
+
+a.dark-text {
+  color: #333;
 }
 
 a.nav-link {
