@@ -61,6 +61,8 @@ $('.port-link').click(function(e) {
   e.preventDefault();
   console.log ('you clicked a port link!');
   $('.content-container').removeClass('hidden');
+  $('.homepage-container').css('background-image', 'none');
+  $('html, body, a').css({'color': '#333'});
 });
 
 $('.expand-link').click(function(e) {
