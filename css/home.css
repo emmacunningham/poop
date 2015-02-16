@@ -99,7 +99,7 @@ ul {
 .social-media-container {
   position: absolute;
   bottom: 0;
-  width: inherit;
+  width: 216px;
   padding-bottom: 25px;
 }
 
@@ -127,9 +127,14 @@ ul {
 }
 
 .content-container {
+  position: absolute;
   background: red;
   display: inline-block;
-  width: 200px;
+  width: 100%;
+  min-height: 100%;
   vertical-align: top;
 }
 
+.content-container.hidden {
+  display: hidden;
+}

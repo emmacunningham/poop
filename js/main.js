@@ -57,6 +57,11 @@ var preloadImage = function (index, value) {
 }
   $('.expand-link').each(preloadImage);
 
+$('.port-link').click(function(e) {
+  e.preventDefault();
+  console.log ('you clicked a port link!');
+  $('.content-container').removeClass('hidden');
+});
 
 $('.expand-link').click(function(e) {
   e.preventDefault();
@@ -88,17 +93,20 @@ $('.expand-link').click(function(e) {
 
   $('.expand-link').each(resetAllButClicked);
 
+
+
+
 // write if statement to see if NOT active, set max-height to 0px: code code code
   if (curSubnav.hasClass('active')) {
     $('.subnav-container.active').css({
     'max-height' : liCount * liHeight
     });
   }
-  else {
-    curSubnav.css({
-      'max-height' : '0'
-      });
-  }
+    else {
+      curSubnav.css({
+        'max-height' : '0'
+        });
+    }
 
 //  {
 //   var calculateHeight = function(){
