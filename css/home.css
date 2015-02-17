@@ -8,7 +8,7 @@
 html, body {
   height: 100%;
   max-height: 100%;
-  overflow: hidden;
+  /*overflow: hidden;*/
   color: #ccc;
   font-family: 'Open Sans';
 }
@@ -88,6 +88,7 @@ ul {
 }
 
 .sidebar-container {
+  position: fixed;
   display: inline-block;
   width: 246px;
   vertical-align: top;
@@ -128,11 +129,13 @@ ul {
 
 .content-container {
   position: absolute;
-  background: red;
+  background: transparent;
   display: inline-block;
-  width: 100%;
+  width: calc(100% - 246px);
+  margin-left: 246px;
   min-height: 100%;
   vertical-align: top;
+  overflow: scroll;
 }
 
 .content-container.hidden {

@@ -166,6 +166,12 @@ var homepageBackgroundUrl = $(".homepage-container").css("background-image");
 
 });
 
+$("#mygallery").justifiedGallery({
+          rowHeight: 200,
+          lastRow: 'justify',
+          margins: 10,
+        });
+
 
 
 
