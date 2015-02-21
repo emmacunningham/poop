@@ -61,8 +61,9 @@ $('.port-link').click(function(e) {
   e.preventDefault();
   console.log ('you clicked a port link!');
   $('.content-container').removeClass('hidden');
-  $('.homepage-container').css('background-image', 'linear-gradient(white, white)');
+  $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
   $('html, body, a').css({'color': '#333'});
+  // $('.content-container').fadeTo(fast, 1);
 });
 
 $('.expand-link').click(function(e) {
@@ -72,6 +73,7 @@ $('.expand-link').click(function(e) {
   var liHeight = $('.subnav-container li').height();
   console.log (liCount);
   console.log (liHeight);
+  $('.content-container').addClass('hidden');
 
   var curSubnav = $(self).next();
 
@@ -90,8 +92,6 @@ $('.expand-link').click(function(e) {
           });
       }
   }
-
-
 
   $('.expand-link').each(resetAllButClicked);
 
