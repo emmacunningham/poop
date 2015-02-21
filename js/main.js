@@ -75,7 +75,7 @@ $('.expand-link').click(function(e) {
   console.log (liCount);
   console.log (liHeight);
   $('.content-container').addClass('hidden');
-
+  $('.port-story').addClass('hidden');
   var curSubnav = $(self).next();
 
   // $('.expand-link').next().removeClass('active');
