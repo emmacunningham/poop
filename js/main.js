@@ -63,6 +63,7 @@ $('.port-link').click(function(e) {
   $('.content-container').removeClass('hidden');
   $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
   $('html, body, a').css({'color': '#333'});
+  $('.port-story').removeClass('hidden');
   // $('.content-container').fadeTo(fast, 1);
 });
 
