@@ -100,11 +100,9 @@
 .justified-gallery > div > .caption {
   display: none;
   position: absolute;
-  bottom: 0;
   height: 100%;
   text-align: center;
-  line-height: 3000%;
-  padding-top: 100px;
+  padding: 10px;
   background-color: #000;
   left: 0;
   right: 0;
