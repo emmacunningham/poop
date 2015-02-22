@@ -67,6 +67,14 @@ $('.port-link').click(function(e) {
   // $('.content-container').fadeTo(fast, 1);
 });
 
+// console.log ($('.port-close'));
+
+$('.port-close').click(function(e) {
+  e.preventDefault();
+  console.log ('you clicked the port story x link!');
+  $('.port-story').addClass('hidden');
+});
+
 $('.expand-link').click(function(e) {
   e.preventDefault();
   var self = this;
@@ -80,9 +88,6 @@ $('.expand-link').click(function(e) {
 
   // $('.expand-link').next().removeClass('active');
   var resetAllButClicked = function(index, elm) {
-
-    // console.log(index);
-    // console.log(self == elm)
     if ((self) == (elm)) {
       curSubnav.toggleClass('active');
     }
@@ -92,44 +97,22 @@ $('.expand-link').click(function(e) {
           'max-height' : '0'
           });
       }
-  }
+  };
 
   $('.expand-link').each(resetAllButClicked);
 
-
-
-
-// write if statement to see if NOT active, set max-height to 0px: code code code
   if (curSubnav.hasClass('active')) {
     $('.subnav-container.active').css({
     'max-height' : liCount * liHeight
     });
   }
-    else {
-      curSubnav.css({
-        'max-height' : '0'
-        });
-    }
-
-//  {
-//   var calculateHeight = function(){
-//     var activeHeight = $(self).children().length();
-//     console.log (activeHeight);
-//     $(self).next().css({
-//       'max-height': activeHeight + 'px'
-//     })
-//   }
-// }
-// else{
-//     $(self).next().css({
-//     'max-height': "0px"
-//     })
-// }
+  else {
+    curSubnav.css({
+      'max-height' : '0'
+      });
+  }
 
 
-
-
-  // $(this).next().toggleClass('active');
 
   // Change the background image and typeface color on menu click!
 
@@ -143,35 +126,34 @@ $('.expand-link').click(function(e) {
   // $('html, body, a').css({
   //   'color': '#333'
   // });
-// The stuff below changes the font color for the page based on the URL of the background image in CSS.
-var fontColor = null;
+  // The stuff below changes the font color for the page based on the URL of the background image in CSS.
+  var fontColor = null;
 
-switch (name) {
-  case './img/bgs/musicians_bg.jpg':
-  fontColor = '#ccc'
-  break;
-  case './img/bgs/comedy_bg.jpg':
-  fontColor = '#333'
-  break;
-};
-// Confused on this SO HARD. I am getting the right variable and I seem to be failing to apply it to the CSS. WTF!
+  switch (name) {
+    case './img/bgs/musicians_bg.jpg':
+    fontColor = '#ccc'
+    break;
+    case './img/bgs/comedy_bg.jpg':
+    fontColor = '#333'
+    break;
+  }
+  // Confused on this SO HARD. I am getting the right variable and I seem to be failing to apply it to the CSS. WTF!
   $('html, body, a').css({
     'color': ""+ fontColor +""
   });
-// This concludes the stuff that changes the font color of the page based on the URL of the background image in CSS
+  // This concludes the stuff that changes the font color of the page based on the URL of the background image in CSS
 
-var homepageBackgroundUrl = $(".homepage-container").css("background-image");
+  var homepageBackgroundUrl = $(".homepage-container").css("background-image");
 
   console.log (name);
   console.log (fontColor);
-
 });
 
 $("#mygallery").justifiedGallery({
-          rowHeight: 200,
-          lastRow: 'justify',
-          margins: 10,
-        });
+  rowHeight: 200,
+  lastRow: 'justify',
+  margins: 10,
+});
 
 
 
