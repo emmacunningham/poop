@@ -4,6 +4,8 @@ function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
 }
 
+// On document load, selects one of three randcom images for the background
+// if BG1 is selected, sets the text to dark, if not, left at light text
 $(document).ready( function() {
 
     var ranNumber = randomFromInterval(1, 3)
@@ -37,7 +39,7 @@ $(document).ready( function() {
 
 
 
-
+// Setting the preloadImage variable for background images
 var preloadImage = function (index, value) {
    var name = './img/bgs/' +
     $.trim(
@@ -53,10 +55,17 @@ var preloadImage = function (index, value) {
     }
 
     c.src = name;
-
 }
-  $('.expand-link').each(preloadImage);
 
+// Performing the preloadImage function on each background
+// as a result of clicking on expand-link(s)
+$('.expand-link').each(preloadImage);
+
+// Event listener for clicking on a portfolio link
+// Removes hidden class on content-container
+// sets the bg img to white
+// changes type color to dark
+// removes hidden class on portfolio story (right now)
 $('.port-link').click(function(e) {
   e.preventDefault();
   console.log ('you clicked a port link!');
@@ -67,14 +76,22 @@ $('.port-link').click(function(e) {
   // $('.content-container').fadeTo(fast, 1);
 });
 
-// console.log ($('.port-close'));
-
+// Event listener for clicking the portfolio close 'x'
+// adds the hidden class to the port-story div
 $('.port-close').click(function(e) {
   e.preventDefault();
   console.log ('you clicked the port story x link!');
   $('.port-story').addClass('hidden');
 });
 
+// Event listener for clicking on the expand-link anchors
+// Counts up the number of li's in each ul
+// calculates height of one li
+// adds hidden class on content-container div and port-story div
+// resets all the expand-links to non-active besdies the one that is clicked on
+// sets the max height of the subnav container div to liCount * liHeight
+// takes the name of the expand-link and sets the background to the appropriate image
+// sets the text color appropriate based on which background image is used
 $('.expand-link').click(function(e) {
   e.preventDefault();
   var self = this;
@@ -123,10 +140,6 @@ $('.expand-link').click(function(e) {
     'background-image': "url('" + name + "')"
   });
 
-  // $('html, body, a').css({
-  //   'color': '#333'
-  // });
-  // The stuff below changes the font color for the page based on the URL of the background image in CSS.
   var fontColor = null;
 
   switch (name) {
@@ -137,11 +150,10 @@ $('.expand-link').click(function(e) {
     fontColor = '#333'
     break;
   }
-  // Confused on this SO HARD. I am getting the right variable and I seem to be failing to apply it to the CSS. WTF!
+
   $('html, body, a').css({
     'color': ""+ fontColor +""
   });
-  // This concludes the stuff that changes the font color of the page based on the URL of the background image in CSS
 
   var homepageBackgroundUrl = $(".homepage-container").css("background-image");
 
@@ -149,10 +161,24 @@ $('.expand-link').click(function(e) {
   console.log (fontColor);
 });
 
+// Applies the justified gallery plugin to the div with the mygallery ID
 $("#mygallery").justifiedGallery({
   rowHeight: 200,
   lastRow: 'justify',
   margins: 10,
+});
+
+// Poop sandbox work
+$('#mygallery a').click(function(e) {
+  e.preventDefault();
+  console.log('you clicked an image in the gallery! Proud of you!');
+  $('#mygallery').toggleClass('hidden');
+  $('.singleImage').toggleClass('hidden');
+  var self = this;
+  var imageUrl = $(this).attr('href');
+  var singleImageSize = 'max-height="400" width="500"'
+  $('.singleImage').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
+  $('.port-story').addClass('hidden');
 });
 
 
