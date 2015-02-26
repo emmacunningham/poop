@@ -156,7 +156,16 @@ ul {
 }
 
 .port-story.hidden {
-  display: hidden;
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 246px);
+  margin-left: 246px;
+  overflow: hidden;
+  height: 0;
+  background: white;
+  padding: 0px;
+  opacity: 0.9;
+  transition: padding 0.5s;
 }
 
 .port-story {
@@ -171,6 +180,11 @@ ul {
   padding: 1em 2em 1em 2em;
   background: white;
   opacity: 0.9;
+  transition: padding 0.5s;
+}
+
+.port-story p {
+  padding: 0px;
 }
 
 .close {
@@ -179,18 +193,36 @@ ul {
   right: 20px;
 }
 
-.singleImage {
+.single-image-container {
   position: absolute;
   width: calc(100% - 246px);
-  margin-left: 246px;
+  right: 0;
   overflow: hidden;
-  height: auto;
+  height: 100%;
   box-sizing: border-box;
-  padding: 1em 2em 1em 2em;
-  background: green;
+  background: white;
 }
 
-.singleImage.hidden {
+.single-image-container.hidden {
+  display: none;
+}
+
+.single-image {
+/*  position: absolute;
+  top: calc(50% - 166.5px);
+  left: calc(50% - 250px);*/
+}
+
+.single-image img {
+  max-height: calc(100vh - 50px);
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: block;
+  padding-top: 10px;
+}
+
+.single-image-nav-container.hidden {
   display: none;
 }
 
@@ -207,8 +239,9 @@ ul {
 
 .single-image-nav-icons {
   background: white;
-  position: absolute;
-  left: calc(50% - 44px);
+  margin: auto;
+  width: 89px;
+  height: 25px;
 }
 
 .single-image-nav-icons ul {

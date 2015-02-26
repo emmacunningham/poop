@@ -73,6 +73,8 @@ $('.port-link').click(function(e) {
   $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
   $('html, body, a').css({'color': '#333'});
   $('.port-story').removeClass('hidden');
+  $('.single-image-container').addClass('hidden');
+  $('.single-image-nav-container').addClass('hidden');
   // $('.content-container').fadeTo(fast, 1);
 });
 
@@ -168,17 +170,24 @@ $("#mygallery").justifiedGallery({
   margins: 10,
 });
 
-// Poop sandbox work
+// Click listener for clicking on a link within the gallery
+// Prevents default, loads link in single-image div
+// calculates imgUrl to direct user to proper full-size image
+// closes the portfolio story div (if open)
+// reveals the single-img-nav-container
 $('#mygallery a').click(function(e) {
   e.preventDefault();
   console.log('you clicked an image in the gallery! Proud of you!');
   $('#mygallery').toggleClass('hidden');
-  $('.singleImage').toggleClass('hidden');
+  $('.single-image-container').toggleClass('hidden');
   var self = this;
   var imageUrl = $(this).attr('href');
-  var singleImageSize = 'max-height="400" width="500"'
-  $('.singleImage').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
+  // var calculatedImageSize = $(this).
+  // var singleImageSize = 'max-height="400" width="500"'
+  // $('.single-image').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
+  $('.single-image').html('<img src="'+ imageUrl +'" />');
   $('.port-story').addClass('hidden');
+  $('.single-image-nav-container').removeClass('hidden');
 });
 
 
