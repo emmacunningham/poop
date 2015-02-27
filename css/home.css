@@ -201,6 +201,7 @@ ul {
   height: 100%;
   box-sizing: border-box;
   background: white;
+  display: table;
 }
 
 .single-image-container.hidden {
@@ -208,9 +209,8 @@ ul {
 }
 
 .single-image {
-/*  position: absolute;
-  top: calc(50% - 166.5px);
-  left: calc(50% - 250px);*/
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .single-image img {
@@ -219,7 +219,7 @@ ul {
   box-sizing: border-box;
   margin: 0 auto;
   display: block;
-  padding-top: 10px;
+  padding: 10px;
 }
 
 .single-image-nav-container.hidden {
