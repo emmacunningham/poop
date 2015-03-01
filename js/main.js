@@ -1,6 +1,7 @@
 'use strict';
 
 var CUR_GALLERY_INDEX;
+var GALLERY_COUNT;
 
 function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
@@ -32,10 +33,6 @@ $(document).ready( function() {
   if ((picture) == './img/bgs/homepage_bg1.jpg') {
     $("html, body, a").addClass('dark-text');
   }
-    else {
-      console.log ('false');
-    }
-  console.log (picture);
 
 });
 
@@ -47,8 +44,6 @@ var preloadImage = function (index, value) {
     $.trim(
       $(value).text().toLowerCase()
       ) + '_bg.jpg';
-
-    console.log(name);
 
     var c = new Image();
 
@@ -70,7 +65,6 @@ $('.expand-link').each(preloadImage);
 // removes hidden class on portfolio story (right now)
 $('.port-link').click(function(e) {
   e.preventDefault();
-  console.log ('you clicked a port link!');
   $('.content-container').removeClass('hidden');
   $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
   $('html, body, a').css({'color': '#333'});
@@ -172,7 +166,6 @@ $("#mygallery").justifiedGallery({
   margins: 10,
 });
 
-
 // Click listener for clicking on a link within the gallery
 // Prevents default, loads link in single-image div
 // calculates imgUrl to direct user to proper full-size image
@@ -181,15 +174,15 @@ $("#mygallery").justifiedGallery({
 $('#mygallery a').click(function(e) {
   e.preventDefault();
   var self = this;
+  GALLERY_COUNT = ($("#mygallery a").length - 1);
+  console.log(GALLERY_COUNT);
   $('#mygallery a').each(function(i, el) {
     if (el == self) {
       CUR_GALLERY_INDEX = i;
+      console.log(CUR_GALLERY_INDEX);
     }
   });
 
-
-
-  console.log('you clicked an image in the gallery! Proud of you!');
   $('#mygallery').toggleClass('hidden');
   $('.single-image-container').toggleClass('hidden');
   var self = this;
@@ -205,12 +198,17 @@ $('#mygallery a').click(function(e) {
 $('.image-nav-icon .next').click(function(e) {
   e.preventDefault();
   console.log('you clicked the right arrow!');
-
-  CUR_GALLERY_INDEX++;
+  if (CUR_GALLERY_INDEX == GALLERY_COUNT) {
+    CUR_GALLERY_INDEX = 0;
+  }
+    else {
+      CUR_GALLERY_INDEX++;
+    }
   console.log($('#mygallery a')[CUR_GALLERY_INDEX]);
+  console.log(CUR_GALLERY_INDEX);
   var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
   var imageUrl = $(nextEl).attr('href');
-  $('.single-image').html('<img src="'+ imageUrl +'" />');
+    $('.single-image').html('<img src="'+ imageUrl +'" />');
 });
 
 
