@@ -1,5 +1,7 @@
 'use strict';
 
+var CUR_GALLERY_INDEX;
+
 function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
 }
@@ -170,6 +172,7 @@ $("#mygallery").justifiedGallery({
   margins: 10,
 });
 
+
 // Click listener for clicking on a link within the gallery
 // Prevents default, loads link in single-image div
 // calculates imgUrl to direct user to proper full-size image
@@ -177,6 +180,15 @@ $("#mygallery").justifiedGallery({
 // reveals the single-img-nav-container
 $('#mygallery a').click(function(e) {
   e.preventDefault();
+  var self = this;
+  $('#mygallery a').each(function(i, el) {
+    if (el == self) {
+      CUR_GALLERY_INDEX = i;
+    }
+  });
+
+
+
   console.log('you clicked an image in the gallery! Proud of you!');
   $('#mygallery').toggleClass('hidden');
   $('.single-image-container').toggleClass('hidden');
@@ -190,6 +202,16 @@ $('#mygallery a').click(function(e) {
   $('.single-image-nav-container').removeClass('hidden');
 });
 
+$('.image-nav-icon .next').click(function(e) {
+  e.preventDefault();
+  console.log('you clicked the right arrow!');
+
+  CUR_GALLERY_INDEX++;
+  console.log($('#mygallery a')[CUR_GALLERY_INDEX]);
+  var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
+  var imageUrl = $(nextEl).attr('href');
+  $('.single-image').html('<img src="'+ imageUrl +'" />');
+});
 
 
 
