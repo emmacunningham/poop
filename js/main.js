@@ -226,5 +226,11 @@ $('.image-nav-icon .previous').click(function(e) {
     $('.single-image').html('<img src="'+ imageUrl +'" />');
 });
 
-
+$('.image-nav-icon .index').click(function(e) {
+  e.preventDefault();
+  console.log('you clicked on the index button!');
+  $('.single-image-container').addClass('hidden');
+  $('.single-image-nav-container').addClass('hidden');
+  $('#mygallery').toggleClass('hidden');
+});
 
