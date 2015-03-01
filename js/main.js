@@ -211,5 +211,20 @@ $('.image-nav-icon .next').click(function(e) {
     $('.single-image').html('<img src="'+ imageUrl +'" />');
 });
 
+$('.image-nav-icon .previous').click(function(e) {
+  e.preventDefault();
+  if (CUR_GALLERY_INDEX == 0) {
+    CUR_GALLERY_INDEX = GALLERY_COUNT;
+  }
+    else {
+      CUR_GALLERY_INDEX--;
+    }
+  console.log($('#mygallery a')[CUR_GALLERY_INDEX]);
+  console.log(CUR_GALLERY_INDEX);
+  var prevEl = $('#mygallery a')[CUR_GALLERY_INDEX];
+  var imageUrl = $(prevEl).attr('href');
+    $('.single-image').html('<img src="'+ imageUrl +'" />');
+});
+
 
 
