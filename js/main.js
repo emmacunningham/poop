@@ -166,12 +166,22 @@ $("#mygallery").justifiedGallery({
   margins: 10,
 });
 
-var insertImageUrl = function(str) {
+var updateImageSrc = function(str) {
   $('.single-image-wrapper img').attr("src", str);
-  // var parentWidth = $('.single-image-wrapper').width();
-  // var imageWidth = $('.single-image-wrapper img').width();
-  // var rightOffset = ((parentWidth - imageWidth) + 10)
-  // $('.single-image-wrapper img')
+  setTimeout(function() {
+
+    var parentWidth = $('.single-image-wrapper').width();
+    var imageWidth = $('.single-image-wrapper img').width();
+    var rightOffset = ((parentWidth - imageWidth)/2)
+    $('.curl').css({
+       'right': rightOffset + "px"
+    })
+    console.log(parentWidth);
+    console.log(imageWidth);
+    console.log(rightOffset);
+
+  }, 10);
+
 };
 
 // Click listener for clicking on a link within the gallery
@@ -195,7 +205,7 @@ $('#mygallery a').click(function(e) {
   $('.single-image-container').toggleClass('hidden');
   var self = this;
   var imageUrl = $(this).attr('href');
-  insertImageUrl(imageUrl);
+  updateImageSrc(imageUrl);
   // var calculatedImageSize = $(this).
   // var singleImageSize = 'max-height="400" width="500"'
   // $('.single-image').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
@@ -220,7 +230,7 @@ $('.image-nav-icon .next').click(function(e) {
   console.log(CUR_GALLERY_INDEX);
   var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
   var imageUrl = $(nextEl).attr('href');
-  insertImageUrl(imageUrl);
+  updateImageSrc(imageUrl);
     // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
 });
 
@@ -240,7 +250,7 @@ $('.image-nav-icon .previous').click(function(e) {
   console.log(CUR_GALLERY_INDEX);
   var prevEl = $('#mygallery a')[CUR_GALLERY_INDEX];
   var imageUrl = $(prevEl).attr('href');
-  insertImageUrl(imageUrl);
+  updateImageSrc(imageUrl);
     // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
 });
 
