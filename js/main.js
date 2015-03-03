@@ -166,6 +166,14 @@ $("#mygallery").justifiedGallery({
   margins: 10,
 });
 
+var insertImageUrl = function(str) {
+  $('.single-image-wrapper img').attr("src", str);
+  // var parentWidth = $('.single-image-wrapper').width();
+  // var imageWidth = $('.single-image-wrapper img').width();
+  // var rightOffset = ((parentWidth - imageWidth) + 10)
+  // $('.single-image-wrapper img')
+};
+
 // Click listener for clicking on a link within the gallery
 // Prevents default, loads link in single-image div
 // calculates imgUrl to direct user to proper full-size image
@@ -187,14 +195,18 @@ $('#mygallery a').click(function(e) {
   $('.single-image-container').toggleClass('hidden');
   var self = this;
   var imageUrl = $(this).attr('href');
+  insertImageUrl(imageUrl);
   // var calculatedImageSize = $(this).
   // var singleImageSize = 'max-height="400" width="500"'
   // $('.single-image').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
-  $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
   $('.port-story').addClass('hidden');
   $('.single-image-nav-container').removeClass('hidden');
 });
 
+// click listener for "next" image nav icon
+// checks to see if we're at the end of gallery slides
+// if we are, then we reset the gallery slide to 0
+// if not, we move on to the next gallery slide
 $('.image-nav-icon .next').click(function(e) {
   e.preventDefault();
   console.log('you clicked the right arrow!');
@@ -208,9 +220,14 @@ $('.image-nav-icon .next').click(function(e) {
   console.log(CUR_GALLERY_INDEX);
   var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
   var imageUrl = $(nextEl).attr('href');
-    $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
+  insertImageUrl(imageUrl);
+    // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
 });
 
+// click listener for the "previous" nav icon
+// checks to see if we're at the first gallery slide
+// if we are, brings us to the end of the gallery
+// if not, takes us one gallery slide down
 $('.image-nav-icon .previous').click(function(e) {
   e.preventDefault();
   if (CUR_GALLERY_INDEX == 0) {
@@ -223,9 +240,14 @@ $('.image-nav-icon .previous').click(function(e) {
   console.log(CUR_GALLERY_INDEX);
   var prevEl = $('#mygallery a')[CUR_GALLERY_INDEX];
   var imageUrl = $(prevEl).attr('href');
-    $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
+  insertImageUrl(imageUrl);
+    // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
 });
 
+// Event listener for clicking on "index" button
+// hides the single image container
+// hides the single image nav container
+// toggles the #mygallery div
 $('.image-nav-icon .index').click(function(e) {
   e.preventDefault();
   console.log('you clicked on the index button!');
@@ -233,4 +255,14 @@ $('.image-nav-icon .index').click(function(e) {
   $('.single-image-nav-container').addClass('hidden');
   $('#mygallery').toggleClass('hidden');
 });
+
+
+
+// click listener to see if you click on the image in single image view
+// when clicked, take me to story view for single image!
+// $('.single-image-wrapper img').hover(function(e) {
+//   e.preventDefault();
+//   console.log('you clicked the image!');
+// });
+
 
