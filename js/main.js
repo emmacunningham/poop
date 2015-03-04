@@ -172,13 +172,14 @@ var updateImageSrc = function(str) {
 
     var parentWidth = $('.single-image-wrapper').width();
     var imageWidth = $('.single-image-wrapper img').width();
-    var rightOffset = ((parentWidth - imageWidth)/2)
+    var offset = ((parentWidth - imageWidth)/2)
     $('.curl').css({
-       'right': rightOffset + "px"
+       'right': offset + "px"
     })
-    console.log(parentWidth);
-    console.log(imageWidth);
-    console.log(rightOffset);
+    $('.img-story').css({
+      'left': offset + "px",
+      'width': imageWidth + "px"
+    })
 
   }, 10);
 
@@ -231,6 +232,7 @@ $('.image-nav-icon .next').click(function(e) {
   var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
   var imageUrl = $(nextEl).attr('href');
   updateImageSrc(imageUrl);
+  resetImageStoryMode();
     // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
 });
 
@@ -251,6 +253,7 @@ $('.image-nav-icon .previous').click(function(e) {
   var prevEl = $('#mygallery a')[CUR_GALLERY_INDEX];
   var imageUrl = $(prevEl).attr('href');
   updateImageSrc(imageUrl);
+  resetImageStoryMode();
     // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
 });
 
@@ -266,7 +269,24 @@ $('.image-nav-icon .index').click(function(e) {
   $('#mygallery').toggleClass('hidden');
 });
 
+var toggleImageStoryMode = function() {
+  $('.img-story').toggleClass('hidden');
+  $('.curl').toggleClass('hidden');
+};
 
+var resetImageStoryMode = function() {
+  var hiddenStory = $('.img-story').hasClass('hidden');
+  if (hiddenStory == false) {
+    $('.img-story').addClass('hidden');
+    $('.curl').removeClass('hidden');
+  }
+};
+
+$('.curl').click(function(e) {
+  e.preventDefault();
+  console.log('you clicked the curl!');
+  toggleImageStoryMode();
+});
 
 // click listener to see if you click on the image in single image view
 // when clicked, take me to story view for single image!
