@@ -288,6 +288,11 @@ $('.curl').click(function(e) {
   toggleImageStoryMode();
 });
 
+$('.close-single-image').click(function(e) {
+  e.preventDefault();
+  toggleImageStoryMode();
+});
+
 // click listener to see if you click on the image in single image view
 // when clicked, take me to story view for single image!
 // $('.single-image-wrapper img').hover(function(e) {

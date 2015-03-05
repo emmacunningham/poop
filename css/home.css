@@ -187,6 +187,12 @@ ul {
   padding: 0px;
 }
 
+.close-single-image {
+  padding: 0 5px 0 0;
+  margin: -11px;
+  text-align: right;
+}
+
 .close {
   position: fixed;
   margin-top: -5px;
