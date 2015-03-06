@@ -293,6 +293,19 @@ $('.close-single-image').click(function(e) {
   toggleImageStoryMode();
 });
 
+$(window).resize(function(){
+  var parentWidth = $('.single-image-wrapper').width();
+  var imageWidth = $('.single-image-wrapper img').width();
+  var offset = ((parentWidth - imageWidth)/2)
+  $('.curl').css({
+     'right': offset + "px"
+  })
+  $('.img-story').css({
+    'left': offset + "px",
+    'width': imageWidth + "px"
+  })
+});
+
 // click listener to see if you click on the image in single image view
 // when clicked, take me to story view for single image!
 // $('.single-image-wrapper img').hover(function(e) {
