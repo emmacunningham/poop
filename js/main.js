@@ -31,7 +31,7 @@ $(document).ready( function() {
   })
 
   if ((picture) == './img/bgs/homepage_bg1.jpg') {
-    $("html, body, a").addClass('dark-text');
+    $("html, body, a, .story-link").addClass('dark');
   }
 
 });
@@ -67,6 +67,7 @@ $('.port-link').click(function(e) {
   e.preventDefault();
   $('.content-container').removeClass('hidden');
   $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
+  $('.story-link').addClass('dark');
   $('html, body, a').css({'color': '#333'});
   $('.port-story').removeClass('hidden');
   $('.single-image-container').addClass('hidden');
@@ -100,14 +101,18 @@ $('.expand-link').click(function(e) {
   $('.content-container').addClass('hidden');
   $('.port-story').addClass('hidden');
   var curSubnav = $(self).next();
+  var storyLinks = $(curSubnav).children().children('.story-link');
+  console.log(storyLinks);
 
   // $('.expand-link').next().removeClass('active');
   var resetAllButClicked = function(index, elm) {
     if ((self) == (elm)) {
       curSubnav.toggleClass('active');
+      storyLinks.toggleClass('active');
     }
       else {
         $(elm).next().removeClass('active');
+        $(elm).next().children().children('.story-link').removeClass('active');
          $(elm).next().css({
           'max-height' : '0'
           });
@@ -120,11 +125,13 @@ $('.expand-link').click(function(e) {
     $('.subnav-container.active').css({
     'max-height' : liCount * liHeight
     });
+    $(storyLinks).addClass('active');
   }
   else {
     curSubnav.css({
       'max-height' : '0'
       });
+    $(storyLinks).removeClass('active');
   }
 
 
@@ -143,9 +150,11 @@ $('.expand-link').click(function(e) {
   switch (name) {
     case './img/bgs/musicians_bg.jpg':
     fontColor = '#ccc'
+    $('.story-link').removeClass('dark')
     break;
     case './img/bgs/comedy_bg.jpg':
     fontColor = '#333'
+    $('.story-link').addClass('dark')
     break;
   }
 

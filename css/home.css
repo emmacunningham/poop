@@ -13,11 +13,11 @@ html, body {
   font-family: 'Open Sans';
 }
 
-html.dark-text {
+html.dark {
   color: #333;
 }
 
-body.dark-text {
+body.dark {
   color: #333;
 }
 
@@ -32,7 +32,7 @@ a {
   color: #ccc;
 }
 
-a.dark-text {
+a.dark {
   color: #333;
 }
 
@@ -74,18 +74,19 @@ ul {
   font-size: 18px;
 }
 
-.sub-link.active::after {
+/*.sub-link.active::after {
   content: ' ';
   display: inline-block;
-  background-image: url('../img/icons/portfolio_icon_light.gif');
+  background-image: url('../img/icons/portfolio_icon_light.png');
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
-  width: 20px;
-  height: 24px;
-  margin-left: 5px;
+  width: 14px;
+  height: 14px;
+  margin-left: 7px;
+  margin-top: 6px;
   vertical-align: top;
-}
+}*/
 
 .sidebar-container {
   position: fixed;
@@ -332,4 +333,67 @@ ul {
   margin-left: 0;
 }
 
+.story-link {
+  position: absolute;
+  background: url('../img/icons/portfolio_icon_light.png');
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 0px;
+  height: 14px;
+  margin-left: 7px;
+  margin-top: 6px;
+  vertical-align: top;
+  opacity: 0;
+  transition: opacity 3s ease-in, width 2s;
+}
+
+.story-link.dark {
+  position: absolute;
+  background: url('../img/icons/portfolio_icon_dark.png');
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 0px;
+  height: 14px;
+  margin-left: 7px;
+  margin-top: 6px;
+  vertical-align: top;
+  opacity: 0;
+  transition: opacity 3s ease-in, width 2s;
+}
+
+.story-link.active{
+  position: absolute;
+  background: url('../img/icons/portfolio_icon_light.png');
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 14px;
+  height: 14px;
+  margin-left: 7px;
+  margin-top: 6px;
+  vertical-align: top;
+  opacity: 1;
+  transition: opacity 3s ease-in, width 2s;
+}
+
+.story-link.dark.active {
+  position: absolute;
+  background: url('../img/icons/portfolio_icon_dark.png');
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 14px;
+  height: 14px;
+  margin-left: 7px;
+  margin-top: 6px;
+  vertical-align: top;
+  opacity: 1;
+  transition: opacity 3s ease-in, width 2s;
+}
+
+.story-link.hidden {
+  display: none;
+}
 
