@@ -32,6 +32,7 @@ $(document).ready( function() {
 
   if ((picture) == './img/bgs/homepage_bg1.jpg') {
     $("html, body, a, .story-link").addClass('dark');
+    $('.smi-image').each(darkSocialMediaIcons);
   }
 
 });
@@ -53,11 +54,11 @@ var darkSocialMediaIcons = function(index, value) {
   )
 }
 
-$('.smi-image').click(function(e) {
-  e.preventDefault();
-  $('.smi-image').each(darkSocialMediaIcons);
+// $('.smi-image').click(function(e) {
+//   e.preventDefault();
+//   $('.smi-image').each(darkSocialMediaIcons);
 
-});
+// });
 
 // Setting the preloadImage variable for background images
 var preloadImage = function (index, value) {
@@ -93,6 +94,7 @@ $('.port-link').click(function(e) {
   $('.port-story').removeClass('hidden');
   $('.single-image-container').addClass('hidden');
   $('.single-image-nav-container').addClass('hidden');
+  $('.smi-image').each(darkSocialMediaIcons);
   // $('.content-container').fadeTo(fast, 1);
 });
 
@@ -176,6 +178,7 @@ $('.expand-link').click(function(e) {
       case './img/bgs/comedy_bg.jpg':
       fontColor = '#333'
       $('.story-link').addClass('dark')
+      $('.smi-image').each(darkSocialMediaIcons)
       break;
     }
 
