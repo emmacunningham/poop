@@ -44,12 +44,12 @@ $(document).ready( function() {
 var darkSocialMediaIcons = function(index, value) {
   var self = this
   var currentSourceString = $(self).attr('src');
-  console.log('you likced a social media icon!');
+  // console.log('you likced a social media icon!');
   // console.log();
   var baseSourceString = currentSourceString.slice(0,-4);
   var updatedSourceString = baseSourceString + "_dark.png";
 
-  console.log(updatedSourceString);
+  // console.log(updatedSourceString);
   $(self).attr(
     'src', updatedSourceString
   )
@@ -93,7 +93,7 @@ $('.port-link').click(function(e) {
   $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
   $('.story-link').addClass('dark');
   $('html, body, a').css({'color': '#333'});
-  $('.port-story').removeClass('hidden');
+  // $('.port-story').removeClass('hidden');
   $('.single-image-container').addClass('hidden');
   $('.single-image-nav-container').addClass('hidden');
   if (DARK_SOCIAL_MEDIA_ICONS != true) {
@@ -202,6 +202,14 @@ $("#mygallery").justifiedGallery({
   lastRow: 'justify',
   margins: 10,
 });
+
+$("#mygallery-video").justifiedGallery({
+  rowHeight: 300,
+  lastRow: 'nojustify',
+  margins: 10,
+  fixedHeight: true,
+});
+
 
 var updateImageSrc = function(str) {
   $('.single-image-wrapper img').attr("src", str);
@@ -343,9 +351,22 @@ $(window).resize(function(){
   })
 });
 
-// $('.video').click(function(e) {
-//   e.preventDefault();
-//   console.log('you clicked the video link!');
-// });
+$('a.video').click(function(e) {
+  e.preventDefault();
+  console.log('you clicked the video link!');
+});
 
-
+$('.story-link').click(function(e) {
+  e.preventDefault();
+  $('.content-container').removeClass('hidden');
+  $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
+  $('.story-link').addClass('dark');
+  $('html, body, a').css({'color': '#333'});
+  // $('.port-story').removeClass('hidden');
+  $('.single-image-container').addClass('hidden');
+  $('.single-image-nav-container').addClass('hidden');
+  if (DARK_SOCIAL_MEDIA_ICONS != true) {
+    $('.smi-image').each(darkSocialMediaIcons);
+  }
+  $('.port-story').toggleClass('hidden');
+});
