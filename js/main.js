@@ -2,6 +2,7 @@
 
 var CUR_GALLERY_INDEX;
 var GALLERY_COUNT;
+var DARK_SOCIAL_MEDIA_ICONS;
 
 function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
@@ -52,6 +53,7 @@ var darkSocialMediaIcons = function(index, value) {
   $(self).attr(
     'src', updatedSourceString
   )
+  DARK_SOCIAL_MEDIA_ICONS = true;
 }
 
 // $('.smi-image').click(function(e) {
@@ -94,7 +96,9 @@ $('.port-link').click(function(e) {
   $('.port-story').removeClass('hidden');
   $('.single-image-container').addClass('hidden');
   $('.single-image-nav-container').addClass('hidden');
-  $('.smi-image').each(darkSocialMediaIcons);
+  if (DARK_SOCIAL_MEDIA_ICONS != true) {
+    $('.smi-image').each(darkSocialMediaIcons);
+  }
   // $('.content-container').fadeTo(fast, 1);
 });
 
