@@ -41,21 +41,22 @@ $(document).ready( function() {
 // make the social media icons the correct color (dark/light)
 var darkSocialMediaIcons = function(index, value) {
   var self = this
-  var currentSourceString = $(self).children().children().attr('src');
+  var currentSourceString = $(self).attr('src');
   console.log('you likced a social media icon!');
   // console.log();
   var baseSourceString = currentSourceString.slice(0,-4);
-  var updatedSourceString = baseSourceString + "_dark.png"
+  var updatedSourceString = baseSourceString + "_dark.png";
 
   console.log(updatedSourceString);
-  $('.social-media-icon').children().children().attr(
+  $(self).attr(
     'src', updatedSourceString
   )
 }
 
-$('.social-media-icon').click(function(e) {
+$('.smi-image').click(function(e) {
   e.preventDefault();
-  $('.social-media-icon').each(darkSocialMediaIcons);
+  $('.smi-image').each(darkSocialMediaIcons);
+
 });
 
 // Setting the preloadImage variable for background images
@@ -335,11 +336,9 @@ $(window).resize(function(){
   })
 });
 
-// click listener to see if you click on the image in single image view
-// when clicked, take me to story view for single image!
-// $('.single-image-wrapper img').hover(function(e) {
+// $('.video').click(function(e) {
 //   e.preventDefault();
-//   console.log('you clicked the image!');
+//   console.log('you clicked the video link!');
 // });
 
 
