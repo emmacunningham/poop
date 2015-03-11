@@ -36,7 +36,14 @@ $(document).ready( function() {
 
 });
 
-
+// make the social media icons the correct color (dark/light)
+$('.social-media-icon').click(function(e) {
+  var self = this
+  var smi = $(self).children().children().attr('src');
+  e.preventDefault();
+  console.log('you likced a social media icon!');
+  console.log(smi);
+});
 
 // Setting the preloadImage variable for background images
 var preloadImage = function (index, value) {
@@ -101,18 +108,18 @@ $('.expand-link').click(function(e) {
   $('.content-container').addClass('hidden');
   $('.port-story').addClass('hidden');
   var curSubnav = $(self).next();
-  var storyLinks = $(curSubnav).children().children('.story-link');
-  console.log(storyLinks);
+  // var storyLinks = $(curSubnav).children().children('.story-link');
+  // console.log(storyLinks);
 
   // $('.expand-link').next().removeClass('active');
   var resetAllButClicked = function(index, elm) {
     if ((self) == (elm)) {
       curSubnav.toggleClass('active');
-      storyLinks.toggleClass('active');
+      // storyLinks.toggleClass('active');
     }
       else {
         $(elm).next().removeClass('active');
-        $(elm).next().children().children('.story-link').removeClass('active');
+        // $(elm).next().children().children('.story-link').removeClass('active');
          $(elm).next().css({
           'max-height' : '0'
           });
@@ -125,13 +132,13 @@ $('.expand-link').click(function(e) {
     $('.subnav-container.active').css({
     'max-height' : liCount * liHeight
     });
-    $(storyLinks).addClass('active');
+    // $(storyLinks).addClass('active');
   }
   else {
     curSubnav.css({
       'max-height' : '0'
       });
-    $(storyLinks).removeClass('active');
+    // $(storyLinks).removeClass('active');
   }
 
 

@@ -334,52 +334,20 @@ ul {
 }
 
 .story-link {
-  position: absolute;
+  display: inline-table;
   background: url('../img/icons/portfolio_icon_light.png');
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
-  width: 0px;
+  width: 14px;
   height: 14px;
   margin-left: 7px;
   margin-top: 6px;
   vertical-align: top;
-  opacity: 0;
-  transition: opacity 3s ease-in, width 2s;
 }
 
 .story-link.dark {
-  position: absolute;
-  background: url('../img/icons/portfolio_icon_dark.png');
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 0px;
-  height: 14px;
-  margin-left: 7px;
-  margin-top: 6px;
-  vertical-align: top;
-  opacity: 0;
-  transition: opacity 3s ease-in, width 2s;
-}
-
-.story-link.active{
-  position: absolute;
-  background: url('../img/icons/portfolio_icon_light.png');
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 14px;
-  height: 14px;
-  margin-left: 7px;
-  margin-top: 6px;
-  vertical-align: top;
-  opacity: 1;
-  transition: opacity 3s ease-in, width 2s;
-}
-
-.story-link.dark.active {
-  position: absolute;
+  display: inline-table;
   background: url('../img/icons/portfolio_icon_dark.png');
   background-size: 100%;
   background-position: center;
@@ -389,11 +357,10 @@ ul {
   margin-left: 7px;
   margin-top: 6px;
   vertical-align: top;
-  opacity: 1;
-  transition: opacity 3s ease-in, width 2s;
 }
 
 .story-link.hidden {
   display: none;
 }
+
 
