@@ -36,13 +36,26 @@ $(document).ready( function() {
 
 });
 
+
+
 // make the social media icons the correct color (dark/light)
-$('.social-media-icon').click(function(e) {
+var darkSocialMediaIcons = function(index, value) {
   var self = this
-  var smi = $(self).children().children().attr('src');
-  e.preventDefault();
+  var currentSourceString = $(self).children().children().attr('src');
   console.log('you likced a social media icon!');
-  console.log(smi);
+  // console.log();
+  var baseSourceString = currentSourceString.slice(0,-4);
+  var updatedSourceString = baseSourceString + "_dark.png"
+
+  console.log(updatedSourceString);
+  $('.social-media-icon').children().children().attr(
+    'src', updatedSourceString
+  )
+}
+
+$('.social-media-icon').click(function(e) {
+  e.preventDefault();
+  $('.social-media-icon').each(darkSocialMediaIcons);
 });
 
 // Setting the preloadImage variable for background images
@@ -105,8 +118,10 @@ $('.expand-link').click(function(e) {
   var liHeight = $('.subnav-container li').height();
   console.log (liCount);
   console.log (liHeight);
-  $('.content-container').addClass('hidden');
-  $('.port-story').addClass('hidden');
+  var whiteBg = ($('.homepage-container').css('background-image'));
+  console.log(whiteBg);
+  // $('.content-container').addClass('hidden');
+  // $('.port-story').addClass('hidden');
   var curSubnav = $(self).next();
   // var storyLinks = $(curSubnav).children().children('.story-link');
   // console.log(storyLinks);
@@ -141,40 +156,38 @@ $('.expand-link').click(function(e) {
     // $(storyLinks).removeClass('active');
   }
 
-
-
   // Change the background image and typeface color on menu click!
-
-  var name = './img/bgs/' + $.trim($(this).text().toLowerCase()) + '_bg.jpg';
-
-
-  $('.homepage-container').css({
+   if (whiteBg == "url(file://localhost/Users/shanetaylor/Documents/meganthompson/design/poop/img/bgs/white.jpg)") {
+   }
+    else {
+    var name = './img/bgs/' + $.trim($(this).text().toLowerCase()) + '_bg.jpg';
+    $('.homepage-container').css({
     'background-image': "url('" + name + "')"
-  });
+    });
 
-  var fontColor = null;
+    var fontColor = null;
 
-  switch (name) {
-    case './img/bgs/musicians_bg.jpg':
-    fontColor = '#ccc'
-    $('.story-link').removeClass('dark')
-    break;
-    case './img/bgs/comedy_bg.jpg':
-    fontColor = '#333'
-    $('.story-link').addClass('dark')
-    break;
+    switch (name) {
+      case './img/bgs/musicians_bg.jpg':
+      fontColor = '#ccc'
+      $('.story-link').removeClass('dark')
+      break;
+      case './img/bgs/comedy_bg.jpg':
+      fontColor = '#333'
+      $('.story-link').addClass('dark')
+      break;
+    }
+
+    $('html, body, a').css({
+      'color': ""+ fontColor +""
+    });
+
+    var homepageBackgroundUrl = $(".homepage-container").css("background-image");
+
+    console.log (name);
+    console.log (fontColor);
   }
-
-  $('html, body, a').css({
-    'color': ""+ fontColor +""
-  });
-
-  var homepageBackgroundUrl = $(".homepage-container").css("background-image");
-
-  console.log (name);
-  console.log (fontColor);
 });
-
 // Applies the justified gallery plugin to the div with the mygallery ID
 $("#mygallery").justifiedGallery({
   rowHeight: 200,
@@ -197,7 +210,7 @@ var updateImageSrc = function(str) {
       'width': imageWidth + "px"
     })
 
-  }, 10);
+  }, 50);
 
 };
 
