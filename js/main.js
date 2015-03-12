@@ -210,6 +210,10 @@ $("#mygallery-video").justifiedGallery({
   fixedHeight: true,
 });
 
+var updateVideoSrc = function(str) {
+  $('.single-image-wrapper iframe').attr("src", str);
+};
+
 
 var updateImageSrc = function(str) {
   $('.single-image-wrapper img').attr("src", str);
@@ -235,23 +239,24 @@ var updateImageSrc = function(str) {
 // calculates imgUrl to direct user to proper full-size image
 // closes the portfolio story div (if open)
 // reveals the single-img-nav-container
-$('#mygallery a').click(function(e) {
+$('#mygallery-video a').click(function(e) {
   e.preventDefault();
   var self = this;
-  GALLERY_COUNT = ($("#mygallery a").length - 1);
+  GALLERY_COUNT = ($("#mygallery-video a").length - 1);
   console.log(GALLERY_COUNT);
-  $('#mygallery a').each(function(i, el) {
+  $('#mygallery-video a').each(function(i, el) {
     if (el == self) {
       CUR_GALLERY_INDEX = i;
       console.log(CUR_GALLERY_INDEX);
     }
   });
 
-  $('#mygallery').toggleClass('hidden');
+  $('#mygallery-video').toggleClass('hidden');
   $('.single-image-container').toggleClass('hidden');
   var self = this;
   var imageUrl = $(this).attr('href');
-  updateImageSrc(imageUrl);
+  // updateImageSrc(imageUrl);
+  updateVideoSrc(imageUrl);
   // var calculatedImageSize = $(this).
   // var singleImageSize = 'max-height="400" width="500"'
   // $('.single-image').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
@@ -272,9 +277,9 @@ $('.image-nav-icon .next').click(function(e) {
     else {
       CUR_GALLERY_INDEX++;
     }
-  console.log($('#mygallery a')[CUR_GALLERY_INDEX]);
+  console.log($('#mygallery-video a')[CUR_GALLERY_INDEX]);
   console.log(CUR_GALLERY_INDEX);
-  var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
+  var nextEl = $('#mygallery-video a')[CUR_GALLERY_INDEX];
   var imageUrl = $(nextEl).attr('href');
   updateImageSrc(imageUrl);
   resetImageStoryMode();
@@ -293,9 +298,9 @@ $('.image-nav-icon .previous').click(function(e) {
     else {
       CUR_GALLERY_INDEX--;
     }
-  console.log($('#mygallery a')[CUR_GALLERY_INDEX]);
+  console.log($('#mygallery-video a')[CUR_GALLERY_INDEX]);
   console.log(CUR_GALLERY_INDEX);
-  var prevEl = $('#mygallery a')[CUR_GALLERY_INDEX];
+  var prevEl = $('#mygallery-video a')[CUR_GALLERY_INDEX];
   var imageUrl = $(prevEl).attr('href');
   updateImageSrc(imageUrl);
   resetImageStoryMode();
@@ -311,7 +316,7 @@ $('.image-nav-icon .index').click(function(e) {
   console.log('you clicked on the index button!');
   $('.single-image-container').addClass('hidden');
   $('.single-image-nav-container').addClass('hidden');
-  $('#mygallery').toggleClass('hidden');
+  $('#mygallery-video').toggleClass('hidden');
 });
 
 var toggleImageStoryMode = function() {
