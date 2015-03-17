@@ -203,12 +203,12 @@ $("#mygallery").justifiedGallery({
   margins: 10,
 });
 
-$("#mygallery-video").justifiedGallery({
-  rowHeight: 300,
-  lastRow: 'nojustify',
-  margins: 10,
-  fixedHeight: true,
-});
+// $("#mygallery-video").justifiedGallery({
+//   rowHeight: 300,
+//   lastRow: 'nojustify',
+//   margins: 10,
+//   fixedHeight: true,
+// });
 
 var updateVideoSrc = function(str) {
   $('.single-image-wrapper iframe').attr("src", str);
@@ -239,24 +239,24 @@ var updateImageSrc = function(str) {
 // calculates imgUrl to direct user to proper full-size image
 // closes the portfolio story div (if open)
 // reveals the single-img-nav-container
-$('#mygallery-video a').click(function(e) {
+$('#mygallery a').click(function(e) {
   e.preventDefault();
   var self = this;
-  GALLERY_COUNT = ($("#mygallery-video a").length - 1);
+  GALLERY_COUNT = ($("#mygallery a").length - 1);
   console.log(GALLERY_COUNT);
-  $('#mygallery-video a').each(function(i, el) {
+  $('#mygallery a').each(function(i, el) {
     if (el == self) {
       CUR_GALLERY_INDEX = i;
       console.log(CUR_GALLERY_INDEX);
     }
   });
 
-  $('#mygallery-video').toggleClass('hidden');
+  $('#mygallery').toggleClass('hidden');
   $('.single-image-container').toggleClass('hidden');
   var self = this;
   var imageUrl = $(this).attr('href');
   // updateImageSrc(imageUrl);
-  updateVideoSrc(imageUrl);
+  updateImageSrc(imageUrl);
   // var calculatedImageSize = $(this).
   // var singleImageSize = 'max-height="400" width="500"'
   // $('.single-image').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
@@ -277,9 +277,9 @@ $('.image-nav-icon .next').click(function(e) {
     else {
       CUR_GALLERY_INDEX++;
     }
-  console.log($('#mygallery-video a')[CUR_GALLERY_INDEX]);
+  console.log($('#mygallery a')[CUR_GALLERY_INDEX]);
   console.log(CUR_GALLERY_INDEX);
-  var nextEl = $('#mygallery-video a')[CUR_GALLERY_INDEX];
+  var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
   var imageUrl = $(nextEl).attr('href');
   updateImageSrc(imageUrl);
   resetImageStoryMode();
@@ -298,9 +298,9 @@ $('.image-nav-icon .previous').click(function(e) {
     else {
       CUR_GALLERY_INDEX--;
     }
-  console.log($('#mygallery-video a')[CUR_GALLERY_INDEX]);
+  console.log($('#mygallery a')[CUR_GALLERY_INDEX]);
   console.log(CUR_GALLERY_INDEX);
-  var prevEl = $('#mygallery-video a')[CUR_GALLERY_INDEX];
+  var prevEl = $('#mygallery a')[CUR_GALLERY_INDEX];
   var imageUrl = $(prevEl).attr('href');
   updateImageSrc(imageUrl);
   resetImageStoryMode();
@@ -316,7 +316,7 @@ $('.image-nav-icon .index').click(function(e) {
   console.log('you clicked on the index button!');
   $('.single-image-container').addClass('hidden');
   $('.single-image-nav-container').addClass('hidden');
-  $('#mygallery-video').toggleClass('hidden');
+  $('#mygallery').toggleClass('hidden');
 });
 
 var toggleImageStoryMode = function() {

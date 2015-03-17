@@ -557,7 +557,7 @@
     return this.each(function (index, gallery) {
 
       var $gallery = $(gallery);
-      $gallery.addClass('justified-gallery-video');
+      $gallery.addClass('justified-gallery');
 
       var context = $gallery.data('jg.context');
       if (typeof context === 'undefined') {
