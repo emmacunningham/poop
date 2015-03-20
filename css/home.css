@@ -56,6 +56,10 @@ ul {
   transition: background 0.5s ease-in-out;
 }
 
+.mobile-menu-button {
+  display: none;
+}
+
 .subnav-container {
   margin-left: 10px;
   max-height: 0;
@@ -137,7 +141,7 @@ ul {
   margin-left: 246px;
   min-height: 100%;
   vertical-align: top;
-  overflow: scroll;
+  overflow: hidden;
   transition: opacity 0.5s;
 }
 
@@ -370,5 +374,74 @@ ul {
 
 .story-link.hidden {
   display: none;
+}
+
+@media (max-width: 500px) {
+
+  .sidebar-container {
+    width: 100%;
+    min-width: 220px;
+    vertical-align: top;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 0;
+    padding-top: 2px;
+    z-index: 1;
+  }
+
+  .navigation-container {
+    text-align: center;
+  }
+
+  h1 {
+    padding-top: 2px;
+  }
+
+  .social-media-container {
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: inherit;
+    padding: 0;
+  }
+
+  .nav-menu {
+    background: rgba(255, 255, 255, 0.7);
+    margin-top: -1px;
+    max-height: 0;
+    transition: max-height 1s ease-out;
+    overflow: hidden;
+  }
+
+  .nav-menu.active {
+    max-height: 450px;
+    transition: max-height 1s ease-in;
+  }
+
+  .navigation-container ul li {
+    border-color: rgba(0, 0, 0, 0.3);
+    border-width: 2px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    }
+
+  .mobile-menu-button {
+    display: block;
+    position: fixed;
+    left: 15px;
+    top: 5px;
+  }
+
+  .content-container {
+    width: 100%;
+    margin: 27px 0px 0px 0px;
+    overflow: hidden;
+  }
+
+  html, body, a {
+    color: #333;
+  }
+
 }
 

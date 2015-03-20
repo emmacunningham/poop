@@ -375,3 +375,8 @@ $('.story-link').click(function(e) {
   }
   $('.port-story').toggleClass('hidden');
 });
+
+$('.mobile-menu-button').click(function(e) {
+  e.preventDefault();
+  $('.nav-menu').toggleClass('active');
+});
