@@ -9,16 +9,15 @@ import urllib2
 import json
 from urllib2 import HTTPError
 
-# class Feedback(models.Model):
+class Category(models.Model):
 
-# 	# video or image
-# 	name = models.CharField(max_length=255, null=True, blank=True)
-# 	email = models.CharField(max_length=255, null=True, blank=True)
-# 	subject = models.CharField(max_length=255, null=True, blank=True)
-# 	message = models.TextField(null=True, blank=True)
+	# video or image
+	name = models.CharField(max_length=255, null=True, blank=True)
+	order = models.IntegerField(max_length=255, null=True, blank=True)
+	# gallery
 
-# 	def __unicode__(self):
-# 		if self.subject is not None:
-# 			return self.subject
+	def __unicode__(self):
+		if self.name is not None:
+			return self.name
 
 
