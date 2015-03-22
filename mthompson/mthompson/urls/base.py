@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 import os
 from mthompson.settings import base as settings
+import views
 
 admin.autodiscover()
 
@@ -12,7 +13,7 @@ urlpatterns = patterns('',
     (r'^img/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(settings.PROJECT_ROOT, 'assets/img')}),
 
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
-
+    url(r'^fetch-categories/', views.fetch_categories),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )

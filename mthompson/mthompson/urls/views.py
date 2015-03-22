@@ -1,8 +1,6 @@
 # example/simple/views.py
 
 from django.http import HttpResponse
-from authomatic import Authomatic
-from authomatic.adapters import DjangoAdapter
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.template import Context, Template
@@ -13,23 +11,24 @@ import json
 
 
 
-# def postfeedback(request):
-#     json_str = request.body.decode()
-#     json_obj = json.loads(json_str)
+def fetch_categories(request):
+    categories = []
+    cats = Category.objects.all()
 
-#     name = json_obj['name']
-#     email = json_obj['email']
-#     message = json_obj['message']
-#     subject = json_obj['subject']
+    for cat in cats:
+        cat_data = {}
+        cat_data['name'] = cat.name
 
-#     feedback = Feedback(name=name,
-#                     email=email,
-#                     subject=subject,
-#                     message=message)
-#     feedback.save()
-#     response_data = {
-#         'status': 'success'
-#     }
-#     return HttpResponse(json.dumps(response_data), content_type="application/json")
+        galleries = []
+        for gallery in cat.gallery_set.all():
+            galleries.append(gallery.name)
+
+        cat_data['galleries'] = galleries
+        categories.append(cat_data)
+
+    response_data = {
+        'categories': categories
+    }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 

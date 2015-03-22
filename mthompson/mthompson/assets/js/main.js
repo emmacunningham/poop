@@ -36,6 +36,28 @@ $(document).ready( function() {
     $('.smi-image').each(darkSocialMediaIcons);
   }
 
+
+  // Load navigation
+  // Fetch the nav labels
+  $.ajax({
+    url: "fetch-categories/",
+  }).done(function(response) {
+    console.log(response);
+    // Create nav elements based on nav labels
+    var menuContainer = $('.nav-menu');
+    var categories = response['categories'];
+    for (var i = 0, l = categories.length; i < l; i++) {
+      var name = categories[i]['name'];
+
+      var li =  $('<li><a href="" class="nav-link">' + name + '</a></li>');
+
+      menuContainer.append(li);
+    }
+
+
+  });
+
+
 });
 
 
