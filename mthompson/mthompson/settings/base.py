@@ -12,6 +12,8 @@ TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
+    ('Shane Taylor', 'shaneallantaylor@gmail.com'),
+    ('Emma Cunningham', 'the.cunning.ham@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -107,6 +109,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'south',
+    'mthompson',
 )
 
 # A sample logging configuration. The only tangible logging
