@@ -34,6 +34,8 @@ $(document).ready( function() {
   if ((picture) == './img/bgs/homepage_bg1.jpg') {
     $("html, body, a, .story-link").addClass('dark');
     $('.smi-image').each(darkSocialMediaIcons);
+    console.log('BG1 = dark stuff!');
+    console.log(DARK_SOCIAL_MEDIA_ICONS);
   }
 
 });
@@ -54,7 +56,7 @@ var darkSocialMediaIcons = function(index, value) {
     'src', updatedSourceString
   )
   DARK_SOCIAL_MEDIA_ICONS = true;
-}
+};
 
 // $('.smi-image').click(function(e) {
 //   e.preventDefault();
@@ -132,6 +134,10 @@ $('.expand-link').click(function(e) {
   var curSubnav = $(self).next();
   // var storyLinks = $(curSubnav).children().children('.story-link');
   // console.log(storyLinks);
+  if (DARK_SOCIAL_MEDIA_ICONS != true) {
+    $('.smi-image').each(darkSocialMediaIcons);
+  }
+
 
   // $('.expand-link').next().removeClass('active');
   var resetAllButClicked = function(index, elm) {
@@ -164,7 +170,7 @@ $('.expand-link').click(function(e) {
   }
 
   // Change the background image and typeface color on menu click!
-   if (whiteBg == "url(file://localhost/Users/shanetaylor/Documents/meganthompson/design/poop/img/bgs/white.jpg)") {
+   if (whiteBg == "url(file://localhost/Users/shanetaylor/Documents/meganthompson/design/poop/static/img/bgs/white.jpg)") {
    }
     else {
     var name = './img/bgs/' + $.trim($(this).text().toLowerCase()) + '_bg.jpg';
@@ -182,7 +188,9 @@ $('.expand-link').click(function(e) {
       case './img/bgs/comedy_bg.jpg':
       fontColor = '#333'
       $('.story-link').addClass('dark')
-      $('.smi-image').each(darkSocialMediaIcons)
+        if (DARK_SOCIAL_MEDIA_ICONS != true) {
+          $('.smi-image').each(darkSocialMediaIcons);
+        }
       break;
     }
 
