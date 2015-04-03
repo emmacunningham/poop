@@ -73,7 +73,7 @@ from django.contrib.sessions.models import Session
 # admin.site.register(Domain, SortableAdmin)
 # admin.site.register(Category)
 admin.site.register(Category)
-admin.site.register(Gallery)
+admin.site.register(MediaCollection)
 
 # admin.site.register(BannedWord)
 # admin.site.register(RegistrationCredential)

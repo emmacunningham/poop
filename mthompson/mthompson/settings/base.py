@@ -109,8 +109,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'south',
     'mthompson',
+    'photologue',
+    'sortedm2m',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -140,4 +142,8 @@ LOGGING = {
             'propagate': True,
         },
     }
+}
+
+SOUTH_MIGRATION_MODULES = {
+    'photologue': 'photologue.south_migrations',
 }
