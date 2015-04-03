@@ -182,6 +182,7 @@ var initPage = function() {
         margins: 10,
       });
 
+      addGalleryThumbsListener();
 
     });
 
@@ -312,55 +313,6 @@ var initPage = function() {
   };
 
 
-  var updateImageSrc = function(str) {
-    $('.single-image-wrapper img').attr("src", str);
-    setTimeout(function() {
-
-      var parentWidth = $('.single-image-wrapper').width();
-      var imageWidth = $('.single-image-wrapper img').width();
-      var offset = ((parentWidth - imageWidth)/2)
-      $('.curl').css({
-         'right': offset + "px"
-      })
-      $('.img-story').css({
-        'left': offset + "px",
-        'width': imageWidth + "px"
-      })
-
-    }, 50);
-
-  };
-
-  // Click listener for clicking on a link within the gallery
-  // Prevents default, loads link in single-image div
-  // calculates imgUrl to direct user to proper full-size image
-  // closes the portfolio story div (if open)
-  // reveals the single-img-nav-container
-  $('#mygallery a').click(function(e) {
-    e.preventDefault();
-    var self = this;
-    GALLERY_COUNT = ($("#mygallery a").length - 1);
-    console.log(GALLERY_COUNT);
-    $('#mygallery a').each(function(i, el) {
-      if (el == self) {
-        CUR_GALLERY_INDEX = i;
-        console.log(CUR_GALLERY_INDEX);
-      }
-    });
-
-    $('#mygallery').toggleClass('hidden');
-    $('.single-image-container').toggleClass('hidden');
-    var self = this;
-    var imageUrl = $(this).attr('href');
-    // updateImageSrc(imageUrl);
-    updateImageSrc(imageUrl);
-    // var calculatedImageSize = $(this).
-    // var singleImageSize = 'max-height="400" width="500"'
-    // $('.single-image').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
-    $('.port-story').addClass('hidden');
-    $('.single-image-nav-container').removeClass('hidden');
-  });
-
   // click listener for "next" image nav icon
   // checks to see if we're at the end of gallery slides
   // if we are, then we reset the gallery slide to 0
@@ -482,4 +434,57 @@ var initPage = function() {
 };
 
 
+var updateImageSrc = function(str) {
+  $('.single-image-wrapper img').attr("src", str);
+  setTimeout(function() {
+
+    var parentWidth = $('.single-image-wrapper').width();
+    var imageWidth = $('.single-image-wrapper img').width();
+    var offset = ((parentWidth - imageWidth)/2)
+    $('.curl').css({
+       'right': offset + "px"
+    })
+    $('.img-story').css({
+      'left': offset + "px",
+      'width': imageWidth + "px"
+    })
+
+  }, 50);
+
+};
+
+
+
+// Click listener for clicking on a link within the gallery
+// Prevents default, loads link in single-image div
+// calculates imgUrl to direct user to proper full-size image
+// closes the portfolio story div (if open)
+// reveals the single-img-nav-container
+
+var addGalleryThumbsListener = function() {
+    $('#mygallery a').click(function(e) {
+    e.preventDefault();
+    var self = this;
+    GALLERY_COUNT = ($("#mygallery a").length - 1);
+    console.log(GALLERY_COUNT);
+    $('#mygallery a').each(function(i, el) {
+      if (el == self) {
+        CUR_GALLERY_INDEX = i;
+        console.log(CUR_GALLERY_INDEX);
+      }
+    });
+
+    $('#mygallery').toggleClass('hidden');
+    $('.single-image-container').toggleClass('hidden');
+    var self = this;
+    var imageUrl = $(this).attr('href');
+    // updateImageSrc(imageUrl);
+    updateImageSrc(imageUrl);
+    // var calculatedImageSize = $(this).
+    // var singleImageSize = 'max-height="400" width="500"'
+    // $('.single-image').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
+    $('.port-story').addClass('hidden');
+    $('.single-image-nav-container').removeClass('hidden');
+    });
+  };
 
