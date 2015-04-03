@@ -16,5 +16,5 @@ static/CACHE
 *.scssc
 data/mthompson
 node_modules/*
-
+mthompson/media/*
 
