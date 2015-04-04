@@ -1,8 +1,10 @@
-'use strict';
+  'use strict';
 
 var CUR_GALLERY_INDEX;
 var GALLERY_COUNT;
 var DARK_SOCIAL_MEDIA_ICONS;
+var DARK_COLOR_SCHEME = false;
+var WHITE_BACKGROUND = false;
 
 function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
@@ -72,7 +74,7 @@ $(document).ready( function() {
 var initPage = function() {
 
 
-  // make the social media icons the correct color (dark/light)
+// make the social media icons the correct color (dark/light)
   var darkSocialMediaIcons = function(index, value) {
     var self = this
     var currentSourceString = $(self).attr('src');
@@ -86,6 +88,35 @@ var initPage = function() {
       'src', updatedSourceString
     )
     DARK_SOCIAL_MEDIA_ICONS = true;
+  };
+
+  var lightSocialMediaIcons = function(index, value) {
+    var self = this
+    var currentSourceString = $(self).attr('src');
+    // console.log('you likced a social media icon!');
+    // console.log();
+    var baseSourceString = currentSourceString.slice(0,-9);
+    var updatedSourceString = baseSourceString + ".png";
+
+    // console.log(updatedSourceString);
+    $(self).attr(
+      'src', updatedSourceString
+    )
+    DARK_SOCIAL_MEDIA_ICONS = false;
+   };
+
+
+
+  var colorScheme = function () {
+   if (DARK_COLOR_SCHEME == true) {
+      $('.smi-image').each(darkSocialMediaIcons);
+      $("html, body, a, .story-link").addClass('dark');
+    }
+      else {
+        $('.smi-image').each(lightSocialMediaIcons);
+        $("html, body, a, .story-link").removeClass('dark');
+        DARK_COLOR_SCHEME = false;
+      }
   };
 
   var ranNumber = randomFromInterval(1, 3)
@@ -107,11 +138,9 @@ var initPage = function() {
      'background-image': "url('" + picture + "')"
   })
 
-  if ((picture) == './img/bgs/homepage_bg1.jpg') {
-    $("html, body, a, .story-link").addClass('dark');
-    $('.smi-image').each(darkSocialMediaIcons);
-    console.log('BG1 = dark stuff!');
-    console.log(DARK_SOCIAL_MEDIA_ICONS);
+  if (ranNumber == 1) {
+    DARK_COLOR_SCHEME = true;
+    colorScheme();
   }
 
 
@@ -141,6 +170,11 @@ var initPage = function() {
   // as a result of clicking on expand-link(s)
   $('.expand-link').each(preloadImage);
 
+  var whiteBackground = function () {
+    $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
+    WHITE_BACKGROUND = true;
+  }
+
   // Event listener for clicking on a portfolio link
   // Removes hidden class on content-container
   // sets the bg img to white
@@ -148,6 +182,13 @@ var initPage = function() {
   // removes hidden class on portfolio story (right now)
   $('.port-link').click(function(e) {
     e.preventDefault();
+    WHITE_BACKGROUND = true;
+    if (DARK_COLOR_SCHEME == true) {}
+      else {
+        DARK_COLOR_SCHEME = true;
+        colorScheme();
+      }
+
     var galleryContainer = $('#mygallery');
 
     // clear gallery container
@@ -183,28 +224,20 @@ var initPage = function() {
       });
 
       addGalleryThumbsListener();
-
     });
 
 
     $('.content-container').removeClass('hidden');
-    $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
-    $('.story-link').addClass('dark');
-    $('html, body, a').css({'color': '#333'});
-    // $('.port-story').removeClass('hidden');
+    whiteBackground();
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
-    if (DARK_SOCIAL_MEDIA_ICONS != true) {
-      $('.smi-image').each(darkSocialMediaIcons);
-    }
-    // $('.content-container').fadeTo(fast, 1);
   });
 
   // Event listener for clicking the portfolio close 'x'
   // adds the hidden class to the port-story div
   $('.port-close').click(function(e) {
     e.preventDefault();
-    console.log ('you clicked the port story x link!');
+    // console.log ('you clicked the port story x link!');
     $('.port-story').addClass('hidden');
   });
 
@@ -218,24 +251,20 @@ var initPage = function() {
   // sets the text color appropriate based on which background image is used
   $('.expand-link').click(function(e) {
     e.preventDefault();
+    if (DARK_COLOR_SCHEME == true) {}
+      else {
+        DARK_COLOR_SCHEME = true;
+        colorScheme();
+      }
     var self = this;
     var liCount = $(this).next().children().length;
     var liHeight = $('.subnav-container li').height();
-    console.log (liCount);
-    console.log (liHeight);
-    var whiteBg = ($('.homepage-container').css('background-image'));
-    console.log(whiteBg);
-    // $('.content-container').addClass('hidden');
-    // $('.port-story').addClass('hidden');
+    // console.log (liCount);
+    // console.log (liHeight);
     var curSubnav = $(self).next();
-    // var storyLinks = $(curSubnav).children().children('.story-link');
-    // console.log(storyLinks);
-    if (DARK_SOCIAL_MEDIA_ICONS != true) {
-      $('.smi-image').each(darkSocialMediaIcons);
-    }
 
-
-    // $('.expand-link').next().removeClass('active');
+    // Reset all the subnavs except the one that was clicked
+    // keep those subnavs looking good
     var resetAllButClicked = function(index, elm) {
       if ((self) == (elm)) {
         curSubnav.toggleClass('active');
@@ -262,12 +291,10 @@ var initPage = function() {
       curSubnav.css({
         'max-height' : '0'
         });
-      // $(storyLinks).removeClass('active');
     }
 
     // Change the background image and typeface color on menu click!
-     if (whiteBg == "url(file://localhost/Users/shanetaylor/Documents/meganthompson/design/poop/static/img/bgs/white.jpg)") {
-     }
+     if (WHITE_BACKGROUND == true) {}
       else {
       var name = './img/bgs/' + $.trim($(this).text().toLowerCase()) + '_bg.jpg';
       $('.homepage-container').css({
@@ -278,15 +305,28 @@ var initPage = function() {
 
       switch (name) {
         case './img/bgs/musicians_bg.jpg':
-        fontColor = '#ccc'
-        $('.story-link').removeClass('dark')
+        if (DARK_COLOR_SCHEME == true) {
+          DARK_COLOR_SCHEME = false;
+          colorScheme();
+          console.log('DCS is TRUE!');
+        }
+          else {
+            console.log('DCS is FALSE');
+          }
+        // fontColor = '#ccc'
+        // $('.story-link').removeClass('dark')
         break;
         case './img/bgs/comedy_bg.jpg':
-        fontColor = '#333'
-        $('.story-link').addClass('dark')
-          if (DARK_SOCIAL_MEDIA_ICONS != true) {
-            $('.smi-image').each(darkSocialMediaIcons);
+        if (DARK_COLOR_SCHEME == true) {}
+          else {
+            DARK_COLOR_SCHEME = true;
+            colorScheme();
           }
+        // fontColor = '#333'
+        // $('.story-link').addClass('dark')
+          // if (DARK_SOCIAL_MEDIA_ICONS != true) {
+          //   $('.smi-image').each(darkSocialMediaIcons);
+          // }
         break;
       }
 
@@ -297,7 +337,6 @@ var initPage = function() {
       var homepageBackgroundUrl = $(".homepage-container").css("background-image");
 
       console.log (name);
-      console.log (fontColor);
     }
   });
 
@@ -319,7 +358,7 @@ var initPage = function() {
   // if not, we move on to the next gallery slide
   $('.image-nav-icon .next').click(function(e) {
     e.preventDefault();
-    console.log('you clicked the right arrow!');
+    // console.log('you clicked the right arrow!');
     if (CUR_GALLERY_INDEX == GALLERY_COUNT) {
       CUR_GALLERY_INDEX = 0;
     }
@@ -362,7 +401,7 @@ var initPage = function() {
   // toggles the #mygallery div
   $('.image-nav-icon .index').click(function(e) {
     e.preventDefault();
-    console.log('you clicked on the index button!');
+    // console.log('you clicked on the index button!');
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
     $('#mygallery').toggleClass('hidden');
@@ -383,7 +422,7 @@ var initPage = function() {
 
   $('.curl').click(function(e) {
     e.preventDefault();
-    console.log('you clicked the curl!');
+    // console.log('you clicked the curl!');
     toggleImageStoryMode();
   });
 
@@ -407,7 +446,7 @@ var initPage = function() {
 
   $('a.video').click(function(e) {
     e.preventDefault();
-    console.log('you clicked the video link!');
+    // console.log('you clicked the video link!');
   });
 
   $('.story-link').click(function(e) {
