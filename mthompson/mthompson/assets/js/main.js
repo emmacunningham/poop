@@ -1,4 +1,4 @@
-  'use strict';
+'use strict';
 
 var CUR_GALLERY_INDEX;
 var GALLERY_COUNT;
@@ -73,6 +73,7 @@ $(document).ready( function() {
 
 var initPage = function() {
 
+var screenWidth = $(window).width();
 
 // make the social media icons the correct color (dark/light)
   var darkSocialMediaIcons = function(index, value) {
@@ -138,7 +139,18 @@ var initPage = function() {
      'background-image': "url('" + picture + "')"
   })
 
-  if (ranNumber == 1) {
+    var checkScreenSize = function() {
+      if (screenWidth <= 600) {
+        $('.smi-image').each(darkSocialMediaIcons);
+        $("html, body, a, .story-link").addClass('dark');
+        DARK_COLOR_SCHEME = true;
+      }
+  };
+
+  checkScreenSize();
+
+
+  if (ranNumber == 1 && screenWidth > 600) {
     DARK_COLOR_SCHEME = true;
     colorScheme();
   }
@@ -467,6 +479,7 @@ var initPage = function() {
   $('.mobile-menu-button').click(function(e) {
     e.preventDefault();
     $('.nav-menu').toggleClass('active');
+    $('.social-media-container').toggleClass('active');
   });
 
 

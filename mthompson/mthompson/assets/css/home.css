@@ -376,7 +376,10 @@ ul {
   display: none;
 }
 
-@media (max-width: 500px) {
+
+
+/* +++++++++++++++++++++++++++++++ RESPONSIVE PART */
+@media (max-width: 600px) {
 
   .sidebar-container {
     width: 100%;
@@ -398,6 +401,20 @@ ul {
   }
 
   .social-media-container {
+    /*display: none;*/
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: inherit;
+    padding: 0;
+  }
+
+  .social-media-container.active {
+    display: block;
+    opacity: 1;
     position: fixed;
     right: 0;
     left: 0;
@@ -407,24 +424,37 @@ ul {
   }
 
   .nav-menu {
+    text-align: left;
     background: rgba(255, 255, 255, 0.7);
     margin-top: -1px;
+    opacity: 0;
     max-height: 0;
-    transition: max-height 1s ease-out;
+/*    transition-property: all;
+    transition-duration: 3.5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);*/
     overflow: hidden;
+    transition: opacity .5s ease-in-out;
   }
 
   .nav-menu.active {
-    max-height: 450px;
-    transition: max-height 1s ease-in;
+    padding-top: 40px;
+    text-align: left;
+    height: 100vh;
+    max-height: 100vh;
+    opacity: 1;
+    transition-property: all;
+    transition-duration: .5s;
+    transition-timing-function: ease-in-out;
+
   }
 
   .navigation-container ul li {
-    border-color: rgba(0, 0, 0, 0.3);
-    border-width: 2px;
-    border-top-style: solid;
-    border-bottom-style: solid;
+    margin-left: 12px;
     }
+
+  .sub-link {
+    font-size: 24px;
+  }
 
   .mobile-menu-button {
     display: block;
@@ -443,5 +473,22 @@ ul {
     color: #333;
   }
 
-}
+  a.nav-link {
+    font-size: 47px;
+  }
 
+  .story-link {
+  width: 18px;
+  height: 18px;
+  margin-left: 20px;
+  vertical-align: middle;
+  }
+
+  .story-link.dark {
+  width: 18px;
+  height: 18px;
+  margin-left: 20px;
+  vertical-align: middle;
+  }
+
+/*+++++++++++++++++++++++++ MY CUSTOM DESIGN OVER ++++++++++++++++++ */
