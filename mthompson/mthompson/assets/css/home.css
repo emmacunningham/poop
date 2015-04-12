@@ -576,7 +576,7 @@ ul {
     width: 18px;
     height: 18px;
     margin-left: 20px;
-    vertical-align: middle;
+    vertical-align: baseline;
     background: url('../img/icons/portfolio_icon_dark.png');
     background-size: cover;
   }
@@ -585,7 +585,7 @@ ul {
     width: 18px;
     height: 18px;
     margin-left: 20px;
-    vertical-align: middle;
+    vertical-align: baseline;
     background: url('../img/icons/portfolio_icon_dark.png');
     background-size: cover;
   }
