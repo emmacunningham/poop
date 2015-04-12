@@ -76,45 +76,47 @@ var initPage = function() {
 var screenWidth = $(window).width();
 
 // make the social media icons the correct color (dark/light)
-  var darkSocialMediaIcons = function(index, value) {
-    var self = this
-    var currentSourceString = $(self).attr('src');
-    // console.log('you likced a social media icon!');
-    // console.log();
-    var baseSourceString = currentSourceString.slice(0,-4);
-    var updatedSourceString = baseSourceString + "_dark.png";
+// rendered obsolete with the refactor of social media icons as bg images!
+  // var darkSocialMediaIcons = function(index, value) {
+  //   var self = this
+  //   var currentSourceString = $(self).attr('src');
+  //   // console.log('you likced a social media icon!');
+  //   // console.log();
+  //   var baseSourceString = currentSourceString.slice(0,-4);
+  //   var updatedSourceString = baseSourceString + "_dark.png";
 
-    // console.log(updatedSourceString);
-    $(self).attr(
-      'src', updatedSourceString
-    )
-    DARK_SOCIAL_MEDIA_ICONS = true;
-  };
+  //   // console.log(updatedSourceString);
+  //   $(self).attr(
+  //     'src', updatedSourceString
+  //   )
+  //   DARK_SOCIAL_MEDIA_ICONS = true;
+  // };
 
-  var lightSocialMediaIcons = function(index, value) {
-    var self = this
-    var currentSourceString = $(self).attr('src');
-    // console.log('you likced a social media icon!');
-    // console.log();
-    var baseSourceString = currentSourceString.slice(0,-9);
-    var updatedSourceString = baseSourceString + ".png";
+// rendered obsolete with the refactor of social media icons as bg images!
+  // var lightSocialMediaIcons = function(index, value) {
+  //   var self = this
+  //   var currentSourceString = $(self).attr('src');
+  //   // console.log('you likced a social media icon!');
+  //   // console.log();
+  //   var baseSourceString = currentSourceString.slice(0,-9);
+  //   var updatedSourceString = baseSourceString + ".png";
 
-    // console.log(updatedSourceString);
-    $(self).attr(
-      'src', updatedSourceString
-    )
-    DARK_SOCIAL_MEDIA_ICONS = false;
-   };
+  //   // console.log(updatedSourceString);
+  //   $(self).attr(
+  //     'src', updatedSourceString
+  //   )
+  //   DARK_SOCIAL_MEDIA_ICONS = false;
+  //  };
 
 
 
   var colorScheme = function () {
    if (DARK_COLOR_SCHEME == true) {
-      $('.smi-image').each(darkSocialMediaIcons);
+      // $('.smi-image').each(darkSocialMediaIcons);
       $("html, body, a, .story-link").addClass('dark');
     }
       else {
-        $('.smi-image').each(lightSocialMediaIcons);
+        // $('.smi-image').each(lightSocialMediaIcons);
         $("html, body, a, .story-link").removeClass('dark');
         DARK_COLOR_SCHEME = false;
       }
@@ -489,7 +491,7 @@ var screenWidth = $(window).width();
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
     if (DARK_SOCIAL_MEDIA_ICONS != true) {
-      $('.smi-image').each(darkSocialMediaIcons);
+      // $('.smi-image').each(darkSocialMediaIcons);
     }
     $('.port-story').toggleClass('hidden');
   });
