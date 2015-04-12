@@ -143,17 +143,17 @@ var screenWidth = $(window).width();
      'background-image': "url('" + picture + "')"
   })
 
-  var checkInitScreenSize = function() {
-    if (screenWidth <= 600) {
-      DARK_COLOR_SCHEME = true;
-      colorScheme();
-      // $('.smi-image').each(darkSocialMediaIcons);
-      // $("html, body, a, .story-link").addClass('dark');
-      // DARK_COLOR_SCHEME = true;
-    }
-  };
+  // var checkInitScreenSize = function() {
+  //   if (screenWidth <= 600) {
+  //     DARK_COLOR_SCHEME = true;
+  //     colorScheme();
+  //     // $('.smi-image').each(darkSocialMediaIcons);
+  //     // $("html, body, a, .story-link").addClass('dark');
+  //     // DARK_COLOR_SCHEME = true;
+  //   }
+  // };
 
-  checkInitScreenSize();
+  // checkInitScreenSize();
 
   // var colorSchemeController = function() {
   //   if (ranNumber != 1 && screenWidth > 600){
@@ -326,7 +326,7 @@ var screenWidth = $(window).width();
     }
 
     // Change the background image and typeface color on menu click!
-     if (WHITE_BACKGROUND == true) {}
+     if (WHITE_BACKGROUND == true || screenWidth <= 600) {}
       else {
       var name = './img/bgs/' + $.trim($(this).text().toLowerCase()) + '_bg.jpg';
       $('.homepage-container').css({

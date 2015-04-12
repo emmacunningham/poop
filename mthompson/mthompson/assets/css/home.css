@@ -577,6 +577,8 @@ ul {
     height: 18px;
     margin-left: 20px;
     vertical-align: middle;
+    background: url('../img/icons/portfolio_icon_dark.png');
+    background-size: cover;
   }
 
   .story-link.dark {
@@ -584,10 +586,32 @@ ul {
     height: 18px;
     margin-left: 20px;
     vertical-align: middle;
+    background: url('../img/icons/portfolio_icon_dark.png');
+    background-size: cover;
   }
 
   .social-media-email a {
     font-size: 14px;
+  }
+
+  .insta {
+    background-image: url('./../../assets/img/icons/insta_icon_dark.png');
+  }
+
+  .twitter {
+    background-image: url('./../../assets/img/icons/twitter_icon_dark.png');
+  }
+
+  .vimeo {
+    background-image: url('./../../assets/img/icons/vimeo_icon_dark.png');
+  }
+
+  .tumblr {
+    background-image: url('./../../assets/img/icons/tumblr_icon_dark.png');
+  }
+
+  .facebook {
+    background-image: url('./../../assets/img/icons/facebook_icon_dark.png');
   }
 
 /*+++++++++++++++++++++++++ MY CUSTOM DESIGN OVER ++++++++++++++++++ */
