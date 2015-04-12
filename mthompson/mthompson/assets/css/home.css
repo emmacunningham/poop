@@ -119,8 +119,90 @@ ul {
 }
 
 .social-media-icon {
-  display: inline;
+  display: inline-flex;
   margin-left: 11px;
+  height: 26px
+}
+
+/*.social-media-icon li {
+  display: block;
+  position: fixed;
+  width: 26px;
+  height: 26px;
+}*/
+
+.smi-image {
+  opacity: 0;
+}
+
+.insta {
+  background-image: url('./../../assets/img/icons/insta_icon.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+
+.insta.dark {
+  background-image: url('./../../assets/img/icons/insta_icon_dark.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+
+.twitter {
+  background-image: url('./../../assets/img/icons/twitter_icon.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+
+.twitter.dark {
+  background-image: url('./../../assets/img/icons/twitter_icon_dark.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+
+.tumblr {
+  background-image: url('./../../assets/img/icons/tumblr_icon.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+
+.tumblr.dark {
+  background-image: url('./../../assets/img/icons/tumblr_icon_dark.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+
+.facebook {
+  background-image: url('./../../assets/img/icons/facebook_icon.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+
+.facebook.dark {
+  background-image: url('./../../assets/img/icons/facebook_icon_dark.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+
+.vimeo {
+  background-image: url('./../../assets/img/icons/vimeo_icon.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+
+.vimeo.dark {
+  background-image: url('./../../assets/img/icons/vimeo_icon_dark.png');
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
 }
 
 .social-media-email {
@@ -402,23 +484,21 @@ ul {
 
   .social-media-container {
     /*display: none;*/
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     position: fixed;
     right: 0;
     left: 0;
-    bottom: 0;
+    bottom: -75px;
     width: inherit;
     padding: 0;
   }
 
   .social-media-container.active {
     display: block;
-    opacity: 1;
     position: fixed;
     right: 0;
     left: 0;
-    bottom: 0;
+    bottom: 10px;
     width: inherit;
     padding: 0;
   }
@@ -453,7 +533,7 @@ ul {
     }
 
   .sub-link {
-    font-size: 24px;
+    font-size: 3em;
   }
 
   .mobile-menu-button {
@@ -461,6 +541,21 @@ ul {
     position: fixed;
     left: 15px;
     top: 5px;
+    background-image: url('./../../assets/img/icons/mobile_menu.png');
+    background-repeat: no-repeat;
+  }
+
+  .mobile-menu-button.active {
+    display: block;
+    position: fixed;
+    left: 15px;
+    top: 5px;
+    background-image: url('./../../assets/img/icons/mobile_menu_close.png');
+    background-repeat: no-repeat;
+  }
+
+  .mobile-menu-button img {
+    opacity: 0;
   }
 
   .content-container {
@@ -474,21 +569,25 @@ ul {
   }
 
   a.nav-link {
-    font-size: 47px;
+    font-size: 3em;
   }
 
   .story-link {
-  width: 18px;
-  height: 18px;
-  margin-left: 20px;
-  vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    margin-left: 20px;
+    vertical-align: middle;
   }
 
   .story-link.dark {
-  width: 18px;
-  height: 18px;
-  margin-left: 20px;
-  vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    margin-left: 20px;
+    vertical-align: middle;
+  }
+
+  .social-media-email a {
+    font-size: 14px;
   }
 
 /*+++++++++++++++++++++++++ MY CUSTOM DESIGN OVER ++++++++++++++++++ */
