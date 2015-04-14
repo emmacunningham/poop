@@ -32,15 +32,20 @@ $(document).ready( function() {
 
       li.append(a);
 
+      // Single-gallery collection
       if (categories[i]['galleries'].length <= 1) {
         a.addClass('port-link');
         a.data('gallery-id', categories[i]['galleries'][0]['id']);
         if (!!categories[i]['galleries'][0]['story']) {
           var story_icon = $('<a class="story-link" href=""></a>');
           a.append(story_icon);
+          var story_text = categories[i]['galleries'][0]['story'];
+          story_icon.data('story-text', story_text);
         }
 
       }
+
+      // Multi-gallery collection
       else {
         a.addClass('expand-link');
         a.data('bg-src', categories[i]['bg_img']);
@@ -59,6 +64,8 @@ $(document).ready( function() {
           if (!!categories[i]['galleries'][a]['story']) {
             var story_icon = $('<a class="story-link" href=""></a>');
             subnav_item_container.append(story_icon);
+            var story_text = categories[i]['galleries'][a]['story'];
+            story_icon.data('story-text', story_text);
           }
         }
 
@@ -386,7 +393,6 @@ var screenWidth = $(window).width();
 
       var homepageBackgroundUrl = $(".homepage-container").css("background-image");
 
-      console.log (name);
     }
   });
 
@@ -500,6 +506,7 @@ var screenWidth = $(window).width();
   });
 
   $('.story-link').click(function(e) {
+    $('#port-story-text').text($(this).data('story-text'));
     e.preventDefault();
     $('.content-container').removeClass('hidden');
     $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
