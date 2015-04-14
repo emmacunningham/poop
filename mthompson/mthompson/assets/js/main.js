@@ -122,26 +122,36 @@ var screenWidth = $(window).width();
       }
   };
 
-  var ranNumber = randomFromInterval(1, 3)
-  var picture = null;
+  // Fetch a random home background and set text based on color scheme
+  $.ajax({
+    url: "fetch-home-bg/",
+  }).done(function(response) {
 
-  switch(ranNumber) {
-    case 1:
-    picture = './img/bgs/homepage_bg1.jpg'
-    break;
-    case 2:
-    picture = './img/bgs/homepage_bg2.jpg'
-    DARK_COLOR_SCHEME = false
-    break;
-    case 3:
-    picture = './img/bgs/homepage_bg3.jpg'
-    DARK_COLOR_SCHEME = false
-    break;
-  }
+    DARK_COLOR_SCHEME = response['is_dark_color_scheme'];
 
-  $(".homepage-container").css({
-     'background-image': "url('" + picture + "')"
-  })
+    $(".homepage-container").css({
+       'background-image': "url('" + response['img_url'] + "')"
+    })
+
+    colorScheme();
+
+
+  });
+
+  // switch(ranNumber) {
+  //   case 1:
+  //   picture = './img/bgs/homepage_bg1.jpg'
+  //   break;
+  //   case 2:
+  //   picture = './img/bgs/homepage_bg2.jpg'
+  //   DARK_COLOR_SCHEME = false
+  //   break;
+  //   case 3:
+  //   picture = './img/bgs/homepage_bg3.jpg'
+  //   DARK_COLOR_SCHEME = false
+  //   break;
+  // }
+
 
   // var checkInitScreenSize = function() {
   //   if (screenWidth <= 600) {
@@ -170,10 +180,10 @@ var screenWidth = $(window).width();
   //   colorSchemeController();
   // });
 
-  if (ranNumber == 1 && screenWidth > 600) {
-    DARK_COLOR_SCHEME = true;
-    colorScheme();
-  }
+  // if (ranNumber == 1 && screenWidth > 600) {
+  //   DARK_COLOR_SCHEME = true;
+  //   colorScheme();
+  // }
 
 
   // $('.smi-image').click(function(e) {

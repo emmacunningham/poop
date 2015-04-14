@@ -74,6 +74,7 @@ from django.contrib.sessions.models import Session
 # admin.site.register(Category)
 admin.site.register(Category)
 admin.site.register(MediaCollection)
+admin.site.register(HomeBackgroundImage)
 
 # admin.site.register(BannedWord)
 # admin.site.register(RegistrationCredential)

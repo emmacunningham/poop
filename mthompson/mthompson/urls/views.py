@@ -7,8 +7,29 @@ from django.template import Context, Template
 from django.db import models
 from mthompson.models import *
 from photologue.models import Gallery, Photo
+from random import randint
 
 import json
+
+
+def fetch_home_bg(request):
+    imgs = HomeBackgroundImage.objects.all()
+
+    img_max = len(imgs) - 1
+    index = randint(0,img_max)
+    img = imgs[index]
+
+    is_dark_color_scheme = False
+    img_url = img.image.url
+
+    if img.nav_appearance == 'dark':
+        is_dark_color_scheme = True
+
+    response_data = {
+        'img_url': img_url,
+        'is_dark_color_scheme': is_dark_color_scheme
+    }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 def fetch_gallery(request, id):

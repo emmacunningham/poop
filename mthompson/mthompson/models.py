@@ -16,6 +16,11 @@ MEDIA_CHOICES = (
     ('video', 'Video'),
 )
 
+NAV_APPEARARNCE_CHOICES = (
+    ('light', 'Light'),
+    ('dark', 'Dark'),
+)
+
 class Category(models.Model):
 
 	# video or image
@@ -35,6 +40,18 @@ class MediaCollection(models.Model):
 	gallery = models.ForeignKey(Gallery, blank=True, null=True)
 	media_type = models.CharField(max_length=255, null=True, blank=True, choices=MEDIA_CHOICES, default="Photo")
 	story = models.TextField(null=True, blank=True)
+
+	def __unicode__(self):
+		if self.name is not None:
+			return self.name
+
+
+class HomeBackgroundImage(models.Model):
+
+
+	name = models.CharField(max_length=255, null=True, blank=True)
+	nav_appearance = models.CharField(max_length=255, null=True, blank=True, choices=NAV_APPEARARNCE_CHOICES, default="Light")
+	image = models.ImageField(upload_to='./home_bg', null=True, blank=True)
 
 	def __unicode__(self):
 		if self.name is not None:
