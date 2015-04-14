@@ -25,7 +25,6 @@ class Category(models.Model):
 
 	# video or image
 	name = models.CharField(max_length=255, null=True, blank=True)
-	order = models.IntegerField(max_length=255, null=True, blank=True)
 	image = models.ImageField(upload_to='./home_bg', null=True, blank=True)
 	nav_appearance = models.CharField(max_length=255, null=True, blank=True, choices=NAV_APPEARARNCE_CHOICES, default="Light")
 

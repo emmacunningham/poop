@@ -100,6 +100,13 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates'),
 )
 
+# Necessary for Django Suit
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    # Necessary for admin sortable
+    'django.core.context_processors.static'
+)
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
@@ -113,6 +120,7 @@ INSTALLED_APPS = (
     'photologue',
     'sortedm2m',
     'south',
+    'adminsortable'
 )
 
 # A sample logging configuration. The only tangible logging
