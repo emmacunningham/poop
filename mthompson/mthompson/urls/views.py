@@ -60,6 +60,11 @@ def fetch_categories(request):
         cat_data = {}
         cat_data['name'] = cat.name
 
+        if cat.image:
+            cat_data['bg_img'] = cat.image.url
+
+        cat_data['nav_appearance'] = cat.nav_appearance
+
         galleries = []
         for gallery in cat.mediacollection_set.all():
             if gallery.media_type == 'photo':

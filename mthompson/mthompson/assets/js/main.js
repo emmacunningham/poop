@@ -43,6 +43,9 @@ $(document).ready( function() {
       }
       else {
         a.addClass('expand-link');
+        a.data('bg-src', categories[i]['bg_img']);
+        a.data('nav-appearance', categories[i]['nav_appearance']);
+
         var subnav = $('<ul class="subnav-container"></ul>');
         li.append(subnav);
 
@@ -194,10 +197,7 @@ var screenWidth = $(window).width();
 
   // Setting the preloadImage variable for background images
   var preloadImage = function (index, value) {
-     var name = './img/bgs/' +
-      $.trim(
-        $(value).text().toLowerCase()
-        ) + '_bg.jpg';
+     var name = $(this).data('bg-src');
 
       var c = new Image();
 
@@ -338,43 +338,51 @@ var screenWidth = $(window).width();
     // Change the background image and typeface color on menu click!
      if (WHITE_BACKGROUND == true || screenWidth <= 600) {}
       else {
-      var name = './img/bgs/' + $.trim($(this).text().toLowerCase()) + '_bg.jpg';
+      var name = $(this).data('bg-src');
+
+
       $('.homepage-container').css({
       'background-image': "url('" + name + "')"
       });
 
-      var fontColor = null;
+      // var fontColor = null;
 
-      switch (name) {
-        case './img/bgs/musicians_bg.jpg':
-        if (DARK_COLOR_SCHEME == true) {
-          DARK_COLOR_SCHEME = false;
-          colorScheme();
-          console.log('DCS is TRUE!');
-        }
-          else {
-            console.log('DCS is FALSE');
-          }
-        // fontColor = '#ccc'
-        // $('.story-link').removeClass('dark')
-        break;
-        case './img/bgs/comedy_bg.jpg':
-        if (DARK_COLOR_SCHEME == true) {}
-          else {
-            DARK_COLOR_SCHEME = true;
-            colorScheme();
-          }
-        // fontColor = '#333'
-        // $('.story-link').addClass('dark')
-          // if (DARK_SOCIAL_MEDIA_ICONS != true) {
-          //   $('.smi-image').each(darkSocialMediaIcons);
-          // }
-        break;
+      // switch (name) {
+      //   case './img/bgs/musicians_bg.jpg':
+      //   if (DARK_COLOR_SCHEME == true) {
+      //     DARK_COLOR_SCHEME = false;
+      //     colorScheme();
+      //     console.log('DCS is TRUE!');
+      //   }
+      //     else {
+      //       console.log('DCS is FALSE');
+      //     }
+      //   // fontColor = '#ccc'
+      //   // $('.story-link').removeClass('dark')
+      //   break;
+      //   case './img/bgs/comedy_bg.jpg':
+      //   if (DARK_COLOR_SCHEME == true) {}
+      //     else {
+      //       DARK_COLOR_SCHEME = true;
+      //       colorScheme();
+      //     }
+      //   // fontColor = '#333'
+      //   // $('.story-link').addClass('dark')
+      //     // if (DARK_SOCIAL_MEDIA_ICONS != true) {
+      //     //   $('.smi-image').each(darkSocialMediaIcons);
+      //     // }
+      //   break;
+      // }
+
+      // $('html, body, a').css({
+      //   'color': ""+ fontColor +""
+      // });
+
+      DARK_COLOR_SCHEME = false;
+      if ($(this).data('nav-appearance') == 'dark') {
+        DARK_COLOR_SCHEME = true;
       }
-
-      $('html, body, a').css({
-        'color': ""+ fontColor +""
-      });
+      colorScheme();
 
       var homepageBackgroundUrl = $(".homepage-container").css("background-image");
 
