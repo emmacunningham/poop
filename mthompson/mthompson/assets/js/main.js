@@ -245,7 +245,6 @@ var screenWidth = $(window).width();
 
     // add items to gallery container
     var galleryId = $(this).data('gallery-id');
-    console.log(galleryId)
 
     $.ajax({
       url: "fetch-gallery/" + galleryId,
@@ -254,12 +253,15 @@ var screenWidth = $(window).width();
       for (var i = 0, l = photos.length; i < l; i++) {
         var photo = photos[i];
         var src = photo['src'];
+        var description = photo['description'];
+        var title = photo['title'];
  // <a href="./img/full/2.jpg">
  //            <img alt="Title 2" src="./img/thumbs/thumbs_2.jpg"/>
  //          </a>
 
         var a = $('<a href="' + src + '"></a>');
-        var img = $('<img src="' + src + '"/>');
+        var img = $('<img src="' + src + '" alt="' + title + '" />');
+        a.data('story-text', description);
         a.append(img);
         galleryContainer.append(a);
 
@@ -425,6 +427,9 @@ var screenWidth = $(window).width();
     console.log(CUR_GALLERY_INDEX);
     var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
     var imageUrl = $(nextEl).attr('href');
+
+    $('#single-image-story-text').text($(nextEl).data('story-text'));
+
     updateImageSrc(imageUrl);
     resetImageStoryMode();
       // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
@@ -448,6 +453,9 @@ var screenWidth = $(window).width();
     var imageUrl = $(prevEl).attr('href');
     updateImageSrc(imageUrl);
     resetImageStoryMode();
+
+    $('#single-image-story-text').text($(prevEl).data('story-text'));
+
       // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
   });
 
@@ -560,9 +568,12 @@ var updateImageSrc = function(str) {
 // reveals the single-img-nav-container
 
 var addGalleryThumbsListener = function() {
-    $('#mygallery a').click(function(e) {
+  $('#mygallery a').click(function(e) {
     e.preventDefault();
     var self = this;
+
+    $('#single-image-story-text').text($(this).data('story-text'));
+
     GALLERY_COUNT = ($("#mygallery a").length - 1);
     console.log(GALLERY_COUNT);
     $('#mygallery a').each(function(i, el) {
