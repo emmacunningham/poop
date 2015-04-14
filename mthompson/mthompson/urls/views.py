@@ -67,6 +67,8 @@ def fetch_categories(request):
 
         galleries = []
         for gallery in cat.mediacollection_set.all():
+            print(gallery)
+
             if gallery.media_type == 'photo':
                 story = gallery.gallery.description
             else:

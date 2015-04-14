@@ -10,6 +10,7 @@ import json
 from urllib2 import HTTPError
 
 from photologue.models import Gallery, Photo
+from adminsortable.models import Sortable
 
 MEDIA_CHOICES = (
     ('photo', 'Photo'),
@@ -21,7 +22,9 @@ NAV_APPEARARNCE_CHOICES = (
     ('dark', 'Dark'),
 )
 
-class Category(models.Model):
+class Category(Sortable):
+	class Meta(Sortable.Meta):
+		pass
 
 	# video or image
 	name = models.CharField(max_length=255, null=True, blank=True)
@@ -34,7 +37,10 @@ class Category(models.Model):
 
 
 
-class MediaCollection(models.Model):
+class MediaCollection(Sortable):
+	class Meta(Sortable.Meta):
+		pass
+
 	name = models.CharField(max_length=255, null=True, blank=True)
 	category = models.ForeignKey('Category', null=True, blank=True)
 	gallery = models.ForeignKey(Gallery, blank=True, null=True)
