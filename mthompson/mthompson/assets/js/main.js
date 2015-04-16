@@ -387,30 +387,24 @@ var screenWidth = $(window).width();
     $('html, body, a').css({'color': '#333'});
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
-    // $('.port-story').toggleClass('hidden');
-    var resetAllButClickedStory = function(index, elm) {
-      if ((self) == (elm)) {
-        console.log('if = true!');
-        $('.story-link').toggleClass('active');
+
+    if ($('.story-link.active').length > 0) {
+      if ($('.story-link.active')[0] == $(this)[0]) {
+        $(this).removeClass('active');
+        $('.port-story').addClass('hidden');
       }
-        else {
-          console.log('if = false!');
-          $(elm).removeClass('active');
-        }
-    };
-    $('.story-link').each(resetAllButClickedStory);
-    if ($(this).hasClass('active')) {
+
+      else {
+        $('.story-link.active').removeClass('active');
+        $(this).addClass('active');
+        $('.port-story').removeClass('hidden');
+      }
+    }
+    else {
+      $(this).addClass('active');
       $('.port-story').removeClass('hidden');
     }
-      else {
-        $('.port-story').toggleClass('hidden');
-      }
   });
-
-
-    // if (DARK_SOCIAL_MEDIA_ICONS != true) {
-    // }
-    // $('.port-story').toggleClass('hidden');
 
   $('.mobile-menu-button').click(function(e) {
     e.preventDefault();
