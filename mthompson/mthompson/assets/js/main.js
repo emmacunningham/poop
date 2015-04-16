@@ -85,48 +85,11 @@ var initPage = function() {
 
 var screenWidth = $(window).width();
 
-// make the social media icons the correct color (dark/light)
-// rendered obsolete with the refactor of social media icons as bg images!
-  // var darkSocialMediaIcons = function(index, value) {
-  //   var self = this
-  //   var currentSourceString = $(self).attr('src');
-  //   // console.log('you likced a social media icon!');
-  //   // console.log();
-  //   var baseSourceString = currentSourceString.slice(0,-4);
-  //   var updatedSourceString = baseSourceString + "_dark.png";
-
-  //   // console.log(updatedSourceString);
-  //   $(self).attr(
-  //     'src', updatedSourceString
-  //   )
-  //   DARK_SOCIAL_MEDIA_ICONS = true;
-  // };
-
-// rendered obsolete with the refactor of social media icons as bg images!
-  // var lightSocialMediaIcons = function(index, value) {
-  //   var self = this
-  //   var currentSourceString = $(self).attr('src');
-  //   // console.log('you likced a social media icon!');
-  //   // console.log();
-  //   var baseSourceString = currentSourceString.slice(0,-9);
-  //   var updatedSourceString = baseSourceString + ".png";
-
-  //   // console.log(updatedSourceString);
-  //   $(self).attr(
-  //     'src', updatedSourceString
-  //   )
-  //   DARK_SOCIAL_MEDIA_ICONS = false;
-  //  };
-
-
-
   var colorScheme = function () {
    if (DARK_COLOR_SCHEME == true) {
-      // $('.smi-image').each(darkSocialMediaIcons);
       $("html, body, a, .story-link").addClass('dark');
     }
       else {
-        // $('.smi-image').each(lightSocialMediaIcons);
         $("html, body, a, .story-link").removeClass('dark');
         DARK_COLOR_SCHEME = false;
       }
@@ -147,60 +110,6 @@ var screenWidth = $(window).width();
 
 
   });
-
-  // switch(ranNumber) {
-  //   case 1:
-  //   picture = './img/bgs/homepage_bg1.jpg'
-  //   break;
-  //   case 2:
-  //   picture = './img/bgs/homepage_bg2.jpg'
-  //   DARK_COLOR_SCHEME = false
-  //   break;
-  //   case 3:
-  //   picture = './img/bgs/homepage_bg3.jpg'
-  //   DARK_COLOR_SCHEME = false
-  //   break;
-  // }
-
-
-  // var checkInitScreenSize = function() {
-  //   if (screenWidth <= 600) {
-  //     DARK_COLOR_SCHEME = true;
-  //     colorScheme();
-  //     // $('.smi-image').each(darkSocialMediaIcons);
-  //     // $("html, body, a, .story-link").addClass('dark');
-  //     // DARK_COLOR_SCHEME = true;
-  //   }
-  // };
-
-  // checkInitScreenSize();
-
-  // var colorSchemeController = function() {
-  //   if (ranNumber != 1 && screenWidth > 600){
-  //     DARK_COLOR_SCHEME = false;
-  //     colorScheme();
-  //   }
-  //   else {
-  //     DARK_COLOR_SCHEME = true;
-  //     colorScheme();
-  //   }
-  // };
-
-  // $(window).resize(function() {
-  //   colorSchemeController();
-  // });
-
-  // if (ranNumber == 1 && screenWidth > 600) {
-  //   DARK_COLOR_SCHEME = true;
-  //   colorScheme();
-  // }
-
-
-  // $('.smi-image').click(function(e) {
-  //   e.preventDefault();
-  //   $('.smi-image').each(darkSocialMediaIcons);
-
-  // });
 
   // Setting the preloadImage variable for background images
   var preloadImage = function (index, value) {
@@ -288,7 +197,6 @@ var screenWidth = $(window).width();
   // adds the hidden class to the port-story div
   $('.port-close').click(function(e) {
     e.preventDefault();
-    // console.log ('you clicked the port story x link!');
     $('.port-story').addClass('hidden');
   });
 
@@ -310,8 +218,6 @@ var screenWidth = $(window).width();
     var self = this;
     var liCount = $(this).next().children().length;
     var liHeight = $('.subnav-container li').height();
-    // console.log (liCount);
-    // console.log (liHeight);
     var curSubnav = $(self).next();
 
     // Reset all the subnavs except the one that was clicked
@@ -319,11 +225,9 @@ var screenWidth = $(window).width();
     var resetAllButClicked = function(index, elm) {
       if ((self) == (elm)) {
         curSubnav.toggleClass('active');
-        // storyLinks.toggleClass('active');
       }
         else {
           $(elm).next().removeClass('active');
-          // $(elm).next().children().children('.story-link').removeClass('active');
            $(elm).next().css({
             'max-height' : '0'
             });
@@ -336,7 +240,6 @@ var screenWidth = $(window).width();
       $('.subnav-container.active').css({
       'max-height' : liCount * liHeight
       });
-      // $(storyLinks).addClass('active');
     }
     else {
       curSubnav.css({
@@ -353,39 +256,6 @@ var screenWidth = $(window).width();
       $('.homepage-container').css({
       'background-image': "url('" + name + "')"
       });
-
-      // var fontColor = null;
-
-      // switch (name) {
-      //   case './img/bgs/musicians_bg.jpg':
-      //   if (DARK_COLOR_SCHEME == true) {
-      //     DARK_COLOR_SCHEME = false;
-      //     colorScheme();
-      //     console.log('DCS is TRUE!');
-      //   }
-      //     else {
-      //       console.log('DCS is FALSE');
-      //     }
-      //   // fontColor = '#ccc'
-      //   // $('.story-link').removeClass('dark')
-      //   break;
-      //   case './img/bgs/comedy_bg.jpg':
-      //   if (DARK_COLOR_SCHEME == true) {}
-      //     else {
-      //       DARK_COLOR_SCHEME = true;
-      //       colorScheme();
-      //     }
-      //   // fontColor = '#333'
-      //   // $('.story-link').addClass('dark')
-      //     // if (DARK_SOCIAL_MEDIA_ICONS != true) {
-      //     //   $('.smi-image').each(darkSocialMediaIcons);
-      //     // }
-      //   break;
-      // }
-
-      // $('html, body, a').css({
-      //   'color': ""+ fontColor +""
-      // });
 
       DARK_COLOR_SCHEME = false;
       if ($(this).data('nav-appearance') == 'dark') {
@@ -416,7 +286,6 @@ var screenWidth = $(window).width();
   // if not, we move on to the next gallery slide
   $('.image-nav-icon .next').click(function(e) {
     e.preventDefault();
-    // console.log('you clicked the right arrow!');
     if (CUR_GALLERY_INDEX == GALLERY_COUNT) {
       CUR_GALLERY_INDEX = 0;
     }
@@ -432,7 +301,6 @@ var screenWidth = $(window).width();
 
     updateImageSrc(imageUrl);
     resetImageStoryMode();
-      // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
   });
 
   // click listener for the "previous" nav icon
@@ -455,8 +323,6 @@ var screenWidth = $(window).width();
     resetImageStoryMode();
 
     $('#single-image-story-text').text($(prevEl).data('story-text'));
-
-      // $('.single-image-wrapper').html('<img src="'+ imageUrl +'" />');
   });
 
   // Event listener for clicking on "index" button
@@ -465,7 +331,6 @@ var screenWidth = $(window).width();
   // toggles the #mygallery div
   $('.image-nav-icon .index').click(function(e) {
     e.preventDefault();
-    // console.log('you clicked on the index button!');
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
     $('#mygallery').toggleClass('hidden');
@@ -486,7 +351,6 @@ var screenWidth = $(window).width();
 
   $('.curl').click(function(e) {
     e.preventDefault();
-    // console.log('you clicked the curl!');
     toggleImageStoryMode();
   });
 
@@ -510,24 +374,43 @@ var screenWidth = $(window).width();
 
   $('a.video').click(function(e) {
     e.preventDefault();
-    // console.log('you clicked the video link!');
   });
 
   $('.story-link').click(function(e) {
     $('#port-story-text').text($(this).data('story-text'));
     e.preventDefault();
+    var self = this;
+    var curStory = self;
     $('.content-container').removeClass('hidden');
     $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
     $('.story-link').addClass('dark');
     $('html, body, a').css({'color': '#333'});
-    // $('.port-story').removeClass('hidden');
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
-    if (DARK_SOCIAL_MEDIA_ICONS != true) {
-      // $('.smi-image').each(darkSocialMediaIcons);
+    // $('.port-story').toggleClass('hidden');
+    var resetAllButClickedStory = function(index, elm) {
+      if ((self) == (elm)) {
+        console.log('if = true!');
+        $('.story-link').toggleClass('active');
+      }
+        else {
+          console.log('if = false!');
+          $(elm).removeClass('active');
+        }
+    };
+    $('.story-link').each(resetAllButClickedStory);
+    if ($(this).hasClass('active')) {
+      $('.port-story').removeClass('hidden');
     }
-    $('.port-story').toggleClass('hidden');
+      else {
+        $('.port-story').toggleClass('hidden');
+      }
   });
+
+
+    // if (DARK_SOCIAL_MEDIA_ICONS != true) {
+    // }
+    // $('.port-story').toggleClass('hidden');
 
   $('.mobile-menu-button').click(function(e) {
     e.preventDefault();
@@ -587,11 +470,7 @@ var addGalleryThumbsListener = function() {
     $('.single-image-container').toggleClass('hidden');
     var self = this;
     var imageUrl = $(this).attr('href');
-    // updateImageSrc(imageUrl);
     updateImageSrc(imageUrl);
-    // var calculatedImageSize = $(this).
-    // var singleImageSize = 'max-height="400" width="500"'
-    // $('.single-image').html('<img src="'+ imageUrl +'" "'+ singleImageSize +'" />');
     $('.port-story').addClass('hidden');
     $('.single-image-nav-container').removeClass('hidden');
     });
