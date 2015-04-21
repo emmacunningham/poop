@@ -5,6 +5,7 @@ var GALLERY_COUNT;
 var DARK_SOCIAL_MEDIA_ICONS;
 var DARK_COLOR_SCHEME;
 var WHITE_BACKGROUND = false;
+var VIMEO_DATA;
 
 function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
@@ -13,6 +14,17 @@ function randomFromInterval(from, to) {
 // On document load, selects one of three randcom images for the background
 // if BG1 is selected, sets the text to dark, if not, left at light text
 $(document).ready( function() {
+
+
+  // Load navigation
+  // Fetch the nav labels
+  $.ajax({
+    url: "https://vimeo.com/api/v2/user3589164/videos.json",
+  }).done(function(response) {
+    VIMEO_DATA = response;
+    console.log(VIMEO_DATA);
+  });
+
 
   // Load navigation
   // Fetch the nav labels
@@ -36,12 +48,15 @@ $(document).ready( function() {
       if (categories[i]['galleries'].length <= 1) {
         a.addClass('port-link');
         a.data('gallery-id', categories[i]['galleries'][0]['id']);
+        a.data('gallery-type', categories[i]['galleries'][0]['type']);
+
         if (!!categories[i]['galleries'][0]['story']) {
           var story_icon = $('<a class="story-link" href=""></a>');
           a.append(story_icon);
           var story_text = categories[i]['galleries'][0]['story'];
           story_icon.data('story-text', story_text);
         }
+
 
       }
 
@@ -58,6 +73,7 @@ $(document).ready( function() {
           var subnav_item_container = $('<li></li>');
           var subnav_title = $('<a class="sub-link port-link" href="">' + categories[i]['galleries'][a]['name'] + '</a>');
           subnav_title.data('gallery-id', categories[i]['galleries'][a]['id']);
+          subnav_title.data('gallery-type', categories[i]['galleries'][a]['type']);
           subnav.append(subnav_item_container);
           subnav_item_container.append(subnav_title);
 
@@ -154,26 +170,18 @@ var screenWidth = $(window).width();
 
     // add items to gallery container
     var galleryId = $(this).data('gallery-id');
+    var galleryType = $(this).data('gallery-type');
 
-    $.ajax({
-      url: "fetch-gallery/" + galleryId,
-    }).done(function(response) {
-      var photos = response['photos'];
-      for (var i = 0, l = photos.length; i < l; i++) {
-        var photo = photos[i];
-        var src = photo['src'];
-        var description = photo['description'];
-        var title = photo['title'];
- // <a href="./img/full/2.jpg">
- //            <img alt="Title 2" src="./img/thumbs/thumbs_2.jpg"/>
- //          </a>
+    if (galleryType == 'video') {
 
-        var a = $('<a href="' + src + '"></a>');
+      for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
+        var src = VIMEO_DATA[i]['thumbnail_large'];
+        var title = VIMEO_DATA[i]['title'];
+        var a = $('<a class="vimeo-thumb" href=""></a>');
         var img = $('<img src="' + src + '" alt="' + title + '" />');
-        a.data('story-text', description);
+        a.data('video-id', VIMEO_DATA[i]['id']);
         a.append(img);
         galleryContainer.append(a);
-
       }
 
       // Applies the justified gallery plugin to the div with the mygallery ID
@@ -183,8 +191,43 @@ var screenWidth = $(window).width();
         margins: 10,
       });
 
-      addGalleryThumbsListener();
-    });
+    }
+    else {
+
+      $.ajax({
+        url: "fetch-gallery/" + galleryId,
+      }).done(function(response) {
+        var photos = response['photos'];
+        for (var i = 0, l = photos.length; i < l; i++) {
+          var photo = photos[i];
+          var src = photo['src'];
+          var description = photo['description'];
+          var title = photo['title'];
+   // <a href="./img/full/2.jpg">
+   //            <img alt="Title 2" src="./img/thumbs/thumbs_2.jpg"/>
+   //          </a>
+
+          var a = $('<a href="' + src + '"></a>');
+          var img = $('<img src="' + src + '" alt="' + title + '" />');
+          a.data('story-text', description);
+          a.append(img);
+          galleryContainer.append(a);
+
+        }
+
+        // Applies the justified gallery plugin to the div with the mygallery ID
+        $("#mygallery").justifiedGallery({
+          rowHeight: 200,
+          lastRow: 'justify',
+          margins: 10,
+        });
+
+        addGalleryThumbsListener();
+      });
+
+    }
+
+
 
 
     $('.content-container').removeClass('hidden');
