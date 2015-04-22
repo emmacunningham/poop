@@ -149,6 +149,39 @@ var screenWidth = $(window).width();
     WHITE_BACKGROUND = true;
   }
 
+
+  // Attach listeners to Vimeo thumbs.
+  var addVimeoThumbListeners = function() {
+
+    $('.vimeo-thumb').mouseover(function(e) {
+      $(this).find('.caption').addClass('active-video-caption');
+    });
+
+    $('.vimeo-thumb').mouseout(function(e) {
+      $(this).find('.caption').removeClass('active-video-caption');
+    });
+
+    $('.vimeo-thumb').click(function(e) {
+      e.preventDefault();
+      var id = $(this).data('video-id');
+      console.log(id);
+    });
+
+  };
+
+  var updateJustifiedGallery = function() {
+    $("#mygallery").justifiedGallery({
+      rowHeight: 200,
+      lastRow: 'justify',
+      margins: 10,
+      captionSettings: {
+        animationDuration: 500,
+        visibleOpacity: .8,
+        nonVisibleOpacity: 0.0
+      }
+    });
+  };
+
   // Event listener for clicking on a portfolio link
   // Removes hidden class on content-container
   // sets the bg img to white
@@ -173,7 +206,9 @@ var screenWidth = $(window).width();
     var galleryType = $(this).data('gallery-type');
 
     if (galleryType == 'video') {
+      $('.curl').addClass('hidden');
 
+      galleryContainer.data('gallery-type', 'video');
       for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
         var src = VIMEO_DATA[i]['thumbnail_large'];
         var title = VIMEO_DATA[i]['title'];
@@ -185,15 +220,14 @@ var screenWidth = $(window).width();
       }
 
       // Applies the justified gallery plugin to the div with the mygallery ID
-      $("#mygallery").justifiedGallery({
-        rowHeight: 200,
-        lastRow: 'justify',
-        margins: 10,
-      });
+      updateJustifiedGallery();
 
+      addVimeoThumbListeners();
+      addGalleryThumbsListener();
     }
     else {
-
+      $('.curl').removeClass('hidden');
+      galleryContainer.data('gallery-type', 'image');
       $.ajax({
         url: "fetch-gallery/" + galleryId,
       }).done(function(response) {
@@ -203,9 +237,6 @@ var screenWidth = $(window).width();
           var src = photo['src'];
           var description = photo['description'];
           var title = photo['title'];
-   // <a href="./img/full/2.jpg">
-   //            <img alt="Title 2" src="./img/thumbs/thumbs_2.jpg"/>
-   //          </a>
 
           var a = $('<a href="' + src + '"></a>');
           var img = $('<img src="' + src + '" alt="' + title + '" />');
@@ -216,12 +247,7 @@ var screenWidth = $(window).width();
         }
 
         // Applies the justified gallery plugin to the div with the mygallery ID
-        $("#mygallery").justifiedGallery({
-          rowHeight: 200,
-          lastRow: 'justify',
-          margins: 10,
-        });
-
+        updateJustifiedGallery();
         addGalleryThumbsListener();
       });
 
@@ -311,17 +337,6 @@ var screenWidth = $(window).width();
     }
   });
 
-  // $("#mygallery-video").justifiedGallery({
-  //   rowHeight: 300,
-  //   lastRow: 'nojustify',
-  //   margins: 10,
-  //   fixedHeight: true,
-  // });
-
-  var updateVideoSrc = function(str) {
-    $('.single-image-wrapper iframe').attr("src", str);
-  };
-
 
   // click listener for "next" image nav icon
   // checks to see if we're at the end of gallery slides
@@ -335,15 +350,20 @@ var screenWidth = $(window).width();
       else {
         CUR_GALLERY_INDEX++;
       }
-    console.log($('#mygallery a')[CUR_GALLERY_INDEX]);
-    console.log(CUR_GALLERY_INDEX);
     var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
-    var imageUrl = $(nextEl).attr('href');
 
-    $('#single-image-story-text').text($(nextEl).data('story-text'));
+    if ($('#mygallery').data('gallery-type') == 'video') {
+      var id = $(nextEl).data('video-id');
+      var url = '//player.vimeo.com/video/' + id;
+      updateVideoSrc(url);
+    }
+    else {
+      var imageUrl = $(nextEl).attr('href');
+      $('#single-image-story-text').text($(nextEl).data('story-text'));
+      updateImageSrc(imageUrl);
+      resetImageStoryMode();
+    }
 
-    updateImageSrc(imageUrl);
-    resetImageStoryMode();
   });
 
   // click listener for the "previous" nav icon
@@ -358,14 +378,24 @@ var screenWidth = $(window).width();
       else {
         CUR_GALLERY_INDEX--;
       }
-    console.log($('#mygallery a')[CUR_GALLERY_INDEX]);
-    console.log(CUR_GALLERY_INDEX);
-    var prevEl = $('#mygallery a')[CUR_GALLERY_INDEX];
-    var imageUrl = $(prevEl).attr('href');
-    updateImageSrc(imageUrl);
-    resetImageStoryMode();
 
-    $('#single-image-story-text').text($(prevEl).data('story-text'));
+    var prevEl = $('#mygallery a')[CUR_GALLERY_INDEX];
+
+    if ($('#mygallery').data('gallery-type') == 'video') {
+      var id = $(prevEl).data('video-id');
+      var url = '//player.vimeo.com/video/' + id;
+      updateVideoSrc(url);
+    }
+    else {
+      var imageUrl = $(prevEl).attr('href');
+      updateImageSrc(imageUrl);
+      resetImageStoryMode();
+
+      $('#single-image-story-text').text($(prevEl).data('story-text'));
+    }
+
+
+
   });
 
   // Event listener for clicking on "index" button
@@ -377,6 +407,7 @@ var screenWidth = $(window).width();
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
     $('#mygallery').toggleClass('hidden');
+    $('iframe').attr('src', '');
   });
 
   var toggleImageStoryMode = function() {
@@ -479,7 +510,9 @@ var updateImageSrc = function(str) {
 
 };
 
-
+var updateVideoSrc = function(str) {
+  $('.single-image-wrapper iframe').attr("src", str);
+};
 
 // Click listener for clicking on a link within the gallery
 // Prevents default, loads link in single-image div
@@ -492,8 +525,6 @@ var addGalleryThumbsListener = function() {
     e.preventDefault();
     var self = this;
 
-    $('#single-image-story-text').text($(this).data('story-text'));
-
     GALLERY_COUNT = ($("#mygallery a").length - 1);
     console.log(GALLERY_COUNT);
     $('#mygallery a').each(function(i, el) {
@@ -505,11 +536,24 @@ var addGalleryThumbsListener = function() {
 
     $('#mygallery').toggleClass('hidden');
     $('.single-image-container').toggleClass('hidden');
-    var self = this;
-    var imageUrl = $(this).attr('href');
-    updateImageSrc(imageUrl);
     $('.port-story').addClass('hidden');
     $('.single-image-nav-container').removeClass('hidden');
+
+    if ($(self).hasClass('vimeo-thumb')) {
+      $('#image-full').hide();
+      var id = $(self).data('video-id');
+      var url = '//player.vimeo.com/video/' + id;
+      updateVideoSrc(url);
+      $('#vimeo-full').show();
+    }
+    else {
+      $('#vimeo-full').hide();
+      $('#single-image-story-text').text($(this).data('story-text'));
+      var imageUrl = $(this).attr('href');
+      updateImageSrc(imageUrl);
+      $('#image-full').show();
+    }
+
     });
   };
 
