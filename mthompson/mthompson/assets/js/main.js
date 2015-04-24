@@ -196,6 +196,7 @@ var screenWidth = $(window).width();
         colorScheme();
       }
 
+    $('iframe').attr('src', '');
     var galleryContainer = $('#mygallery');
 
     // clear gallery container
