@@ -313,13 +313,6 @@ ul {
   padding: 10px;
 }
 
-/*.single-image-wrapper iframe {
-  height: 400px;
-  width: 650px;
-  margin: 0 auto;
-  display: block;
-}*/
-
 .vimeo-wrapper {
   position: relative;
   padding-bottom: 56.25%;
@@ -455,6 +448,10 @@ ul {
 
 .story-link.hidden {
   display: none;
+}
+
+.caption a {
+  color: red;
 }
 
 @media (max-width: 600px) {

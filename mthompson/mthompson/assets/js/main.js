@@ -360,9 +360,15 @@ var screenWidth = $(window).width();
     }
     else {
       var imageUrl = $(nextEl).attr('href');
-      $('#single-image-story-text').text($(nextEl).data('story-text'));
       updateImageSrc(imageUrl);
       resetImageStoryMode();
+
+      var imgAlt = ($(nextEl).find('img').attr('alt'));
+      $('#single-image-story-text').html(imgAlt);
+      var storyText = ($(nextEl).data('story-text'));
+      if (storyText.length > 0) {
+        $('#single-image-story-text').append(' - ' + storyText);
+      }
     }
 
   });
@@ -392,11 +398,13 @@ var screenWidth = $(window).width();
       updateImageSrc(imageUrl);
       resetImageStoryMode();
 
-      $('#single-image-story-text').text($(prevEl).data('story-text'));
+      var imgAlt = ($(prevEl).find('img').attr('alt'));
+      $('#single-image-story-text').html(imgAlt);
+      var storyText = ($(prevEl).data('story-text'));
+      if (storyText.length > 0) {
+        $('#single-image-story-text').append(' - ' + storyText);
+      }
     }
-
-
-
   });
 
   // Event listener for clicking on "index" button
@@ -532,11 +540,9 @@ var addGalleryThumbsListener = function() {
     var self = this;
 
     GALLERY_COUNT = ($("#mygallery a").length - 1);
-    console.log(GALLERY_COUNT);
     $('#mygallery a').each(function(i, el) {
       if (el == self) {
         CUR_GALLERY_INDEX = i;
-        console.log(CUR_GALLERY_INDEX);
       }
     });
 
@@ -546,7 +552,6 @@ var addGalleryThumbsListener = function() {
     $('.single-image-nav-container').removeClass('hidden');
 
     if ($(self).hasClass('vimeo-thumb')) {
-      console.log('YUUUUSSSS');
       $('#image-full').hide();
       var id = $(self).data('video-id');
       var url = '//player.vimeo.com/video/' + id;
@@ -555,17 +560,19 @@ var addGalleryThumbsListener = function() {
       $(".vimeo-wrapper").show();
       $(".vimeo-wrapper").fitVids();
     }
-
-
-
     else {
-      console.log('NOOOOOUUUUU');
       $('#vimeo-full').hide();
       $('.vimeo-wrapper').hide();
-      $('#single-image-story-text').text($(this).data('story-text'));
       var imageUrl = $(this).attr('href');
       updateImageSrc(imageUrl);
       $('#image-full').show();
+
+      var imgAlt = ($(this).find('img').attr('alt'));
+      $('#single-image-story-text').html(imgAlt);
+      var storyText = ($(this).data('story-text'));
+      if (storyText.length > 0) {
+        $('#single-image-story-text').append(' - ' + storyText);
+     }
     }
 
     });
