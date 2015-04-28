@@ -215,8 +215,11 @@ var screenWidth = $(window).width();
         var title = VIMEO_DATA[i]['title'];
         var a = $('<a class="vimeo-thumb" href=""></a>');
         var img = $('<img src="' + src + '" alt="' + title + '" />');
+        var caption = $('<div class="caption"><span class="caption-text">' +
+            title + '</span></div>');
         a.data('video-id', VIMEO_DATA[i]['id']);
         a.append(img);
+        a.append(caption);
         galleryContainer.append(a);
       }
 
@@ -241,8 +244,11 @@ var screenWidth = $(window).width();
 
           var a = $('<a href="' + src + '"></a>');
           var img = $('<img src="' + src + '" alt="' + title + '" />');
+          var caption = $('<div class="caption"><span class="caption-text">' +
+            title + '</span></div>');
           a.data('story-text', description);
           a.append(img);
+          a.append(caption);
           galleryContainer.append(a);
 
         }

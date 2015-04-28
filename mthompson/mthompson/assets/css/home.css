@@ -450,8 +450,9 @@ ul {
   display: none;
 }
 
-.caption a {
-  color: red;
+.caption-text {
+  top: 50%;
+  position: relative;
 }
 
 @media (max-width: 600px) {
