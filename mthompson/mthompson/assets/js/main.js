@@ -506,8 +506,6 @@ var screenWidth = $(window).width();
       $('.single-image-nav-container').toggleClass('hidden');
     }
   });
-
-
 };
 
 
@@ -583,3 +581,37 @@ var addGalleryThumbsListener = function() {
 
     });
   };
+
+  $('body').keydown(function(e) {
+    var singleImageView = null;
+    if ($('.single-image-container').hasClass('hidden')) {
+      singleImageView = false;
+    }
+    else {
+      singleImageView = true;
+    }
+    if(e.which == 37 && singleImageView == true) { // left
+      $('.image-nav-icon .previous').trigger("click");
+      console.log('left!');
+    }
+    else if(e.which == 39 && singleImageView == true) { // right
+      $('.image-nav-icon .next').trigger("click");
+      console.log('right!!');
+    }
+  });
+
+// keystroke listener for single-image navigation WITH ARROWS!
+// if ($('.single-image-container').hasClass('hidden')) {
+// }
+// else {
+//   $('body').keydown(function(e) {
+//     if(e.which == 37) { // left
+//       $('.image-nav-icon .previous').trigger("click");
+//       console.log('left!');
+//     }
+//     else if(e.which == 39) { // right
+//       $('.image-nav-icon .next').trigger("click");
+//       console.log('right!!');
+//     }
+//   });
+// }
