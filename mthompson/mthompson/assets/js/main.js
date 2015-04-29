@@ -592,26 +592,11 @@ var addGalleryThumbsListener = function() {
     }
     if(e.which == 37 && singleImageView == true) { // left
       $('.image-nav-icon .previous').trigger("click");
-      console.log('left!');
     }
     else if(e.which == 39 && singleImageView == true) { // right
       $('.image-nav-icon .next').trigger("click");
-      console.log('right!!');
+    }
+    else if (e.which == 27 && singleImageView == true) { // esc
+      $('.image-nav-icon .index').trigger("click");
     }
   });
-
-// keystroke listener for single-image navigation WITH ARROWS!
-// if ($('.single-image-container').hasClass('hidden')) {
-// }
-// else {
-//   $('body').keydown(function(e) {
-//     if(e.which == 37) { // left
-//       $('.image-nav-icon .previous').trigger("click");
-//       console.log('left!');
-//     }
-//     else if(e.which == 39) { // right
-//       $('.image-nav-icon .next').trigger("click");
-//       console.log('right!!');
-//     }
-//   });
-// }
