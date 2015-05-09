@@ -66,3 +66,4 @@ class AboutPage(models.Model):
 	details = models.TextField(null=True, blank=True)
 
 
+
