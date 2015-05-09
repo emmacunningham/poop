@@ -25,6 +25,24 @@ $(document).ready( function() {
     console.log(VIMEO_DATA);
   });
 
+  /* Using more recent vimeo API - wip etc
+  $.ajax({
+    method: 'GET',
+    url: "https://api.vimeo.com/users/user3589164/videos",
+    data: {
+      access_token: '6f85e3ba93f628f93f532c16db29bb2b',
+    }
+  }).done(function(response) {
+    console.log(response);
+  });
+  */
+
+  // Load about page content
+ $.ajax({
+    url: "fetch-about/",
+  }).done(function(response) {
+    console.log(response);
+  });
 
   // Load navigation
   // Fetch the nav labels
@@ -35,7 +53,6 @@ $(document).ready( function() {
     var menuContainer = $('.nav-menu');
     var categories = response['categories'];
 
-    console.log(response);
     for (var i = 0, l = categories.length; i < l; i++) {
       var name = categories[i]['name'];
 
@@ -90,26 +107,46 @@ $(document).ready( function() {
       menuContainer.append(li);
     }
 
+    // Create About page link
+    var aboutEl = $('<li><a class="nav-link about-link" href="">About</a></li>');
+    menuContainer.append(aboutEl);
+
+    $('.about-link').click(function(e) {
+      e.preventDefault();
+
+    });
 
     initPage();
   });
 
 });
 
+var colorScheme = function () {
+ if (DARK_COLOR_SCHEME == true) {
+    $("html, body, a, .story-link").addClass('dark');
+  }
+    else {
+      $("html, body, a, .story-link").removeClass('dark');
+      DARK_COLOR_SCHEME = false;
+    }
+};
+
+// Setting the preloadImage variable for background images
+var preloadImage = function (index, value) {
+  var name = $(this).data('bg-src');
+
+  var c = new Image();
+
+  c.onload = function(){
+      $("#Your Div ID").css("background-image", "url(" + name + ")");
+  }
+
+  c.src = name;
+}
 
 var initPage = function() {
 
-var screenWidth = $(window).width();
-
-  var colorScheme = function () {
-   if (DARK_COLOR_SCHEME == true) {
-      $("html, body, a, .story-link").addClass('dark');
-    }
-      else {
-        $("html, body, a, .story-link").removeClass('dark');
-        DARK_COLOR_SCHEME = false;
-      }
-  };
+  var screenWidth = $(window).width();
 
   // Fetch a random home background and set text based on color scheme
   $.ajax({
@@ -124,30 +161,12 @@ var screenWidth = $(window).width();
 
     colorScheme();
 
-
   });
-
-  // Setting the preloadImage variable for background images
-  var preloadImage = function (index, value) {
-     var name = $(this).data('bg-src');
-
-      var c = new Image();
-
-      c.onload = function(){
-          $("#Your Div ID").css("background-image", "url(" + name + ")");
-      }
-
-      c.src = name;
-  }
 
   // Performing the preloadImage function on each background
   // as a result of clicking on expand-link(s)
   $('.expand-link').each(preloadImage);
 
-  var whiteBackground = function () {
-    $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
-    WHITE_BACKGROUND = true;
-  }
 
 
   // Attach listeners to Vimeo thumbs.
@@ -600,3 +619,100 @@ var addGalleryThumbsListener = function() {
       $('.image-nav-icon .index').trigger("click");
     }
   });
+
+var whiteBackground = function () {
+  $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
+  WHITE_BACKGROUND = true;
+}
+
+var displayGallery = function() {
+    WHITE_BACKGROUND = true;
+    if (DARK_COLOR_SCHEME == true) {}
+      else {
+        DARK_COLOR_SCHEME = true;
+        colorScheme();
+      }
+    $('.content-container').removeClass('hidden');
+    whiteBackground();
+    $('.single-image-container').addClass('hidden');
+    $('.single-image-nav-container').addClass('hidden');
+}
+
+var fetchSecretGallery = function() {
+  // This is hardcoded for now... it's prolly fine like this
+  // But we'll wanna update it when we get things up on production
+  var galleryId = 9;
+
+
+  var galleryContainer = $('#mygallery');
+
+  // clear gallery container
+  galleryContainer.empty();
+
+  $.ajax({
+    url: "fetch-gallery/" + galleryId,
+  }).done(function(response) {
+    console.log(response)
+    var photos = response['photos'];
+    for (var i = 0, l = photos.length; i < l; i++) {
+      var photo = photos[i];
+      var src = photo['src'];
+      var description = photo['description'];
+      var title = photo['title'];
+// <a href="./img/full/2.jpg">
+//            <img alt="Title 2" src="./img/thumbs/thumbs_2.jpg"/>
+//          </a>
+
+      var a = $('<a href="' + src + '"></a>');
+      var img = $('<img src="' + src + '" alt="' + title + '" />');
+      a.data('story-text', description);
+      a.append(img);
+      galleryContainer.append(a);
+
+    }
+
+    // Applies the justified gallery plugin to the div with the mygallery ID
+    $("#mygallery").justifiedGallery({
+      rowHeight: 200,
+      lastRow: 'justify',
+      margins: 10,
+    });
+
+    addGalleryThumbsListener();
+  });
+
+}
+
+
+// HTML5 History
+var updateRoute = function(slug) {
+
+  // Checks if HTML5 History is supported
+  if (window.history && window.history.pushState) {
+
+    window.history.pushState(null, null, slug);
+
+  }
+  // If not, sorry!
+
+};
+
+// Routing on initial page load + add popstate listener
+
+// Checks if HTML5 History is supported
+if (window.history && window.history.pushState) {
+  var path = window.location.pathname;
+
+  window.addEventListener("popstate", function(e) {
+    console.log(window.location.pathname);
+  });
+
+}
+// If not, redirect to home landing.
+else {
+  window.location = '/';
+}
+
+
+
+

@@ -12,6 +12,15 @@ from random import randint
 import json
 
 
+def fetch_about(request):
+    about = AboutPage.objects.all()[0]
+    content = about.details
+
+    response_data = {
+        'content': content
+    }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
 def fetch_home_bg(request):
     imgs = HomeBackgroundImage.objects.all()
 

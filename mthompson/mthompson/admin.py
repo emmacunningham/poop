@@ -16,6 +16,7 @@ class SortableAdminMediaCollection(SortableAdmin):
 admin.site.register(Category, SortableAdminCategory)
 admin.site.register(MediaCollection, SortableAdminMediaCollection)
 admin.site.register(HomeBackgroundImage)
+admin.site.register(AboutPage)
 
 
 

@@ -54,7 +54,6 @@ class MediaCollection(Sortable):
 
 class HomeBackgroundImage(models.Model):
 
-
 	name = models.CharField(max_length=255, null=True, blank=True)
 	nav_appearance = models.CharField(max_length=255, null=True, blank=True, choices=NAV_APPEARARNCE_CHOICES, default="Light")
 	image = models.ImageField(upload_to='./home_bg', null=True, blank=True)
@@ -62,5 +61,8 @@ class HomeBackgroundImage(models.Model):
 	def __unicode__(self):
 		if self.name is not None:
 			return self.name
+
+class AboutPage(models.Model):
+	details = models.TextField(null=True, blank=True)
 
 
