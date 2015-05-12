@@ -641,7 +641,7 @@ var displayGallery = function() {
 var fetchSecretGallery = function() {
   // This is hardcoded for now... it's prolly fine like this
   // But we'll wanna update it when we get things up on production
-  var galleryId = 9;
+  var galleryId = 11;
 
 
   var galleryContainer = $('#mygallery');
