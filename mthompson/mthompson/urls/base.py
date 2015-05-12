@@ -13,7 +13,6 @@ urlpatterns = patterns('',
     (r'^img/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(settings.PROJECT_ROOT, 'assets/img')}),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(settings.PROJECT_ROOT, 'media')}),
 
-    url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
     url(r'^fetch-categories/', views.fetch_categories),
     url(r'^fetch-about/', views.fetch_about),
     url(r'^fetch-home-bg/', views.fetch_home_bg),
@@ -21,4 +20,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^fetch-gallery/(\w*)', views.fetch_gallery, name='gallery'),
     (r'^photologue/', include('photologue.urls', namespace='photologue')),
+    url(r'^', TemplateView.as_view(template_name='home.html'), name='home'),
+
 )

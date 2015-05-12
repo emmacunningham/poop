@@ -6,6 +6,7 @@ var DARK_SOCIAL_MEDIA_ICONS;
 var DARK_COLOR_SCHEME;
 var WHITE_BACKGROUND = false;
 var VIMEO_DATA;
+var CATEGORY_DATA = [];
 
 function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
@@ -52,6 +53,7 @@ $(document).ready( function() {
     // Create nav elements based on nav labels
     var menuContainer = $('.nav-menu');
     var categories = response['categories'];
+    CATEGORY_DATA = categories;
 
     for (var i = 0, l = categories.length; i < l; i++) {
       var name = categories[i]['name'];
@@ -117,6 +119,7 @@ $(document).ready( function() {
     });
 
     initPage();
+    initRouter();
   });
 
 });
@@ -174,10 +177,7 @@ var initPage = function() {
 
     $('.vimeo-thumb').mouseover(function(e) {
       $(this).find('.caption').addClass('active-video-caption');
-    });
-
-    $('.vimeo-thumb').mouseout(function(e) {
-      $(this).find('.caption').removeClass('active-video-caption');
+      $(this).find('.caption-text').addClass('video');
     });
 
     $('.vimeo-thumb').click(function(e) {
@@ -191,8 +191,10 @@ var initPage = function() {
   var updateJustifiedGallery = function() {
     $("#mygallery").justifiedGallery({
       rowHeight: 200,
+      maxRowHeight: 210,
       lastRow: 'justify',
       margins: 10,
+      refreshTime: 300,
       captionSettings: {
         animationDuration: 500,
         visibleOpacity: .8,
@@ -699,20 +701,34 @@ var updateRoute = function(slug) {
 
 // Routing on initial page load + add popstate listener
 
+
 // Checks if HTML5 History is supported
-if (window.history && window.history.pushState) {
-  var path = window.location.pathname;
+var initRouter = function() {
+  if (window.history && window.history.pushState) {
+    var path = window.location.pathname.split("/");
+    if (path[0] == "about") {
+      //show about page
+    }
+    else if (path.length == 1) {
+      var category = path[0];
+      for (var i = 0, l = CATEGORY_DATA.length; i < l; i++) {
+        var name = CATEGORY_DATA[i].name;
+        if (name == category) {
+          console.log(name);
+        }
+      }
+    }
 
-  window.addEventListener("popstate", function(e) {
-    console.log(window.location.pathname);
-  });
+    window.addEventListener("popstate", function(e) {
+      console.log(window.location.pathname);
+    });
 
-}
-// If not, redirect to home landing.
-else {
-  window.location = '/';
-}
-
+  }
+  // If not, redirect to home landing.
+  else {
+    window.location = '/';
+  }
+};
 
 
 
