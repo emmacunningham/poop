@@ -460,6 +460,44 @@ ul {
   position: relative;
 }
 
+.easter-trigger.left {
+  width: 40px;
+  height: 88px;
+  position: fixed;
+  background: red;
+  left: 0;
+  top: 70%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.easter-trigger.top {
+  width: 55px;
+  height: 45px;
+  position: fixed;
+  background: red;
+  left: 90%;
+  opacity: 0;
+}
+
+.easter-egg.top {
+  position: fixed;
+  left: 90%;
+  top: 0;
+  margin-left: -12px;
+  margin-top: -130px;
+  transition: all 0.5s ease-in-out;
+}
+
+.easter-egg.left {
+  position: fixed;
+  left: 0;
+  top: 70%;
+  margin-left: -112px;
+  z-index: 1;
+  transition: all 0.5s ease-in-out;
+}
+
 @media (max-width: 600px) {
 
   .sidebar-container {

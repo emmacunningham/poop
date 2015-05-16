@@ -643,7 +643,7 @@ var displayGallery = function() {
 var fetchSecretGallery = function() {
   // This is hardcoded for now... it's prolly fine like this
   // But we'll wanna update it when we get things up on production
-  var galleryId = 9;
+  var galleryId = 11;
 
 
   var galleryContainer = $('#mygallery');
@@ -729,6 +729,20 @@ var initRouter = function() {
     window.location = '/';
   }
 };
+
+// easter egg eventlisteners!
+
+$('.easter-trigger.top').mouseover(function() {
+  console.log('you hovered over it!');
+  $('.easter-trigger.top').css("margin-top", "-45px");
+  $('.easter-egg.top').css("margin-top", "0px");
+});
+
+$('.easter-trigger.left').mouseover(function() {
+  console.log('you hovered over it!');
+  $('.easter-trigger.left').css("margin-left", "-40px");
+  $('.easter-egg.left').css("margin-left", "0px");
+});
 
 
 
