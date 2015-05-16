@@ -7,6 +7,7 @@ var DARK_COLOR_SCHEME;
 var WHITE_BACKGROUND = false;
 var VIMEO_DATA;
 var CATEGORY_DATA = [];
+var galleryContainer;
 
 function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
@@ -203,25 +204,33 @@ var initPage = function() {
     });
   };
 
-  // Event listener for clicking on a portfolio link
-  // Removes hidden class on content-container
   // sets the bg img to white
   // changes type color to dark
-  // removes hidden class on portfolio story (right now)
-  $('.port-link').click(function(e) {
-    e.preventDefault();
+  var establishGalleryView = function() {
     WHITE_BACKGROUND = true;
     if (DARK_COLOR_SCHEME == true) {}
       else {
         DARK_COLOR_SCHEME = true;
         colorScheme();
       }
+  };
 
+  // clear gallery container
+  // and make sure any iframe movie stops playing
+  // by being REMOVED (src = '')
+  var clearGalleryContainer = function() {
     $('iframe').attr('src', '');
-    var galleryContainer = $('#mygallery');
-
-    // clear gallery container
+    galleryContainer = $('#mygallery');
     galleryContainer.empty();
+  };
+
+  // Event listener for clicking on a portfolio link
+  // Removes hidden class on content-container
+  // removes hidden class on portfolio story (right now)
+  $('.port-link').click(function(e) {
+    e.preventDefault();
+    establishGalleryView();
+    clearGalleryContainer();
 
     // add items to gallery container
     var galleryId = $(this).data('gallery-id');
@@ -307,11 +316,12 @@ var initPage = function() {
   // sets the text color appropriate based on which background image is used
   $('.expand-link').click(function(e) {
     e.preventDefault();
-    if (DARK_COLOR_SCHEME == true) {}
-      else {
-        DARK_COLOR_SCHEME = true;
-        colorScheme();
-      }
+    // I think I can just delete the following - the expand-links still work!
+    // if (DARK_COLOR_SCHEME == true) {}
+    //   else {
+    //     DARK_COLOR_SCHEME = true;
+    //     colorScheme();
+    //   }
     var self = this;
     var liCount = $(this).next().children().length;
     var liHeight = $('.subnav-container li').height();
