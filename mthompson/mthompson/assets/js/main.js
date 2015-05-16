@@ -733,16 +733,45 @@ var initRouter = function() {
 // easter egg eventlisteners!
 
 $('.easter-trigger.top').mouseover(function() {
-  console.log('you hovered over it!');
-  $('.easter-trigger.top').css("margin-top", "-45px");
+  // $('.easter-trigger.top').css("margin-top", "-45px");
   $('.easter-egg.top').css("margin-top", "0px");
 });
 
 $('.easter-trigger.left').mouseover(function() {
-  console.log('you hovered over it!');
+  // $('.easter-trigger.left').css("margin-left", "-40px");
+  $('.easter-egg.left').css("margin-left", "0px");
+});
+
+$('.easter-trigger.top').mouseout(function() {
+
+  setTimeout(function() {
+    $('.easter-trigger.top').css("margin-top", "0px")
+    $('.easter-egg.top').css("margin-top", "-130px");
+  }, 1500);
+
+});
+
+$('.easter-trigger.left').mouseout(function() {
+
+  setTimeout(function() {
+    $('.easter-trigger.left').css("margin-left", "0px");
+    $('.easter-egg.left').css("margin-left", "-112px");
+  }, 1500);
+
+});
+
+// easter egg listeners for mobile devices!
+
+$('.easter-trigger.top').click(function() {
+  $('.easter-trigger.top').css("margin-top", "-45px");
+  $('.easter-egg.top').css("margin-top", "0px");
+});
+
+$('.easter-trigger.left').click(function() {
   $('.easter-trigger.left').css("margin-left", "-40px");
   $('.easter-egg.left').css("margin-left", "0px");
 });
+
 
 
 
