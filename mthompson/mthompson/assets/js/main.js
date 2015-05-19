@@ -13,11 +13,17 @@ function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
 }
 
+function slugify(Text) {
+  return Text
+      .toLowerCase()
+      .replace(/ /g,'-')
+      .replace(/[^\w-]+/g,'')
+      ;
+}
+
 // On document load, selects one of three randcom images for the background
 // if BG1 is selected, sets the text to dark, if not, left at light text
 $(document).ready( function() {
-
-
   // Load navigation
   // Fetch the nav labels
   $.ajax({
@@ -41,7 +47,7 @@ $(document).ready( function() {
 
   // Load about page content
  $.ajax({
-    url: "fetch-about/",
+    url: "/fetch-about/",
   }).done(function(response) {
     console.log(response);
   });
@@ -49,7 +55,7 @@ $(document).ready( function() {
   // Load navigation
   // Fetch the nav labels
   $.ajax({
-    url: "fetch-categories/",
+    url: "/fetch-categories/",
   }).done(function(response) {
     // Create nav elements based on nav labels
     var menuContainer = $('.nav-menu');
@@ -154,7 +160,7 @@ var initPage = function() {
 
   // Fetch a random home background and set text based on color scheme
   $.ajax({
-    url: "fetch-home-bg/",
+    url: "/fetch-home-bg/",
   }).done(function(response) {
 
     DARK_COLOR_SCHEME = response['is_dark_color_scheme'];
@@ -263,7 +269,7 @@ var initPage = function() {
       $('.curl').removeClass('hidden');
       galleryContainer.data('gallery-type', 'image');
       $.ajax({
-        url: "fetch-gallery/" + galleryId,
+        url: "/fetch-gallery/" + galleryId,
       }).done(function(response) {
         var photos = response['photos'];
         for (var i = 0, l = photos.length; i < l; i++) {
@@ -271,12 +277,14 @@ var initPage = function() {
           var src = photo['src'];
           var description = photo['description'];
           var title = photo['title'];
+          var id = photo['id'];
 
           var a = $('<a href="' + src + '"></a>');
           var img = $('<img src="' + src + '" alt="' + title + '" />');
           var caption = $('<div class="caption"><span class="caption-text">' +
             title + '</span></div>');
           a.data('story-text', description);
+          a.data('thumb-id', id);
           a.append(img);
           a.append(caption);
           galleryContainer.append(a);
@@ -326,6 +334,8 @@ var initPage = function() {
     var liCount = $(this).next().children().length;
     var liHeight = $('.subnav-container li').height();
     var curSubnav = $(self).next();
+
+
 
     // Reset all the subnavs except the one that was clicked
     // keep those subnavs looking good
@@ -662,7 +672,7 @@ var fetchSecretGallery = function() {
   galleryContainer.empty();
 
   $.ajax({
-    url: "fetch-gallery/" + galleryId,
+    url: "/fetch-gallery/" + galleryId,
   }).done(function(response) {
     console.log(response)
     var photos = response['photos'];
@@ -714,17 +724,68 @@ var updateRoute = function(slug) {
 
 // Checks if HTML5 History is supported
 var initRouter = function() {
+
   if (window.history && window.history.pushState) {
     var path = window.location.pathname.split("/");
-    if (path[0] == "about") {
-      //show about page
+    var params = window.location.search;
+    var media_id;
+    if (!!params) {
+      media_id = params.split("=")[1];
     }
-    else if (path.length == 1) {
-      var category = path[0];
-      for (var i = 0, l = CATEGORY_DATA.length; i < l; i++) {
-        var name = CATEGORY_DATA[i].name;
-        if (name == category) {
-          console.log(name);
+    // console.log(media_id);
+
+    if (path.length == 2) {
+      var nav_link_name = path[1];
+      var nav_links = $('.nav-link');
+      for (var i = 0, l = nav_links.length; i < l; i++) {
+        var nav_link_label = ($(nav_links[i]).text());
+        if (slugify(nav_link_name) == slugify(nav_link_label)) {
+          $(nav_links[i]).trigger('click');
+
+          setTimeout(function() {
+            if (!!media_id) {
+              var media_links = $('#mygallery a');
+              console.log(media_links);
+              for (var j = 0, m = media_links.length; j < m; j++) {
+                var thumb_id =($(media_links[j]).data('thumb-id'));
+                if (thumb_id == media_id) {
+                  $(media_links[j]).trigger('click');
+                }
+              }
+            }
+          }, 1000);
+
+        }
+      }
+    }
+    else if (path.length == 3) {
+      var nav_link_name = path[1];
+      var nav_links = $('.nav-link');
+      for (var i = 0, l = nav_links.length; i < l; i++) {
+        var nav_link_label = ($(nav_links[i]).text());
+        if (slugify(nav_link_name) == slugify(nav_link_label)) {
+          var gallery_link_name = path[2];
+          var gallery_links = $(nav_links[i]).next().find('.port-link')
+          for (var i = 0, l = gallery_links.length; i < l; i++) {
+            var gallery_link_label = ($(gallery_links[i]).text());
+            if (slugify(gallery_link_name) == slugify(gallery_link_label)) {
+              $(gallery_links[i]).trigger('click');
+
+            setTimeout(function() {
+            if (!!media_id) {
+              var media_links = $('#mygallery a');
+              console.log(media_links);
+              for (var j = 0, m = media_links.length; j < m; j++) {
+                var thumb_id =($(media_links[j]).data('thumb-id'));
+                if (thumb_id == media_id) {
+                  $(media_links[j]).trigger('click');
+                }
+              }
+            }
+          }, 1000);
+
+            }
+          }
         }
       }
     }

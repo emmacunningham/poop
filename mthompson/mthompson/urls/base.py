@@ -20,6 +20,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^fetch-gallery/(\w*)', views.fetch_gallery, name='gallery'),
     (r'^photologue/', include('photologue.urls', namespace='photologue')),
-    url(r'^', TemplateView.as_view(template_name='home.html'), name='home'),
+    url(r'^.*', TemplateView.as_view(template_name='home.html'), name='home'),
 
 )

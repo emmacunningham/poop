@@ -13,6 +13,7 @@ import json
 
 
 def fetch_about(request):
+    print('about')
     about = AboutPage.objects.all()[0]
     content = about.details
 
@@ -51,7 +52,8 @@ def fetch_gallery(request, id):
         p = {
             'title': photo.title,
             'description': photo.caption,
-            'src': src
+            'src': src,
+            'id': photo.pk
         }
         photos.append(p)
 
