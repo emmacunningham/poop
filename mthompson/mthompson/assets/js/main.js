@@ -147,9 +147,10 @@ var preloadImage = function (index, value) {
 
   var c = new Image();
 
-  c.onload = function(){
-      $("#Your Div ID").css("background-image", "url(" + name + ")");
-  }
+  // WTF is this doing in the code? Does it serve any purpose? I can't seem to prove it does anything
+  // c.onload = function(){
+  //     $("#Your Div ID").css("background-image", "url(" + name + ")");
+  // }
 
   c.src = name;
 }
@@ -157,27 +158,26 @@ var preloadImage = function (index, value) {
 var initPage = function() {
 
   var screenWidth = $(window).width();
+  if (window.location.pathname == "/" ) {
+    // Fetch a random home background and set text based on color scheme
+    $.ajax({
+      url: "/fetch-home-bg/",
+    }).done(function(response) {
 
-  // Fetch a random home background and set text based on color scheme
-  $.ajax({
-    url: "/fetch-home-bg/",
-  }).done(function(response) {
+      DARK_COLOR_SCHEME = response['is_dark_color_scheme'];
 
-    DARK_COLOR_SCHEME = response['is_dark_color_scheme'];
+      $(".homepage-container").css({
+         'background-image': "url('" + response['img_url'] + "')"
+      })
 
-    $(".homepage-container").css({
-       'background-image': "url('" + response['img_url'] + "')"
-    })
+      colorScheme();
 
-    colorScheme();
-
-  });
+    });
+  }
 
   // Performing the preloadImage function on each background
   // as a result of clicking on expand-link(s)
   $('.expand-link').each(preloadImage);
-
-
 
   // Attach listeners to Vimeo thumbs.
   var addVimeoThumbListeners = function() {
