@@ -237,6 +237,17 @@ var initPage = function() {
     e.preventDefault();
     establishGalleryView();
     clearGalleryContainer();
+    if ($(this).hasClass('sub-link')) {
+      updateRoute('/');
+      var category = slugify($(this).parent().parent().prev().text());
+      var gallery = slugify($(this).text());
+      updateRoute(category + '/' + gallery)
+    }
+    else {
+      updateRoute('/');
+      var clickPath = $(this).text();
+      updateRoute(slugify(clickPath));
+    }
 
     // add items to gallery container
     var galleryId = $(this).data('gallery-id');
@@ -314,6 +325,7 @@ var initPage = function() {
     $('.port-story').addClass('hidden');
   });
 
+
   // Event listener for clicking on the expand-link anchors
   // Counts up the number of li's in each ul
   // calculates height of one li
@@ -334,6 +346,9 @@ var initPage = function() {
     var liCount = $(this).next().children().length;
     var liHeight = $('.subnav-container li').height();
     var curSubnav = $(self).next();
+    updateRoute('/');
+    var clickPath = $(this).text();
+    updateRoute(slugify(clickPath));
 
 
 
@@ -598,8 +613,11 @@ var addGalleryThumbsListener = function() {
 
     if ($(self).hasClass('vimeo-thumb')) {
       $('#image-full').hide();
+      var currentUrl = window.location.pathname;
+      updateRoute('/');
       var id = $(self).data('video-id');
       var url = '//player.vimeo.com/video/' + id;
+      updateRoute(currentUrl + '?id=' + id);
       updateVideoSrc(url);
       $('#vimeo-full').show();
       $(".vimeo-wrapper").show();
@@ -611,6 +629,10 @@ var addGalleryThumbsListener = function() {
       var imageUrl = $(this).attr('href');
       updateImageSrc(imageUrl);
       $('#image-full').show();
+      var imageSlug = $(this).data('thumb-id');
+      var currentUrl = window.location.pathname;
+      updateRoute('/');
+      updateRoute(currentUrl + '?id=' + imageSlug);
 
       var imgAlt = ($(this).find('img').attr('alt'));
       $('#single-image-story-text').html(imgAlt);
