@@ -265,6 +265,7 @@ var initPage = function() {
         var caption = $('<div class="caption"><span class="caption-text">' +
             title + '</span></div>');
         a.data('video-id', VIMEO_DATA[i]['id']);
+        a.data('thumb-id', VIMEO_DATA[i]['id']);
         a.append(img);
         a.append(caption);
         galleryContainer.append(a);
