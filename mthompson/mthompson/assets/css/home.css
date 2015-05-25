@@ -22,6 +22,7 @@ body.dark {
 
 h1 {
   margin: 0;
+  -webkit-margin: 0;
   font-size: 23px;
   font-family: adam;
 }
@@ -80,7 +81,7 @@ ul {
 .sidebar-container {
   position: fixed;
   display: inline-block;
-  width: 246px;
+  width: 260px;
   vertical-align: top;
   height: 100%;
   padding: 40px 15px 26px;
@@ -105,6 +106,7 @@ ul {
 
 .social-media-icon {
   display: inline-flex;
+  display: -webkit-inline-flex;
   margin-left: 11px;
   height: 26px
 }
