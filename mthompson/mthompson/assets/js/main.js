@@ -417,14 +417,25 @@ var initPage = function() {
     var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
 
     if ($('#mygallery').data('gallery-type') == 'video') {
-      var id = $(nextEl).data('video-id');
-      var url = '//player.vimeo.com/video/' + id;
+      var videoId = $(nextEl).data('video-id');
+      var url = '//player.vimeo.com/video/' + videoId;
       updateVideoSrc(url);
+
+      var imageSlug = $(nextEl).data('video-id');
+      var currentUrl = window.location.pathname;
+      updateRoute('/');
+      updateRoute(currentUrl + '?id=' + imageSlug);
+
     }
     else {
       var imageUrl = $(nextEl).attr('href');
       updateImageSrc(imageUrl);
       resetImageStoryMode();
+
+      var imageSlug = $(nextEl).data('thumb-id');
+      var currentUrl = window.location.pathname;
+      updateRoute('/');
+      updateRoute(currentUrl + '?id=' + imageSlug);
 
       var imgAlt = ($(nextEl).find('img').attr('alt'));
       $('#single-image-story-text').html(imgAlt);
@@ -455,11 +466,21 @@ var initPage = function() {
       var id = $(prevEl).data('video-id');
       var url = '//player.vimeo.com/video/' + id;
       updateVideoSrc(url);
+
+      var imageSlug = $(prevEl).data('video-id');
+      var currentUrl = window.location.pathname;
+      updateRoute('/');
+      updateRoute(currentUrl + '?id=' + imageSlug);
     }
     else {
       var imageUrl = $(prevEl).attr('href');
       updateImageSrc(imageUrl);
       resetImageStoryMode();
+
+      var imageSlug = $(prevEl).data('thumb-id');
+      var currentUrl = window.location.pathname;
+      updateRoute('/');
+      updateRoute(currentUrl + '?id=' + imageSlug);
 
       var imgAlt = ($(prevEl).find('img').attr('alt'));
       $('#single-image-story-text').html(imgAlt);
@@ -480,6 +501,10 @@ var initPage = function() {
     $('.single-image-nav-container').addClass('hidden');
     $('#mygallery').toggleClass('hidden');
     $('iframe').attr('src', '');
+
+    var currentUrl = window.location.pathname;
+    updateRoute('/');
+    updateRoute(currentUrl);
   });
 
   var toggleImageStoryMode = function() {
@@ -528,11 +553,14 @@ var initPage = function() {
     var self = this;
     var curStory = self;
     $('.content-container').removeClass('hidden');
-    $('.homepage-container').css('background-image', 'url(./img/bgs/white.jpg)');
+    // $('.homepage-container').css('background-image', 'url(.img/bgs/white.jpg)');
     $('.story-link').addClass('dark');
     $('html, body, a').css({'color': '#333'});
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
+    var associatedGallery = $(this).prev();
+    // console.log(associatedGallery);
+    associatedGallery.trigger("click");
 
     if ($('.story-link.active').length > 0) {
       if ($('.story-link.active')[0] == $(this)[0]) {
@@ -814,7 +842,9 @@ var initRouter = function() {
     }
 
     window.addEventListener("popstate", function(e) {
-      console.log(window.location.pathname);
+      console.log('poop')
+
+      //console.log(window.location.pathname);
     });
 
   }
