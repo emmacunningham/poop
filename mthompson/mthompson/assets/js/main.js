@@ -221,6 +221,7 @@ var clearGalleryContainer = function() {
 var showAbout = function() {
   DARK_COLOR_SCHEME = false;
   colorScheme();
+  WHITE_BACKGROUND = false;
   $('.homepage-container').css({
   'background-image': "url(/img/bgs/about_bg.jpg)"
   });
@@ -267,7 +268,6 @@ var showNav = function(target) {
    if (WHITE_BACKGROUND == true || screenWidth <= 600) {}
     else {
     var name = $(target).data('bg-src');
-
 
     $('.homepage-container').css({
     'background-image': "url('" + name + "')"
