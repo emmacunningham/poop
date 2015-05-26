@@ -135,17 +135,11 @@ $(document).ready( function() {
 
 });
 
-var showAbout = function() {
-  DARK_COLOR_SCHEME = false;
-  colorScheme();
-  $('.homepage-container').css({
-  'background-image': "url(/img/bgs/about_bg.jpg)"
-  });
-  $('.about-container').removeClass('hidden');
-};
 
 var showMedia = function(elm) {
   var self = this;
+
+  $('.about-container').addClass('hidden');
 
   GALLERY_COUNT = ($("#mygallery a").length - 1);
   $('#mygallery a').each(function(i, el) {
@@ -214,11 +208,33 @@ var preloadImage = function (index, value) {
   c.src = name;
 }
 
+// clear gallery container
+// and make sure any iframe movie stops playing
+// by being REMOVED (src = '')
+var clearGalleryContainer = function() {
+  $('iframe').attr('src', '');
+  galleryContainer = $('#mygallery');
+  galleryContainer.empty();
+};
+
+
+var showAbout = function() {
+  DARK_COLOR_SCHEME = false;
+  colorScheme();
+  $('.homepage-container').css({
+  'background-image': "url(/img/bgs/about_bg.jpg)"
+  });
+  $('.about-container').removeClass('hidden');
+  clearGalleryContainer();
+};
+
 var showNav = function(target) {
   var self = $(target);
   var liCount = $(target).next().children().length;
   var liHeight = $('.subnav-container li').height();
   var curSubnav = $(target).next();
+
+  $('.about-container').addClass('hidden');
   // var clickPath = $(target).text();
 
 
@@ -334,19 +350,13 @@ var initPage = function() {
       }
   };
 
-  // clear gallery container
-  // and make sure any iframe movie stops playing
-  // by being REMOVED (src = '')
-  var clearGalleryContainer = function() {
-    $('iframe').attr('src', '');
-    galleryContainer = $('#mygallery');
-    galleryContainer.empty();
-  };
 
   var showGallery = function(elm) {
   // add items to gallery container
     var galleryId = $(elm).data('gallery-id');
     var galleryType = $(elm).data('gallery-type');
+
+    $('.about-container').addClass('hidden');
 
     if (galleryType == 'video') {
       $('.curl').addClass('hidden');
