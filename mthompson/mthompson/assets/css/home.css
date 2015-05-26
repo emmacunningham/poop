@@ -78,6 +78,14 @@ ul {
   font-size: 18px;
 }
 
+.open-sans-light {
+  font-weight: 300;
+  font-size: 18px;
+  text-align: center;
+  padding: 80px 40px;
+  margin: 0 auto;
+}
+
 .sidebar-container {
   position: fixed;
   display: inline-block;
@@ -199,6 +207,19 @@ ul {
 .social-media-email a {
   font-weight: 400;
   font-size: 12px;
+}
+
+.about-container {
+  opacity: 1;
+  position: absolute;
+  background: transparent;
+  display: inline-block;
+  width: calc(100% - 246px);
+  margin-left: 246px;
+  height: 100%;
+  vertical-align: top;
+  overflow: hidden;
+  transition: opacity 0.5s;
 }
 
 .content-container {

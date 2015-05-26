@@ -21,6 +21,8 @@ function slugify(Text) {
       ;
 }
 
+var screenWidth = $(window).width();
+
 // On document load, selects one of three randcom images for the background
 // if BG1 is selected, sets the text to dark, if not, left at light text
 $(document).ready( function() {
@@ -50,6 +52,7 @@ $(document).ready( function() {
     url: "/fetch-about/",
   }).done(function(response) {
     console.log(response);
+    $('.about-text').text(response['content']);
   });
 
   // Load navigation
@@ -122,7 +125,8 @@ $(document).ready( function() {
 
     $('.about-link').click(function(e) {
       e.preventDefault();
-
+      showAbout();
+      updateRoute('/about');
     });
 
     initPage();
@@ -130,6 +134,61 @@ $(document).ready( function() {
   });
 
 });
+
+var showAbout = function() {
+  DARK_COLOR_SCHEME = false;
+  colorScheme();
+  $('.homepage-container').css({
+  'background-image': "url(/img/bgs/about_bg.jpg)"
+  });
+  $('.about-container').removeClass('hidden');
+};
+
+var showMedia = function(elm) {
+  var self = this;
+
+  GALLERY_COUNT = ($("#mygallery a").length - 1);
+  $('#mygallery a').each(function(i, el) {
+    if (el == self) {
+      CUR_GALLERY_INDEX = i;
+    }
+  });
+
+  $('#mygallery').toggleClass('hidden');
+  $('.single-image-container').toggleClass('hidden');
+  $('.port-story').addClass('hidden');
+  $('.single-image-nav-container').removeClass('hidden');
+
+    if ($(elm).hasClass('vimeo-thumb')) {
+      $('#image-full').hide();
+      var currentUrl = window.location.pathname;
+      var id = $(elm).data('video-id');
+      var url = '//player.vimeo.com/video/' + id;
+      updateRoute(currentUrl + '?id=' + id);
+      updateVideoSrc(url);
+      $('#vimeo-full').show();
+      $(".vimeo-wrapper").show();
+      $(".vimeo-wrapper").fitVids();
+    }
+    else {
+      $('#vimeo-full').hide();
+      $('.vimeo-wrapper').hide();
+      var imageUrl = $(elm).attr('href');
+      updateImageSrc(imageUrl);
+      $('#image-full').show();
+      var imageSlug = $(elm).data('thumb-id');
+      var currentUrl = window.location.pathname;
+      //updateRoute('/');
+      updateRoute(currentUrl + '?id=' + imageSlug);
+
+      var imgAlt = ($(elm).find('img').attr('alt'));
+      $('#single-image-story-text').html(imgAlt);
+      var storyText = ($(elm).data('story-text'));
+      if (storyText.length > 0) {
+        $('#single-image-story-text').append(' - ' + storyText);
+     }
+    }
+};
 
 var colorScheme = function () {
  if (DARK_COLOR_SCHEME == true) {
@@ -155,9 +214,63 @@ var preloadImage = function (index, value) {
   c.src = name;
 }
 
+var showNav = function(target) {
+  var self = $(target);
+  var liCount = $(target).next().children().length;
+  var liHeight = $('.subnav-container li').height();
+  var curSubnav = $(target).next();
+  // var clickPath = $(target).text();
+
+
+  var resetAllButClicked = function(index, elm) {
+    if ((self)[0] == (elm)) {
+      curSubnav.toggleClass('active');
+    }
+      else {
+        $(elm).next().removeClass('active');
+        $(elm).next().css({
+          'max-height' : '0'
+          });
+      }
+  };
+
+  $('.expand-link').each(resetAllButClicked);
+
+  if (curSubnav.hasClass('active')) {
+    $('.subnav-container.active').css({
+    'max-height' : liCount * liHeight
+    });
+  }
+  else {
+    curSubnav.css({
+      'max-height' : '0'
+      });
+  }
+
+  // Change the background image and typeface color on menu click!
+   if (WHITE_BACKGROUND == true || screenWidth <= 600) {}
+    else {
+    var name = $(target).data('bg-src');
+
+
+    $('.homepage-container').css({
+    'background-image': "url('" + name + "')"
+    });
+
+    DARK_COLOR_SCHEME = false;
+    if ($(target).data('nav-appearance') == 'dark') {
+      DARK_COLOR_SCHEME = true;
+    }
+    colorScheme();
+
+    var homepageBackgroundUrl = $(".homepage-container").css("background-image");
+
+  }
+};
+
 var initPage = function() {
 
-  var screenWidth = $(window).width();
+
   if (window.location.pathname == "/" ) {
     // Fetch a random home background and set text based on color scheme
     $.ajax({
@@ -230,28 +343,10 @@ var initPage = function() {
     galleryContainer.empty();
   };
 
-  // Event listener for clicking on a portfolio link
-  // Removes hidden class on content-container
-  // removes hidden class on portfolio story (right now)
-  $('.port-link').click(function(e) {
-    e.preventDefault();
-    establishGalleryView();
-    clearGalleryContainer();
-    if ($(this).hasClass('sub-link')) {
-      updateRoute('/');
-      var category = slugify($(this).parent().parent().prev().text());
-      var gallery = slugify($(this).text());
-      updateRoute(category + '/' + gallery)
-    }
-    else {
-      updateRoute('/');
-      var clickPath = $(this).text();
-      updateRoute(slugify(clickPath));
-    }
-
-    // add items to gallery container
-    var galleryId = $(this).data('gallery-id');
-    var galleryType = $(this).data('gallery-type');
+  var showGallery = function(elm) {
+  // add items to gallery container
+    var galleryId = $(elm).data('gallery-id');
+    var galleryType = $(elm).data('gallery-type');
 
     if (galleryType == 'video') {
       $('.curl').addClass('hidden');
@@ -307,16 +402,34 @@ var initPage = function() {
         updateJustifiedGallery();
         addGalleryThumbsListener();
       });
-
     }
-
-
-
 
     $('.content-container').removeClass('hidden');
     whiteBackground();
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
+  };
+
+  // Event listener for clicking on a portfolio link
+  // Removes hidden class on content-container
+  // removes hidden class on portfolio story (right now)
+  $('.port-link').click(function(e) {
+    e.preventDefault();
+    establishGalleryView();
+    clearGalleryContainer();
+    showGallery($(this));
+
+    // If clicked link is under subnav
+    if ($(this).hasClass('sub-link')) {
+      var category = slugify($(this).parent().parent().prev().text());
+      var gallery = slugify($(this).text());
+      updateRoute('/' + category + '/' + gallery)
+    }
+    // If clicked link is top-level nav
+    else {
+        var clickPath = $(this).text();
+        updateRoute('/' + slugify(clickPath));
+    }
   });
 
   // Event listener for clicking the portfolio close 'x'
@@ -325,6 +438,7 @@ var initPage = function() {
     e.preventDefault();
     $('.port-story').addClass('hidden');
   });
+
 
 
   // Event listener for clicking on the expand-link anchors
@@ -337,68 +451,9 @@ var initPage = function() {
   // sets the text color appropriate based on which background image is used
   $('.expand-link').click(function(e) {
     e.preventDefault();
-    // I think I can just delete the following - the expand-links still work!
-    // if (DARK_COLOR_SCHEME == true) {}
-    //   else {
-    //     DARK_COLOR_SCHEME = true;
-    //     colorScheme();
-    //   }
-    var self = this;
-    var liCount = $(this).next().children().length;
-    var liHeight = $('.subnav-container li').height();
-    var curSubnav = $(self).next();
-    updateRoute('/');
+    showNav($(this));
     var clickPath = $(this).text();
-    updateRoute(slugify(clickPath));
-
-
-
-    // Reset all the subnavs except the one that was clicked
-    // keep those subnavs looking good
-    var resetAllButClicked = function(index, elm) {
-      if ((self) == (elm)) {
-        curSubnav.toggleClass('active');
-      }
-        else {
-          $(elm).next().removeClass('active');
-           $(elm).next().css({
-            'max-height' : '0'
-            });
-        }
-    };
-
-    $('.expand-link').each(resetAllButClicked);
-
-    if (curSubnav.hasClass('active')) {
-      $('.subnav-container.active').css({
-      'max-height' : liCount * liHeight
-      });
-    }
-    else {
-      curSubnav.css({
-        'max-height' : '0'
-        });
-    }
-
-    // Change the background image and typeface color on menu click!
-     if (WHITE_BACKGROUND == true || screenWidth <= 600) {}
-      else {
-      var name = $(this).data('bg-src');
-
-
-      $('.homepage-container').css({
-      'background-image': "url('" + name + "')"
-      });
-
-      DARK_COLOR_SCHEME = false;
-      if ($(this).data('nav-appearance') == 'dark') {
-        DARK_COLOR_SCHEME = true;
-      }
-      colorScheme();
-
-      var homepageBackgroundUrl = $(".homepage-container").css("background-image");
-
-    }
+    updateRoute('/' + slugify(clickPath));
   });
 
 
@@ -423,7 +478,7 @@ var initPage = function() {
 
       var imageSlug = $(nextEl).data('video-id');
       var currentUrl = window.location.pathname;
-      updateRoute('/');
+      //updateRoute('/');
       updateRoute(currentUrl + '?id=' + imageSlug);
 
     }
@@ -434,7 +489,7 @@ var initPage = function() {
 
       var imageSlug = $(nextEl).data('thumb-id');
       var currentUrl = window.location.pathname;
-      updateRoute('/');
+      //updateRoute('/');
       updateRoute(currentUrl + '?id=' + imageSlug);
 
       var imgAlt = ($(nextEl).find('img').attr('alt'));
@@ -469,7 +524,7 @@ var initPage = function() {
 
       var imageSlug = $(prevEl).data('video-id');
       var currentUrl = window.location.pathname;
-      updateRoute('/');
+      //updateRoute('/');
       updateRoute(currentUrl + '?id=' + imageSlug);
     }
     else {
@@ -479,7 +534,7 @@ var initPage = function() {
 
       var imageSlug = $(prevEl).data('thumb-id');
       var currentUrl = window.location.pathname;
-      updateRoute('/');
+      //updateRoute('/');
       updateRoute(currentUrl + '?id=' + imageSlug);
 
       var imgAlt = ($(prevEl).find('img').attr('alt'));
@@ -503,7 +558,7 @@ var initPage = function() {
     $('iframe').attr('src', '');
 
     var currentUrl = window.location.pathname;
-    updateRoute('/');
+    //updateRoute('/');
     updateRoute(currentUrl);
   });
 
@@ -623,54 +678,56 @@ var updateVideoSrc = function(str) {
 // closes the portfolio story div (if open)
 // reveals the single-img-nav-container
 
+// var showMedia = function(elm) {
+//   var self = this;
+
+//   GALLERY_COUNT = ($("#mygallery a").length - 1);
+//   $('#mygallery a').each(function(i, el) {
+//     if (el == self) {
+//       CUR_GALLERY_INDEX = i;
+//     }
+//   });
+
+//   $('#mygallery').toggleClass('hidden');
+//   $('.single-image-container').toggleClass('hidden');
+//   $('.port-story').addClass('hidden');
+//   $('.single-image-nav-container').removeClass('hidden');
+
+//     if ($(elm).hasClass('vimeo-thumb')) {
+//       $('#image-full').hide();
+//       var currentUrl = window.location.pathname;
+//       var id = $(elm).data('video-id');
+//       var url = '//player.vimeo.com/video/' + id;
+//       updateRoute(currentUrl + '?id=' + id);
+//       updateVideoSrc(url);
+//       $('#vimeo-full').show();
+//       $(".vimeo-wrapper").show();
+//       $(".vimeo-wrapper").fitVids();
+//     }
+//     else {
+//       $('#vimeo-full').hide();
+//       $('.vimeo-wrapper').hide();
+//       var imageUrl = $(elm).attr('href');
+//       updateImageSrc(imageUrl);
+//       $('#image-full').show();
+//       var imageSlug = $(elm).data('thumb-id');
+//       var currentUrl = window.location.pathname;
+//       //updateRoute('/');
+//       updateRoute(currentUrl + '?id=' + imageSlug);
+
+//       var imgAlt = ($(elm).find('img').attr('alt'));
+//       $('#single-image-story-text').html(imgAlt);
+//       var storyText = ($(elm).data('story-text'));
+//       if (storyText.length > 0) {
+//         $('#single-image-story-text').append(' - ' + storyText);
+//      }
+//     }
+// };
+
 var addGalleryThumbsListener = function() {
   $('#mygallery a').click(function(e) {
     e.preventDefault();
-    var self = this;
-
-    GALLERY_COUNT = ($("#mygallery a").length - 1);
-    $('#mygallery a').each(function(i, el) {
-      if (el == self) {
-        CUR_GALLERY_INDEX = i;
-      }
-    });
-
-    $('#mygallery').toggleClass('hidden');
-    $('.single-image-container').toggleClass('hidden');
-    $('.port-story').addClass('hidden');
-    $('.single-image-nav-container').removeClass('hidden');
-
-    if ($(self).hasClass('vimeo-thumb')) {
-      $('#image-full').hide();
-      var currentUrl = window.location.pathname;
-      updateRoute('/');
-      var id = $(self).data('video-id');
-      var url = '//player.vimeo.com/video/' + id;
-      updateRoute(currentUrl + '?id=' + id);
-      updateVideoSrc(url);
-      $('#vimeo-full').show();
-      $(".vimeo-wrapper").show();
-      $(".vimeo-wrapper").fitVids();
-    }
-    else {
-      $('#vimeo-full').hide();
-      $('.vimeo-wrapper').hide();
-      var imageUrl = $(this).attr('href');
-      updateImageSrc(imageUrl);
-      $('#image-full').show();
-      var imageSlug = $(this).data('thumb-id');
-      var currentUrl = window.location.pathname;
-      updateRoute('/');
-      updateRoute(currentUrl + '?id=' + imageSlug);
-
-      var imgAlt = ($(this).find('img').attr('alt'));
-      $('#single-image-story-text').html(imgAlt);
-      var storyText = ($(this).data('story-text'));
-      if (storyText.length > 0) {
-        $('#single-image-story-text').append(' - ' + storyText);
-     }
-    }
-
+    showMedia($(this));
     });
   };
 
@@ -785,7 +842,82 @@ var initRouter = function() {
     }
     // console.log(media_id);
 
-    if (path.length == 2) {
+    if (path[1] == 'about') {
+      showAbout();
+    }
+
+    else if (path.length == 2) {
+      var nav_link_name = path[1];
+      var nav_links = $('.nav-link');
+      for (var i = 0, l = nav_links.length; i < l; i++) {
+        var nav_link_label = ($(nav_links[i]).text());
+        if (slugify(nav_link_name) == slugify(nav_link_label)) {
+          // $(nav_links[i]).trigger('click');
+          showNav($(nav_links[i]));
+
+          setTimeout(function() {
+            if (!!media_id) {
+              var media_links = $('#mygallery a');
+              console.log(media_links);
+              for (var j = 0, m = media_links.length; j < m; j++) {
+                var thumb_id =($(media_links[j]).data('thumb-id'));
+                if (thumb_id == media_id) {
+                  $(media_links[j]).trigger('click');
+                }
+              }
+            }
+          }, 1000);
+
+        }
+      }
+    }
+    else if (path.length == 3) {
+      var nav_link_name = path[1];
+      var nav_links = $('.nav-link');
+      for (var i = 0, l = nav_links.length; i < l; i++) {
+        var nav_link_label = ($(nav_links[i]).text());
+        if (slugify(nav_link_name) == slugify(nav_link_label)) {
+          var gallery_link_name = path[2];
+          var gallery_links = $(nav_links[i]).next().find('.port-link')
+          for (var i = 0, l = gallery_links.length; i < l; i++) {
+            var gallery_link_label = ($(gallery_links[i]).text());
+            if (slugify(gallery_link_name) == slugify(gallery_link_label)) {
+              showGallery($(gallery_links[i]));
+              // $(gallery_links[i]).trigger('click');
+
+            setTimeout(function() {
+            if (!!media_id) {
+              var media_links = $('#mygallery a');
+              console.log(media_links);
+              for (var j = 0, m = media_links.length; j < m; j++) {
+                var thumb_id =($(media_links[j]).data('thumb-id'));
+                if (thumb_id == media_id) {
+                  $(media_links[j]).trigger('click');
+                }
+              }
+            }
+          }, 1000);
+
+            }
+          }
+        }
+      }
+    }
+
+    window.addEventListener("popstate", function(e) {
+    var path = window.location.pathname.split("/");
+    var params = window.location.search;
+    var media_id;
+    if (!!params) {
+      media_id = params.split("=")[1];
+    }
+    // console.log(media_id);
+
+    if (path[1] == 'about') {
+      $('.about-link').trigger('click');
+    }
+
+    else if (path.length == 2) {
       var nav_link_name = path[1];
       var nav_links = $('.nav-link');
       for (var i = 0, l = nav_links.length; i < l; i++) {
@@ -840,11 +972,6 @@ var initRouter = function() {
         }
       }
     }
-
-    window.addEventListener("popstate", function(e) {
-      console.log('poop')
-
-      //console.log(window.location.pathname);
     });
 
   }
