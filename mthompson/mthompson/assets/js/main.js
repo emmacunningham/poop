@@ -32,7 +32,6 @@ $(document).ready( function() {
     url: "https://vimeo.com/api/v2/user3589164/videos.json",
   }).done(function(response) {
     VIMEO_DATA = response;
-    console.log(VIMEO_DATA);
   });
 
   /* Using more recent vimeo API - wip etc
@@ -51,7 +50,6 @@ $(document).ready( function() {
  $.ajax({
     url: "/fetch-about/",
   }).done(function(response) {
-    console.log(response);
     $('.about-text').text(response['content']);
   });
 
@@ -135,6 +133,110 @@ $(document).ready( function() {
 
 });
 
+var updateJustifiedGallery = function() {
+  $("#mygallery").justifiedGallery({
+    rowHeight: 200,
+    maxRowHeight: 210,
+    lastRow: 'justify',
+    margins: 10,
+    refreshTime: 300,
+    captionSettings: {
+      animationDuration: 500,
+      visibleOpacity: .8,
+      nonVisibleOpacity: 0.0
+    }
+  });
+};
+
+var showGallery = function(elm) {
+  // add items to gallery container
+    var galleryId = $(elm).data('gallery-id');
+    var galleryType = $(elm).data('gallery-type');
+    var galleryContainer = $('#mygallery');
+
+    DARK_COLOR_SCHEME = true;
+    colorScheme();
+
+    $('.about-container').addClass('hidden');
+
+    if (galleryType == 'video') {
+      $('.curl').addClass('hidden');
+
+      galleryContainer.data('gallery-type', 'video');
+      for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
+        var src = VIMEO_DATA[i]['thumbnail_large'];
+        var title = VIMEO_DATA[i]['title'];
+        var a = $('<a class="vimeo-thumb" href=""></a>');
+        var img = $('<img src="' + src + '" alt="' + title + '" />');
+        var caption = $('<div class="caption"><span class="caption-text">' +
+            title + '</span></div>');
+        a.data('video-id', VIMEO_DATA[i]['id']);
+        a.data('thumb-id', VIMEO_DATA[i]['id']);
+        a.append(img);
+        a.append(caption);
+        galleryContainer.append(a);
+      }
+
+      // Applies the justified gallery plugin to the div with the mygallery ID
+      updateJustifiedGallery();
+
+      addVimeoThumbListeners();
+      addGalleryThumbsListener();
+    }
+    else {
+      $('.curl').removeClass('hidden');
+      galleryContainer.data('gallery-type', 'image');
+      $.ajax({
+        url: "/fetch-gallery/" + galleryId,
+      }).done(function(response) {
+        var photos = response['photos'];
+        for (var i = 0, l = photos.length; i < l; i++) {
+          var photo = photos[i];
+          var src = photo['src'];
+          var description = photo['description'];
+          var title = photo['title'];
+          var id = photo['id'];
+
+          var a = $('<a href="' + src + '"></a>');
+          var img = $('<img src="' + src + '" alt="' + title + '" />');
+          var caption = $('<div class="caption"><span class="caption-text">' +
+            title + '</span></div>');
+          a.data('story-text', description);
+          a.data('thumb-id', id);
+          a.append(img);
+          a.append(caption);
+          galleryContainer.append(a);
+
+        }
+
+        // Applies the justified gallery plugin to the div with the mygallery ID
+        updateJustifiedGallery();
+        addGalleryThumbsListener();
+      });
+    }
+
+    $('.content-container').removeClass('hidden');
+    whiteBackground();
+    $('.single-image-container').addClass('hidden');
+    $('.single-image-nav-container').addClass('hidden');
+  };
+
+  // Attach listeners to Vimeo thumbs.
+  var addVimeoThumbListeners = function() {
+
+    $('.vimeo-thumb').mouseover(function(e) {
+      $(this).find('.caption').addClass('active-video-caption');
+      $(this).find('.caption-text').addClass('video');
+    });
+
+    $('.vimeo-thumb').click(function(e) {
+      e.preventDefault();
+      var id = $(this).data('video-id');
+      console.log(id);
+    });
+
+  };
+
 
 var showMedia = function(elm) {
   var self = this;
@@ -213,7 +315,7 @@ var preloadImage = function (index, value) {
 // by being REMOVED (src = '')
 var clearGalleryContainer = function() {
   $('iframe').attr('src', '');
-  galleryContainer = $('#mygallery');
+  var galleryContainer = $('#mygallery');
   galleryContainer.empty();
 };
 
@@ -252,6 +354,16 @@ var showNav = function(target) {
   };
 
   $('.expand-link').each(resetAllButClicked);
+
+  if (curSubnav.hasClass('active')) {
+    var clickPath = self.text();
+    updateRoute('/' + slugify(clickPath));
+
+
+  }
+  else {
+    updateRoute('/');
+  }
 
   if (curSubnav.hasClass('active')) {
     $('.subnav-container.active').css({
@@ -308,36 +420,6 @@ var initPage = function() {
   // as a result of clicking on expand-link(s)
   $('.expand-link').each(preloadImage);
 
-  // Attach listeners to Vimeo thumbs.
-  var addVimeoThumbListeners = function() {
-
-    $('.vimeo-thumb').mouseover(function(e) {
-      $(this).find('.caption').addClass('active-video-caption');
-      $(this).find('.caption-text').addClass('video');
-    });
-
-    $('.vimeo-thumb').click(function(e) {
-      e.preventDefault();
-      var id = $(this).data('video-id');
-      console.log(id);
-    });
-
-  };
-
-  var updateJustifiedGallery = function() {
-    $("#mygallery").justifiedGallery({
-      rowHeight: 200,
-      maxRowHeight: 210,
-      lastRow: 'justify',
-      margins: 10,
-      refreshTime: 300,
-      captionSettings: {
-        animationDuration: 500,
-        visibleOpacity: .8,
-        nonVisibleOpacity: 0.0
-      }
-    });
-  };
 
   // sets the bg img to white
   // changes type color to dark
@@ -351,74 +433,7 @@ var initPage = function() {
   };
 
 
-  var showGallery = function(elm) {
-  // add items to gallery container
-    var galleryId = $(elm).data('gallery-id');
-    var galleryType = $(elm).data('gallery-type');
 
-    $('.about-container').addClass('hidden');
-
-    if (galleryType == 'video') {
-      $('.curl').addClass('hidden');
-
-      galleryContainer.data('gallery-type', 'video');
-      for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
-        var src = VIMEO_DATA[i]['thumbnail_large'];
-        var title = VIMEO_DATA[i]['title'];
-        var a = $('<a class="vimeo-thumb" href=""></a>');
-        var img = $('<img src="' + src + '" alt="' + title + '" />');
-        var caption = $('<div class="caption"><span class="caption-text">' +
-            title + '</span></div>');
-        a.data('video-id', VIMEO_DATA[i]['id']);
-        a.data('thumb-id', VIMEO_DATA[i]['id']);
-        a.append(img);
-        a.append(caption);
-        galleryContainer.append(a);
-      }
-
-      // Applies the justified gallery plugin to the div with the mygallery ID
-      updateJustifiedGallery();
-
-      addVimeoThumbListeners();
-      addGalleryThumbsListener();
-    }
-    else {
-      $('.curl').removeClass('hidden');
-      galleryContainer.data('gallery-type', 'image');
-      $.ajax({
-        url: "/fetch-gallery/" + galleryId,
-      }).done(function(response) {
-        var photos = response['photos'];
-        for (var i = 0, l = photos.length; i < l; i++) {
-          var photo = photos[i];
-          var src = photo['src'];
-          var description = photo['description'];
-          var title = photo['title'];
-          var id = photo['id'];
-
-          var a = $('<a href="' + src + '"></a>');
-          var img = $('<img src="' + src + '" alt="' + title + '" />');
-          var caption = $('<div class="caption"><span class="caption-text">' +
-            title + '</span></div>');
-          a.data('story-text', description);
-          a.data('thumb-id', id);
-          a.append(img);
-          a.append(caption);
-          galleryContainer.append(a);
-
-        }
-
-        // Applies the justified gallery plugin to the div with the mygallery ID
-        updateJustifiedGallery();
-        addGalleryThumbsListener();
-      });
-    }
-
-    $('.content-container').removeClass('hidden');
-    whiteBackground();
-    $('.single-image-container').addClass('hidden');
-    $('.single-image-nav-container').addClass('hidden');
-  };
 
   // Event listener for clicking on a portfolio link
   // Removes hidden class on content-container
@@ -462,8 +477,7 @@ var initPage = function() {
   $('.expand-link').click(function(e) {
     e.preventDefault();
     showNav($(this));
-    var clickPath = $(this).text();
-    updateRoute('/' + slugify(clickPath));
+
   });
 
 
@@ -847,6 +861,7 @@ var initRouter = function() {
     var path = window.location.pathname.split("/");
     var params = window.location.search;
     var media_id;
+
     if (!!params) {
       media_id = params.split("=")[1];
     }
@@ -859,11 +874,22 @@ var initRouter = function() {
     else if (path.length == 2) {
       var nav_link_name = path[1];
       var nav_links = $('.nav-link');
+      console.log(slugify(nav_links.text()));
+      if (nav_link_name == nav_links.text()) {
+      }
       for (var i = 0, l = nav_links.length; i < l; i++) {
         var nav_link_label = ($(nav_links[i]).text());
+
+
         if (slugify(nav_link_name) == slugify(nav_link_label)) {
-          // $(nav_links[i]).trigger('click');
-          showNav($(nav_links[i]));
+          var nav_link_elm = $(nav_links[i]);
+
+          if ($(nav_link_elm).hasClass('expand-link')) {
+            showNav($(nav_links[i]));
+          }
+          else {
+            showGallery($(nav_links[i]));
+          }
 
           setTimeout(function() {
             if (!!media_id) {
@@ -872,7 +898,7 @@ var initRouter = function() {
               for (var j = 0, m = media_links.length; j < m; j++) {
                 var thumb_id =($(media_links[j]).data('thumb-id'));
                 if (thumb_id == media_id) {
-                  $(media_links[j]).trigger('click');
+                  showMedia($(media_links[j]));
                 }
               }
             }
@@ -902,7 +928,7 @@ var initRouter = function() {
               for (var j = 0, m = media_links.length; j < m; j++) {
                 var thumb_id =($(media_links[j]).data('thumb-id'));
                 if (thumb_id == media_id) {
-                  $(media_links[j]).trigger('click');
+                  showMedia($(media_links[j]));
                 }
               }
             }
@@ -924,16 +950,28 @@ var initRouter = function() {
     // console.log(media_id);
 
     if (path[1] == 'about') {
-      $('.about-link').trigger('click');
+      showAbout();
     }
 
     else if (path.length == 2) {
       var nav_link_name = path[1];
       var nav_links = $('.nav-link');
+      console.log(slugify(nav_links.text()));
+      if (nav_link_name == nav_links.text()) {
+      }
       for (var i = 0, l = nav_links.length; i < l; i++) {
         var nav_link_label = ($(nav_links[i]).text());
+
+
         if (slugify(nav_link_name) == slugify(nav_link_label)) {
-          $(nav_links[i]).trigger('click');
+          var nav_link_elm = $(nav_links[i]);
+
+          if ($(nav_link_elm).hasClass('expand-link')) {
+            showNav($(nav_links[i]));
+          }
+          else {
+            showGallery($(nav_links[i]));
+          }
 
           setTimeout(function() {
             if (!!media_id) {
@@ -942,7 +980,7 @@ var initRouter = function() {
               for (var j = 0, m = media_links.length; j < m; j++) {
                 var thumb_id =($(media_links[j]).data('thumb-id'));
                 if (thumb_id == media_id) {
-                  $(media_links[j]).trigger('click');
+                  showMedia($(media_links[j]));
                 }
               }
             }
@@ -962,7 +1000,8 @@ var initRouter = function() {
           for (var i = 0, l = gallery_links.length; i < l; i++) {
             var gallery_link_label = ($(gallery_links[i]).text());
             if (slugify(gallery_link_name) == slugify(gallery_link_label)) {
-              $(gallery_links[i]).trigger('click');
+              showGallery($(gallery_links[i]));
+              // $(gallery_links[i]).trigger('click');
 
             setTimeout(function() {
             if (!!media_id) {
@@ -971,7 +1010,7 @@ var initRouter = function() {
               for (var j = 0, m = media_links.length; j < m; j++) {
                 var thumb_id =($(media_links[j]).data('thumb-id'));
                 if (thumb_id == media_id) {
-                  $(media_links[j]).trigger('click');
+                  showMedia($(media_links[j]));
                 }
               }
             }
