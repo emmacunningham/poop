@@ -14,12 +14,11 @@ urlpatterns = patterns('',
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(settings.PROJECT_ROOT, 'media')}),
 
     url(r'^fetch-categories/', views.fetch_categories),
-    url(r'^fetch-about/', views.fetch_about),
     url(r'^fetch-home-bg/', views.fetch_home_bg),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^fetch-gallery/(\w*)', views.fetch_gallery, name='gallery'),
     (r'^photologue/', include('photologue.urls', namespace='photologue')),
-    url(r'^.*', TemplateView.as_view(template_name='home.html'), name='home'),
+    url(r'^.*', views.HomeView.as_view(), name='home'),
 
 )

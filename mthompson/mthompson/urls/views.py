@@ -8,19 +8,18 @@ from django.db import models
 from mthompson.models import *
 from photologue.models import Gallery, Photo
 from random import randint
+from django.views.generic.base import TemplateView
 
 import json
 
+class HomeView(TemplateView):
+    template_name = 'home.html'
 
-def fetch_about(request):
-    print('about')
-    about = AboutPage.objects.all()[0]
-    content = about.details
+    def get_context_data(self, **kwargs):
+        about = AboutPage.objects.all()[0]
+        content = about.details
+        return {'name': 'poop', 'about_content': content}
 
-    response_data = {
-        'content': content
-    }
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 def fetch_home_bg(request):
     imgs = HomeBackgroundImage.objects.all()

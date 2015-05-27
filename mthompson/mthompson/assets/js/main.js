@@ -46,12 +46,7 @@ $(document).ready( function() {
   });
   */
 
-  // Load about page content
- $.ajax({
-    url: "/fetch-about/",
-  }).done(function(response) {
-    $('.about-text').text(response['content']);
-  });
+
 
   // Load navigation
   // Fetch the nav labels
@@ -150,6 +145,7 @@ var updateJustifiedGallery = function() {
 
 var showGallery = function(elm) {
   // add items to gallery container
+    clearGalleryContainer();
     var galleryId = $(elm).data('gallery-id');
     var galleryType = $(elm).data('gallery-type');
     var galleryContainer = $('#mygallery');
@@ -160,28 +156,39 @@ var showGallery = function(elm) {
     $('.about-container').addClass('hidden');
 
     if (galleryType == 'video') {
-      $('.curl').addClass('hidden');
 
-      galleryContainer.data('gallery-type', 'video');
-      for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
-        var src = VIMEO_DATA[i]['thumbnail_large'];
-        var title = VIMEO_DATA[i]['title'];
-        var a = $('<a class="vimeo-thumb" href=""></a>');
-        var img = $('<img src="' + src + '" alt="' + title + '" />');
-        var caption = $('<div class="caption"><span class="caption-text">' +
-            title + '</span></div>');
-        a.data('video-id', VIMEO_DATA[i]['id']);
-        a.data('thumb-id', VIMEO_DATA[i]['id']);
-        a.append(img);
-        a.append(caption);
-        galleryContainer.append(a);
-      }
+      $.ajax({
+        url: "https://vimeo.com/api/v2/user3589164/videos.json",
+      }).done(function(response) {
+        VIMEO_DATA = response;
 
-      // Applies the justified gallery plugin to the div with the mygallery ID
-      updateJustifiedGallery();
+        $('.curl').addClass('hidden');
 
-      addVimeoThumbListeners();
-      addGalleryThumbsListener();
+        galleryContainer.data('gallery-type', 'video');
+        for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
+          var src = VIMEO_DATA[i]['thumbnail_large'];
+          var title = VIMEO_DATA[i]['title'];
+          var a = $('<a class="vimeo-thumb" href=""></a>');
+          var img = $('<img src="' + src + '" alt="' + title + '" />');
+          var caption = $('<div class="caption"><span class="caption-text">' +
+              title + '</span></div>');
+          a.data('video-id', VIMEO_DATA[i]['id']);
+          a.data('thumb-id', VIMEO_DATA[i]['id']);
+          a.append(img);
+          a.append(caption);
+          galleryContainer.append(a);
+        }
+
+        // Applies the justified gallery plugin to the div with the mygallery ID
+        updateJustifiedGallery();
+
+        addVimeoThumbListeners();
+        addGalleryThumbsListener();
+
+
+      });
+
+
     }
     else {
       $('.curl').removeClass('hidden');
@@ -331,7 +338,7 @@ var showAbout = function() {
   clearGalleryContainer();
 };
 
-var showNav = function(target) {
+var showNav = function(target, forceRouteUpdate) {
   var self = $(target);
   var liCount = $(target).next().children().length;
   var liHeight = $('.subnav-container li').height();
@@ -355,15 +362,16 @@ var showNav = function(target) {
 
   $('.expand-link').each(resetAllButClicked);
 
-  if (curSubnav.hasClass('active')) {
-    var clickPath = self.text();
-    updateRoute('/' + slugify(clickPath));
-
-
+  if (forceRouteUpdate) {
+    if (curSubnav.hasClass('active')) {
+      var clickPath = self.text();
+      updateRoute('/' + slugify(clickPath));
+    }
+    else {
+      updateRoute('/');
+    }
   }
-  else {
-    updateRoute('/');
-  }
+
 
   if (curSubnav.hasClass('active')) {
     $('.subnav-container.active').css({
@@ -476,7 +484,7 @@ var initPage = function() {
   // sets the text color appropriate based on which background image is used
   $('.expand-link').click(function(e) {
     e.preventDefault();
-    showNav($(this));
+    showNav($(this), true);
 
   });
 
@@ -843,7 +851,9 @@ var updateRoute = function(slug) {
 
   // Checks if HTML5 History is supported
   if (window.history && window.history.pushState) {
-
+    console.log('pushState')
+    console.log(window.location.pathname)
+    console.log('updated route ', slug)
     window.history.pushState(null, null, slug);
 
   }
