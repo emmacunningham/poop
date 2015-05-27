@@ -344,7 +344,10 @@ var showNav = function(target, forceRouteUpdate) {
   var liHeight = $('.subnav-container li').height();
   var curSubnav = $(target).next();
 
+  clearGalleryContainer();
   $('.about-container').addClass('hidden');
+  $('.single-image-container').addClass('hidden');
+  $('.single-image-nav-container').addClass('hidden');
   // var clickPath = $(target).text();
 
 
@@ -384,23 +387,27 @@ var showNav = function(target, forceRouteUpdate) {
       });
   }
 
-  // Change the background image and typeface color on menu click!
-   if (WHITE_BACKGROUND == true || screenWidth <= 600) {}
-    else {
-    var name = $(target).data('bg-src');
+  var name = $(target).data('bg-src');
 
-    $('.homepage-container').css({
+  $('.homepage-container').css({
     'background-image': "url('" + name + "')"
-    });
+  });
 
-    DARK_COLOR_SCHEME = false;
-    if ($(target).data('nav-appearance') == 'dark') {
+  DARK_COLOR_SCHEME = false;
+
+  if ($(target).data('nav-appearance') == 'dark') {
       DARK_COLOR_SCHEME = true;
     }
     colorScheme();
 
-    var homepageBackgroundUrl = $(".homepage-container").css("background-image");
+  var homepageBackgroundUrl = $(".homepage-container").css("background-image");
 
+  // Change the background image and typeface color on menu click!
+   if (WHITE_BACKGROUND == true || screenWidth <= 600) {
+    console.log('the white background variable is true');
+   }
+  else {
+    console.log('the white background variable is false');
   }
 };
 
