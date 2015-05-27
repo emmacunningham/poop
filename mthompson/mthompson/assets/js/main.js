@@ -807,10 +807,10 @@ var displayGallery = function() {
     $('.single-image-nav-container').addClass('hidden');
 }
 
-var fetchSecretGallery = function() {
+var fetchSecretGallery = function(i) {
   // This is hardcoded for now... it's prolly fine like this
   // But we'll wanna update it when we get things up on production
-  var galleryId = 11;
+  var galleryId = i;
 
 
   var galleryContainer = $('#mygallery');
@@ -828,14 +828,19 @@ var fetchSecretGallery = function() {
       var src = photo['src'];
       var description = photo['description'];
       var title = photo['title'];
+      var id = photo['id'];
 // <a href="./img/full/2.jpg">
 //            <img alt="Title 2" src="./img/thumbs/thumbs_2.jpg"/>
 //          </a>
 
       var a = $('<a href="' + src + '"></a>');
       var img = $('<img src="' + src + '" alt="' + title + '" />');
+      var caption = $('<div class="caption"><span class="caption-text">' +
+      title + '</span></div>');
       a.data('story-text', description);
+      a.data('thumb-id', id);
       a.append(img);
+      a.append(caption);
       galleryContainer.append(a);
 
     }
@@ -886,6 +891,16 @@ var initRouter = function() {
 
     if (path[1] == 'about') {
       showAbout();
+    }
+
+    else if (path[1] == 'secret-gallery-1') {
+      fetchSecretGallery(11);
+      showGallery();
+    }
+
+    else if (path[1] == 'secret-gallery-2') {
+      // fetchSecretGallery(12);
+      showGallery();
     }
 
     else if (path.length == 2) {
@@ -968,6 +983,16 @@ var initRouter = function() {
 
     if (path[1] == 'about') {
       showAbout();
+    }
+
+    else if (path[1] == 'secret-gallery-1') {
+      fetchSecretGallery(11);
+      showGallery();
+    }
+
+    else if (path[1] == 'secret-gallery-2') {
+      // fetchSecretGallery(12);
+      showGallery();
     }
 
     else if (path.length == 2) {
@@ -1075,6 +1100,23 @@ $('.easter-trigger.left').mouseout(function() {
     $('.easter-egg.left').css("margin-left", "-112px");
   }, 1500);
 
+});
+
+// click listeners for THEM EASTER EGGS!
+$('.easter-egg.top').click(function(e) {
+  console.log('YOOO');
+  e.preventDefault();
+  fetchSecretGallery(11);
+  showGallery();
+  updateRoute('/secret-gallery-1');
+});
+
+$('.easter-egg.left').click(function(e) {
+  e.preventDefault();
+  console.log('YOOO left!');
+  // fetchSecretGallery(12);
+  showGallery();
+  updateRoute('/secret-gallery-2');
 });
 
 // easter egg listeners for mobile devices!
