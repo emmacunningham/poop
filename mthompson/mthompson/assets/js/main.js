@@ -425,7 +425,6 @@ var showMedia = function(elm) {
 
   $('#mygallery a').each(function(i, el) {
     if ($(el)[0] == $(self)[0]) {
-      console.log('EL IS EQUAL TO SELF! OGM!!!');
       CUR_GALLERY_INDEX = i;
       console.log(CUR_GALLERY_INDEX);
     }
@@ -498,6 +497,9 @@ var clearGalleryContainer = function() {
   var galleryContainer = $('#mygallery');
   galleryContainer.empty();
   console.log('THE GALLERY CONTAINER WAS CLEARED BRO! OMG OMG!');
+  galleryContainer.css({
+    'height': '5px'
+  });
 };
 
 
@@ -519,6 +521,7 @@ var showNav = function(target, forceRouteUpdate) {
   var curSubnav = $(target).next();
 
   clearGalleryContainer();
+
   $('.about-container').addClass('hidden');
   $('.single-image-container').addClass('hidden');
   $('.single-image-nav-container').addClass('hidden');
