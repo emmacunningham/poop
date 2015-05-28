@@ -226,7 +226,177 @@ var showGallery = function(elm) {
     whiteBackground();
     $('.single-image-container').addClass('hidden');
     $('.single-image-nav-container').addClass('hidden');
-  };
+};
+
+var showSecretPhotoGallery = function(elm) {
+  // add items to gallery container
+    clearGalleryContainer();
+    var galleryId = elm;
+    var galleryType = 'photo';
+    var galleryContainer = $('#mygallery');
+
+    DARK_COLOR_SCHEME = true;
+    colorScheme();
+
+    $('.about-container').addClass('hidden');
+
+    if (galleryType == 'video') {
+
+      $.ajax({
+        url: "https://vimeo.com/api/v2/user3589164/videos.json",
+      }).done(function(response) {
+        VIMEO_DATA = response;
+
+        $('.curl').addClass('hidden');
+
+        galleryContainer.data('gallery-type', 'video');
+        for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
+          var src = VIMEO_DATA[i]['thumbnail_large'];
+          var title = VIMEO_DATA[i]['title'];
+          var a = $('<a class="vimeo-thumb" href=""></a>');
+          var img = $('<img src="' + src + '" alt="' + title + '" />');
+          var caption = $('<div class="caption"><span class="caption-text">' +
+              title + '</span></div>');
+          a.data('video-id', VIMEO_DATA[i]['id']);
+          a.data('thumb-id', VIMEO_DATA[i]['id']);
+          a.append(img);
+          a.append(caption);
+          galleryContainer.append(a);
+        }
+
+        // Applies the justified gallery plugin to the div with the mygallery ID
+        updateJustifiedGallery();
+
+        addVimeoThumbListeners();
+        addGalleryThumbsListener();
+
+
+      });
+
+
+    }
+    else {
+      $('.curl').removeClass('hidden');
+      galleryContainer.data('gallery-type', 'image');
+      $.ajax({
+        url: "/fetch-gallery/" + galleryId,
+      }).done(function(response) {
+        var photos = response['photos'];
+        for (var i = 0, l = photos.length; i < l; i++) {
+          var photo = photos[i];
+          var src = photo['src'];
+          var description = photo['description'];
+          var title = photo['title'];
+          var id = photo['id'];
+
+          var a = $('<a href="' + src + '"></a>');
+          var img = $('<img src="' + src + '" alt="' + title + '" />');
+          var caption = $('<div class="caption"><span class="caption-text">' +
+            title + '</span></div>');
+          a.data('story-text', description);
+          a.data('thumb-id', id);
+          a.append(img);
+          a.append(caption);
+          galleryContainer.append(a);
+
+        }
+
+        // Applies the justified gallery plugin to the div with the mygallery ID
+        updateJustifiedGallery();
+        addGalleryThumbsListener();
+      });
+    }
+
+    $('.content-container').removeClass('hidden');
+    whiteBackground();
+    $('.single-image-container').addClass('hidden');
+    $('.single-image-nav-container').addClass('hidden');
+};
+
+var showSecretVideoGallery = function(elm) {
+  // add items to gallery container
+    clearGalleryContainer();
+    var galleryId = elm;
+    var galleryType = 'video';
+    var galleryContainer = $('#mygallery');
+
+    DARK_COLOR_SCHEME = true;
+    colorScheme();
+
+    $('.about-container').addClass('hidden');
+
+    if (galleryType == 'video') {
+
+      $.ajax({
+        url: "https://vimeo.com/api/v2/user3589164/videos.json",
+      }).done(function(response) {
+        VIMEO_DATA = response;
+
+        $('.curl').addClass('hidden');
+
+        galleryContainer.data('gallery-type', 'video');
+        for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
+          var src = VIMEO_DATA[i]['thumbnail_large'];
+          var title = VIMEO_DATA[i]['title'];
+          var a = $('<a class="vimeo-thumb" href=""></a>');
+          var img = $('<img src="' + src + '" alt="' + title + '" />');
+          var caption = $('<div class="caption"><span class="caption-text">' +
+              title + '</span></div>');
+          a.data('video-id', VIMEO_DATA[i]['id']);
+          a.data('thumb-id', VIMEO_DATA[i]['id']);
+          a.append(img);
+          a.append(caption);
+          galleryContainer.append(a);
+        }
+
+        // Applies the justified gallery plugin to the div with the mygallery ID
+        updateJustifiedGallery();
+
+        addVimeoThumbListeners();
+        addGalleryThumbsListener();
+
+
+      });
+
+
+    }
+    else {
+      $('.curl').removeClass('hidden');
+      galleryContainer.data('gallery-type', 'image');
+      $.ajax({
+        url: "/fetch-gallery/" + galleryId,
+      }).done(function(response) {
+        var photos = response['photos'];
+        for (var i = 0, l = photos.length; i < l; i++) {
+          var photo = photos[i];
+          var src = photo['src'];
+          var description = photo['description'];
+          var title = photo['title'];
+          var id = photo['id'];
+
+          var a = $('<a href="' + src + '"></a>');
+          var img = $('<img src="' + src + '" alt="' + title + '" />');
+          var caption = $('<div class="caption"><span class="caption-text">' +
+            title + '</span></div>');
+          a.data('story-text', description);
+          a.data('thumb-id', id);
+          a.append(img);
+          a.append(caption);
+          galleryContainer.append(a);
+
+        }
+
+        // Applies the justified gallery plugin to the div with the mygallery ID
+        updateJustifiedGallery();
+        addGalleryThumbsListener();
+      });
+    }
+
+    $('.content-container').removeClass('hidden');
+    whiteBackground();
+    $('.single-image-container').addClass('hidden');
+    $('.single-image-nav-container').addClass('hidden');
+};
 
   // Attach listeners to Vimeo thumbs.
   var addVimeoThumbListeners = function() {
@@ -246,14 +416,18 @@ var showGallery = function(elm) {
 
 
 var showMedia = function(elm) {
-  var self = this;
+  var self = elm;
 
   $('.about-container').addClass('hidden');
 
   GALLERY_COUNT = ($("#mygallery a").length - 1);
+
+
   $('#mygallery a').each(function(i, el) {
-    if (el == self) {
+    if ($(el)[0] == $(self)[0]) {
+      console.log('EL IS EQUAL TO SELF! OGM!!!');
       CUR_GALLERY_INDEX = i;
+      console.log(CUR_GALLERY_INDEX);
     }
   });
 
@@ -281,7 +455,6 @@ var showMedia = function(elm) {
       $('#image-full').show();
       var imageSlug = $(elm).data('thumb-id');
       var currentUrl = window.location.pathname;
-      //updateRoute('/');
       updateRoute(currentUrl + '?id=' + imageSlug);
 
       var imgAlt = ($(elm).find('img').attr('alt'));
@@ -324,6 +497,7 @@ var clearGalleryContainer = function() {
   $('iframe').attr('src', '');
   var galleryContainer = $('#mygallery');
   galleryContainer.empty();
+  console.log('THE GALLERY CONTAINER WAS CLEARED BRO! OMG OMG!');
 };
 
 
@@ -456,7 +630,7 @@ var initPage = function() {
   $('.port-link').click(function(e) {
     e.preventDefault();
     establishGalleryView();
-    clearGalleryContainer();
+    // clearGalleryContainer();
     showGallery($(this));
 
     // If clicked link is under subnav
@@ -502,13 +676,18 @@ var initPage = function() {
   // if not, we move on to the next gallery slide
   $('.image-nav-icon .next').click(function(e) {
     e.preventDefault();
+    console.log('you clicked next nav icon!'); //triggers!
     if (CUR_GALLERY_INDEX == GALLERY_COUNT) {
       CUR_GALLERY_INDEX = 0;
     }
       else {
         CUR_GALLERY_INDEX++;
       }
+
     var nextEl = $('#mygallery a')[CUR_GALLERY_INDEX];
+    console.log(nextEl);
+    console.log($('#mygallery a'));
+    console.log(CUR_GALLERY_INDEX);
 
     if ($('#mygallery').data('gallery-type') == 'video') {
       var videoId = $(nextEl).data('video-id');
@@ -863,9 +1042,9 @@ var updateRoute = function(slug) {
 
   // Checks if HTML5 History is supported
   if (window.history && window.history.pushState) {
-    console.log('pushState')
-    console.log(window.location.pathname)
-    console.log('updated route ', slug)
+    // console.log('pushState')
+    // console.log(window.location.pathname)
+    // console.log('updated route ', slug)
     window.history.pushState(null, null, slug);
 
   }
@@ -894,19 +1073,45 @@ var initRouter = function() {
     }
 
     else if (path[1] == 'secret-gallery-1') {
-      fetchSecretGallery(11);
-      showGallery();
+      showSecretPhotoGallery(11);
+
+      setTimeout(function() {
+        if (!!media_id) {
+          var media_links = $('#mygallery a');
+          console.log(media_links);
+          for (var j = 0, m = media_links.length; j < m; j++) {
+            var thumb_id =($(media_links[j]).data('thumb-id'));
+            if (thumb_id == media_id) {
+              showMedia($(media_links[j]));
+            }
+          }
+        }
+      }, 1000);
+      // showGallery();
     }
 
     else if (path[1] == 'secret-gallery-2') {
-      // fetchSecretGallery(12);
-      showGallery();
+      showSecretVideoGallery(12);
+
+      setTimeout(function() {
+        if (!!media_id) {
+          var media_links = $('#mygallery a');
+          console.log(media_links);
+          for (var j = 0, m = media_links.length; j < m; j++) {
+            var thumb_id =($(media_links[j]).data('thumb-id'));
+            if (thumb_id == media_id) {
+              showMedia($(media_links[j]));
+            }
+          }
+        }
+      }, 1000);
+
     }
 
     else if (path.length == 2) {
       var nav_link_name = path[1];
       var nav_links = $('.nav-link');
-      console.log(slugify(nav_links.text()));
+      // console.log(slugify(nav_links.text()));
       if (nav_link_name == nav_links.text()) {
       }
       for (var i = 0, l = nav_links.length; i < l; i++) {
@@ -986,13 +1191,39 @@ var initRouter = function() {
     }
 
     else if (path[1] == 'secret-gallery-1') {
-      fetchSecretGallery(11);
-      showGallery();
+      showSecretPhotoGallery(11);
+
+      setTimeout(function() {
+        if (!!media_id) {
+          var media_links = $('#mygallery a');
+          console.log(media_links);
+          for (var j = 0, m = media_links.length; j < m; j++) {
+            var thumb_id =($(media_links[j]).data('thumb-id'));
+            if (thumb_id == media_id) {
+              showMedia($(media_links[j]));
+            }
+          }
+        }
+      }, 1000);
+      // showGallery();
     }
 
     else if (path[1] == 'secret-gallery-2') {
-      // fetchSecretGallery(12);
-      showGallery();
+      showSecretVideoGallery(12);
+
+      setTimeout(function() {
+        if (!!media_id) {
+          var media_links = $('#mygallery a');
+          console.log(media_links);
+          for (var j = 0, m = media_links.length; j < m; j++) {
+            var thumb_id =($(media_links[j]).data('thumb-id'));
+            if (thumb_id == media_id) {
+              showMedia($(media_links[j]));
+            }
+          }
+        }
+      }, 1000);
+
     }
 
     else if (path.length == 2) {
@@ -1106,16 +1337,14 @@ $('.easter-trigger.left').mouseout(function() {
 $('.easter-egg.top').click(function(e) {
   console.log('YOOO');
   e.preventDefault();
-  fetchSecretGallery(11);
-  showGallery();
+  showSecretPhotoGallery(11);
   updateRoute('/secret-gallery-1');
 });
 
 $('.easter-egg.left').click(function(e) {
   e.preventDefault();
   console.log('YOOO left!');
-  // fetchSecretGallery(12);
-  showGallery();
+  showSecretVideoGallery(12);
   updateRoute('/secret-gallery-2');
 });
 
