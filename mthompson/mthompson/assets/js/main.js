@@ -6,6 +6,7 @@ var DARK_SOCIAL_MEDIA_ICONS;
 var DARK_COLOR_SCHEME;
 var WHITE_BACKGROUND = false;
 var VIMEO_DATA;
+var ALL_ACCESS_VIMEO = [];
 var CATEGORY_DATA = [];
 var galleryContainer;
 
@@ -23,16 +24,40 @@ function slugify(Text) {
 
 var screenWidth = $(window).width();
 
+var sortVimeoVideos = function() {
+  for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
+    console.log('GET 2000000!');
+    var tags = VIMEO_DATA[i]['tags'];
+    var tagNames = [];
+    for (var m = 0, n = tags.length; m < n; m++) {
+      tagNames.push(tags[m]['canonical']);
+    }
+    if (tagNames.indexOf('all-access') > -1) {
+      ALL_ACCESS_VIMEO.push(VIMEO_DATA[i]);
+    }
+  }
+};
+
 // On document load, selects one of three randcom images for the background
 // if BG1 is selected, sets the text to dark, if not, left at light text
 $(document).ready( function() {
   // Load navigation
   // Fetch the nav labels
   $.ajax({
-    url: "https://vimeo.com/api/v2/user3589164/videos.json",
+    // method: 'GET',
+    url: "https://api.vimeo.com/me/videos?access_token=049f90fd738b27db4783ccf398655e6e",
+    //url: "https://vimeo.com/api/v2/user3589164/videos.json?page",
   }).done(function(response) {
-    VIMEO_DATA = response;
+    VIMEO_DATA = response.data;
+    console.log(VIMEO_DATA);
+    sortVimeoVideos();
+
   });
+  // method: 'GET',
+  // 'https://api.vimeo.com/me/videos?access_token=049f90fd738b27db4783ccf398655e6e',
+
+  // new access token - created 5.28.15
+  // : 049f90fd738b27db4783ccf398655e6e
 
   /* Using more recent vimeo API - wip etc
   $.ajax({
