@@ -6,9 +6,13 @@ var DARK_SOCIAL_MEDIA_ICONS;
 var DARK_COLOR_SCHEME;
 var WHITE_BACKGROUND = false;
 var VIMEO_DATA;
-var ALL_ACCESS_VIMEO = [];
+var VIMEO_GALLERY_1 = [];
+var VIMEO_GALLERY_2 = [];
 var CATEGORY_DATA = [];
+// var VIMEO_ALBUM_ID;
 var galleryContainer;
+var vimeo_albums_call = 'https://api.vimeo.com/me/albums?access_token=049f90fd738b27db4783ccf398655e6e';
+
 
 function randomFromInterval(from, to) {
      return Math.floor(Math.random() * (to - from + 1) + from);
@@ -24,16 +28,43 @@ function slugify(Text) {
 
 var screenWidth = $(window).width();
 
+
+
+// originally intended to filter videos
+// by tag after calling the complete list of videos
+// new goal - fetch all albums, find associated IDs for albums
+// call each album for each gallery
+//
 var sortVimeoVideos = function() {
-  for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
-    console.log('GET 2000000!');
-    var tags = VIMEO_DATA[i]['tags'];
-    var tagNames = [];
-    for (var m = 0, n = tags.length; m < n; m++) {
-      tagNames.push(tags[m]['canonical']);
+  for (var i = 0, l = VIMEO_DATA.data.length; i < l; i++) {
+    var vimeo_album_name = VIMEO_DATA.data[i]['name'];
+    if (slugify(vimeo_album_name) == slugify('this is hopeless')) {
+      var vimeo_album_array = VIMEO_DATA.data[i]['uri'].split("/");
+      var VIMEO_ALBUM_ID = vimeo_album_array[4];
+      console.log(VIMEO_ALBUM_ID);
+      var vimeo_album_call = "https://api.vimeo.com/me/albums/" + VIMEO_ALBUM_ID + "/videos?access_token=049f90fd738b27db4783ccf398655e6e";
+      $.ajax({
+        // method: 'GET',
+        url: vimeo_album_call
+
+      }).done(function(response) {
+        VIMEO_GALLERY_1 = response;
+        console.log(VIMEO_GALLERY_1);
+      });
     }
-    if (tagNames.indexOf('all-access') > -1) {
-      ALL_ACCESS_VIMEO.push(VIMEO_DATA[i]);
+    else if (slugify(vimeo_album_name) == slugify('all access')) {
+      var vimeo_album_array = VIMEO_DATA.data[i]['uri'].split("/");
+      var VIMEO_ALBUM_ID = vimeo_album_array[4];
+      console.log(VIMEO_ALBUM_ID);
+      var vimeo_album_call = "https://api.vimeo.com/me/albums/" + VIMEO_ALBUM_ID + "/videos?access_token=049f90fd738b27db4783ccf398655e6e";
+      $.ajax({
+        // method: 'GET',
+        url: vimeo_album_call
+
+      }).done(function(response) {
+        VIMEO_GALLERY_2 = response;
+        console.log(VIMEO_GALLERY_2);
+      });
     }
   }
 };
@@ -45,10 +76,9 @@ $(document).ready( function() {
   // Fetch the nav labels
   $.ajax({
     // method: 'GET',
-    url: "https://api.vimeo.com/me/videos?access_token=049f90fd738b27db4783ccf398655e6e",
-    //url: "https://vimeo.com/api/v2/user3589164/videos.json?page",
+    url: vimeo_albums_call
   }).done(function(response) {
-    VIMEO_DATA = response.data;
+    VIMEO_DATA = response;
     console.log(VIMEO_DATA);
     sortVimeoVideos();
 
@@ -179,39 +209,78 @@ var showGallery = function(elm) {
     colorScheme();
 
     $('.about-container').addClass('hidden');
+    $('.curl').addClass('hidden');
 
     if (galleryType == 'video') {
 
-      $.ajax({
-        url: "https://vimeo.com/api/v2/user3589164/videos.json",
-      }).done(function(response) {
-        VIMEO_DATA = response;
-
-        $('.curl').addClass('hidden');
-
-        galleryContainer.data('gallery-type', 'video');
-        for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
-          var src = VIMEO_DATA[i]['thumbnail_large'];
-          var title = VIMEO_DATA[i]['title'];
+      if (slugify($(elm).text()) == slugify('This Is Hopeless')) {
+        console.log('you clicked the This Is Hopeless gallery link!');
+        for (var i = 0, l = VIMEO_GALLERY_1.data.length; i < l; i++) {
+          var src = VIMEO_GALLERY_1.data[i]['pictures']['sizes'][4]['link'];
+          var title = VIMEO_GALLERY_1.data[i]['name'];
           var a = $('<a class="vimeo-thumb" href=""></a>');
           var img = $('<img src="' + src + '" alt="' + title + '" />');
           var caption = $('<div class="caption"><span class="caption-text">' +
               title + '</span></div>');
-          a.data('video-id', VIMEO_DATA[i]['id']);
-          a.data('thumb-id', VIMEO_DATA[i]['id']);
+          a.data('video-id', VIMEO_GALLERY_1.data[i]['uri'].split("/")[2]);
+          a.data('thumb-id', VIMEO_GALLERY_1.data[i]['uri'].split("/")[2]);
           a.append(img);
           a.append(caption);
           galleryContainer.append(a);
         }
+      }
 
-        // Applies the justified gallery plugin to the div with the mygallery ID
+      if (slugify($(elm).text()) == slugify('all access')) {
+          for (var i = 0, l = VIMEO_GALLERY_2.data.length; i < l; i++) {
+            var src = VIMEO_GALLERY_2.data[i]['pictures']['sizes'][4]['link'];
+            var title = VIMEO_GALLERY_2.data[i]['name'];
+            var a = $('<a class="vimeo-thumb" href=""></a>');
+            var img = $('<img src="' + src + '" alt="' + title + '" />');
+            var caption = $('<div class="caption"><span class="caption-text">' +
+                title + '</span></div>');
+            a.data('video-id', VIMEO_GALLERY_2.data[i]['uri'].split("/")[2]);
+            a.data('thumb-id', VIMEO_GALLERY_2.data[i]['uri'].split("/")[2]);
+            a.append(img);
+            a.append(caption);
+            galleryContainer.append(a);
+        }
+      }
+
         updateJustifiedGallery();
 
         addVimeoThumbListeners();
         addGalleryThumbsListener();
 
+      // $.ajax({
+      //   url: "https://vimeo.com/api/v2/user3589164/videos.json",
+      // }).done(function(response) {
+      //   VIMEO_DATA = response;
 
-      });
+      //   $('.curl').addClass('hidden');
+
+      //   galleryContainer.data('gallery-type', 'video');
+      //   for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
+      //     var src = VIMEO_DATA[i]['thumbnail_large'];
+      //     var title = VIMEO_DATA[i]['title'];
+      //     var a = $('<a class="vimeo-thumb" href=""></a>');
+      //     var img = $('<img src="' + src + '" alt="' + title + '" />');
+      //     var caption = $('<div class="caption"><span class="caption-text">' +
+      //         title + '</span></div>');
+      //     a.data('video-id', VIMEO_DATA[i]['id']);
+      //     a.data('thumb-id', VIMEO_DATA[i]['id']);
+      //     a.append(img);
+      //     a.append(caption);
+      //     galleryContainer.append(a);
+      //   }
+
+      //   // Applies the justified gallery plugin to the div with the mygallery ID
+      //   updateJustifiedGallery();
+
+      //   addVimeoThumbListeners();
+      //   addGalleryThumbsListener();
+
+
+      // });
 
 
     }
@@ -719,6 +788,7 @@ var initPage = function() {
 
     if ($('#mygallery').data('gallery-type') == 'video') {
       var videoId = $(nextEl).data('video-id');
+      console.log(videoId);
       var url = '//player.vimeo.com/video/' + videoId;
       updateVideoSrc(url);
 
