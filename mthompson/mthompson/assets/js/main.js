@@ -12,6 +12,7 @@ var CATEGORY_DATA = [];
 // var VIMEO_ALBUM_ID;
 var galleryContainer;
 var vimeo_albums_call = 'https://api.vimeo.com/me/albums?access_token=049f90fd738b27db4783ccf398655e6e';
+var OUTSTANDING_AJAX = true;
 
 
 function randomFromInterval(from, to) {
@@ -83,7 +84,11 @@ var fetchVimeoVideos = function() {
 // if BG1 is selected, sets the text to dark, if not, left at light text
 $(document).ready( function() {
   fetchVimeoVideos();
+  $(document).ajaxStop(function() {
+    OUTSTANDING_AJAX = false;
+  });
   // sortVimeoVideos();
+
 
   // });
   // method: 'GET',
@@ -215,80 +220,81 @@ var showGallery = function(elm) {
     $('.curl').addClass('hidden');
 
     if (galleryType == 'video') {
-
-      $( document ).ajaxStop(function() {
-      console.log('no more ajax requests are out! lets fire the remaining functions!')
-
-      if (slugify($(elm).text()) == slugify('This Is Hopeless')) {
-        console.log('you clicked the This Is Hopeless gallery link!');
-        for (var i = 0, l = VIMEO_GALLERY_1.data.length; i < l; i++) {
-          var src = VIMEO_GALLERY_1.data[i]['pictures']['sizes'][4]['link'];
-          var title = VIMEO_GALLERY_1.data[i]['name'];
-          var a = $('<a class="vimeo-thumb" href=""></a>');
-          var img = $('<img src="' + src + '" alt="' + title + '" />');
-          var caption = $('<div class="caption"><span class="caption-text">' +
-              title + '</span></div>');
-          a.data('video-id', VIMEO_GALLERY_1.data[i]['uri'].split("/")[2]);
-          a.data('thumb-id', VIMEO_GALLERY_1.data[i]['uri'].split("/")[2]);
-          a.append(img);
-          a.append(caption);
-          galleryContainer.append(a);
-        }
-      }
-
-      if (slugify($(elm).text()) == slugify('all access')) {
-          for (var i = 0, l = VIMEO_GALLERY_2.data.length; i < l; i++) {
-            var src = VIMEO_GALLERY_2.data[i]['pictures']['sizes'][4]['link'];
-            var title = VIMEO_GALLERY_2.data[i]['name'];
+      if (OUTSTANDING_AJAX == false) {
+      // $(document).ajaxStop(function() {
+        if (slugify($(elm).text()) == slugify('This Is Hopeless')) {
+          console.log('you clicked the This Is Hopeless gallery link!');
+          for (var i = 0, l = VIMEO_GALLERY_1.data.length; i < l; i++) {
+            var src = VIMEO_GALLERY_1.data[i]['pictures']['sizes'][4]['link'];
+            var title = VIMEO_GALLERY_1.data[i]['name'];
             var a = $('<a class="vimeo-thumb" href=""></a>');
             var img = $('<img src="' + src + '" alt="' + title + '" />');
             var caption = $('<div class="caption"><span class="caption-text">' +
                 title + '</span></div>');
-            a.data('video-id', VIMEO_GALLERY_2.data[i]['uri'].split("/")[2]);
-            a.data('thumb-id', VIMEO_GALLERY_2.data[i]['uri'].split("/")[2]);
+            a.data('video-id', VIMEO_GALLERY_1.data[i]['uri'].split("/")[2]);
+            a.data('thumb-id', VIMEO_GALLERY_1.data[i]['uri'].split("/")[2]);
             a.append(img);
             a.append(caption);
             galleryContainer.append(a);
+          }
         }
-      }
-
+        else if (slugify($(elm).text()) == slugify('all access')) {
+            for (var i = 0, l = VIMEO_GALLERY_2.data.length; i < l; i++) {
+              var src = VIMEO_GALLERY_2.data[i]['pictures']['sizes'][4]['link'];
+              var title = VIMEO_GALLERY_2.data[i]['name'];
+              var a = $('<a class="vimeo-thumb" href=""></a>');
+              var img = $('<img src="' + src + '" alt="' + title + '" />');
+              var caption = $('<div class="caption"><span class="caption-text">' +
+                  title + '</span></div>');
+              a.data('video-id', VIMEO_GALLERY_2.data[i]['uri'].split("/")[2]);
+              a.data('thumb-id', VIMEO_GALLERY_2.data[i]['uri'].split("/")[2]);
+              a.append(img);
+              a.append(caption);
+              galleryContainer.append(a);
+          }
+        }
         updateJustifiedGallery();
-
         addVimeoThumbListeners();
         addGalleryThumbsListener();
-
-      // $.ajax({
-      //   url: "https://vimeo.com/api/v2/user3589164/videos.json",
-      // }).done(function(response) {
-      //   VIMEO_DATA = response;
-
-      //   $('.curl').addClass('hidden');
-
-      //   galleryContainer.data('gallery-type', 'video');
-      //   for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
-      //     var src = VIMEO_DATA[i]['thumbnail_large'];
-      //     var title = VIMEO_DATA[i]['title'];
-      //     var a = $('<a class="vimeo-thumb" href=""></a>');
-      //     var img = $('<img src="' + src + '" alt="' + title + '" />');
-      //     var caption = $('<div class="caption"><span class="caption-text">' +
-      //         title + '</span></div>');
-      //     a.data('video-id', VIMEO_DATA[i]['id']);
-      //     a.data('thumb-id', VIMEO_DATA[i]['id']);
-      //     a.append(img);
-      //     a.append(caption);
-      //     galleryContainer.append(a);
-      //   }
-
-      //   // Applies the justified gallery plugin to the div with the mygallery ID
-      //   updateJustifiedGallery();
-
-      //   addVimeoThumbListeners();
-      //   addGalleryThumbsListener();
-
-
-      // });
-    });
-
+      }
+      else {
+        $(document).ajaxStop(function() {
+          if (slugify($(elm).text()) == slugify('This Is Hopeless')) {
+            console.log('you clicked the This Is Hopeless gallery link!');
+            for (var i = 0, l = VIMEO_GALLERY_1.data.length; i < l; i++) {
+              var src = VIMEO_GALLERY_1.data[i]['pictures']['sizes'][4]['link'];
+              var title = VIMEO_GALLERY_1.data[i]['name'];
+              var a = $('<a class="vimeo-thumb" href=""></a>');
+              var img = $('<img src="' + src + '" alt="' + title + '" />');
+              var caption = $('<div class="caption"><span class="caption-text">' +
+                  title + '</span></div>');
+              a.data('video-id', VIMEO_GALLERY_1.data[i]['uri'].split("/")[2]);
+              a.data('thumb-id', VIMEO_GALLERY_1.data[i]['uri'].split("/")[2]);
+              a.append(img);
+              a.append(caption);
+              galleryContainer.append(a);
+            }
+        }
+          else if (slugify($(elm).text()) == slugify('all access')) {
+              for (var i = 0, l = VIMEO_GALLERY_2.data.length; i < l; i++) {
+                var src = VIMEO_GALLERY_2.data[i]['pictures']['sizes'][4]['link'];
+                var title = VIMEO_GALLERY_2.data[i]['name'];
+                var a = $('<a class="vimeo-thumb" href=""></a>');
+                var img = $('<img src="' + src + '" alt="' + title + '" />');
+                var caption = $('<div class="caption"><span class="caption-text">' +
+                    title + '</span></div>');
+                a.data('video-id', VIMEO_GALLERY_2.data[i]['uri'].split("/")[2]);
+                a.data('thumb-id', VIMEO_GALLERY_2.data[i]['uri'].split("/")[2]);
+                a.append(img);
+                a.append(caption);
+                galleryContainer.append(a);
+            }
+          }
+        updateJustifiedGallery();
+        addVimeoThumbListeners();
+        addGalleryThumbsListener();
+        });
+      }
     }
     else {
       $('.curl').removeClass('hidden');

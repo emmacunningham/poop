@@ -84,6 +84,7 @@ ul {
   text-align: center;
   padding: 80px 40px;
   margin: 0 auto;
+  max-width: 720px;
 }
 
 .sidebar-container {
