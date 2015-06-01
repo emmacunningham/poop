@@ -213,8 +213,17 @@ var showGallery = function(elm) {
     var galleryType = $(elm).data('gallery-type');
     var galleryContainer = $('#mygallery');
 
+    var setGalleryTypeOnGalleryContainer = function(val) {
+      $('#mygallery').data("gallery-type", val);
+    };
+
+    setGalleryTypeOnGalleryContainer(galleryType);
+
     DARK_COLOR_SCHEME = true;
     colorScheme();
+    console.log(galleryType);
+    console.log($(elm).data());
+    console.log($(elm));
 
     $('.about-container').addClass('hidden');
     $('.curl').addClass('hidden');
@@ -797,6 +806,8 @@ var initPage = function() {
     console.log(nextEl);
     console.log($('#mygallery a'));
     console.log(CUR_GALLERY_INDEX);
+    console.log($('#mygallery').data());
+
 
     if ($('#mygallery').data('gallery-type') == 'video') {
       var videoId = $(nextEl).data('video-id');
