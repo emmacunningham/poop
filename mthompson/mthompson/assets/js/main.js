@@ -69,20 +69,23 @@ var sortVimeoVideos = function() {
   }
 };
 
-// On document load, selects one of three randcom images for the background
-// if BG1 is selected, sets the text to dark, if not, left at light text
-$(document).ready( function() {
-  // Load navigation
-  // Fetch the nav labels
+var fetchVimeoVideos = function() {
   $.ajax({
     // method: 'GET',
     url: vimeo_albums_call
-  }).done(function(response) {
+    }).done(function(response) {
     VIMEO_DATA = response;
-    console.log(VIMEO_DATA);
     sortVimeoVideos();
-
   });
+};
+
+// On document load, selects one of three randcom images for the background
+// if BG1 is selected, sets the text to dark, if not, left at light text
+$(document).ready( function() {
+  fetchVimeoVideos();
+  // sortVimeoVideos();
+
+  // });
   // method: 'GET',
   // 'https://api.vimeo.com/me/videos?access_token=049f90fd738b27db4783ccf398655e6e',
 
@@ -213,6 +216,9 @@ var showGallery = function(elm) {
 
     if (galleryType == 'video') {
 
+      $( document ).ajaxStop(function() {
+      console.log('no more ajax requests are out! lets fire the remaining functions!')
+
       if (slugify($(elm).text()) == slugify('This Is Hopeless')) {
         console.log('you clicked the This Is Hopeless gallery link!');
         for (var i = 0, l = VIMEO_GALLERY_1.data.length; i < l; i++) {
@@ -281,7 +287,7 @@ var showGallery = function(elm) {
 
 
       // });
-
+    });
 
     }
     else {
