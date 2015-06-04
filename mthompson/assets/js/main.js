@@ -1090,7 +1090,7 @@ var addGalleryThumbsListener = function() {
   });
 
 var whiteBackground = function () {
-  $('.homepage-container').css('background-image', 'url(http://localhost:8000/media/home_bg/white.jpg)');
+  $('.homepage-container').css('background-image', 'url(/img/bgs/white.jpg)');
   WHITE_BACKGROUND = true;
 }
 
