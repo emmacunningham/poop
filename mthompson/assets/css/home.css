@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: adam;
-  src: url('adam.otf');
+  src: url('../../media/fonts/adam.otf');
 }
 
 html, body {
