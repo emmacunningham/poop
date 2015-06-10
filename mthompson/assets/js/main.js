@@ -195,7 +195,7 @@ var updateJustifiedGallery = function() {
   $("#mygallery").justifiedGallery({
     rowHeight: 200,
     maxRowHeight: 210,
-    lastRow: 'justify',
+    lastRow: 'nojustify',
     margins: 10,
     refreshTime: 300,
     captionSettings: {
@@ -1148,7 +1148,7 @@ var fetchSecretGallery = function(i) {
     // Applies the justified gallery plugin to the div with the mygallery ID
     $("#mygallery").justifiedGallery({
       rowHeight: 200,
-      lastRow: 'justify',
+      lastRow: 'nojustify',
       margins: 10,
     });
 
@@ -1456,7 +1456,6 @@ $('.easter-trigger.left').mouseout(function() {
 
 // click listeners for THEM EASTER EGGS!
 $('.easter-egg.top').click(function(e) {
-  console.log('YOOO');
   e.preventDefault();
   showSecretPhotoGallery(11);
   updateRoute('/secret-gallery-1');
@@ -1464,7 +1463,6 @@ $('.easter-egg.top').click(function(e) {
 
 $('.easter-egg.left').click(function(e) {
   e.preventDefault();
-  console.log('YOOO left!');
   showSecretVideoGallery(12);
   updateRoute('/secret-gallery-2');
 });
