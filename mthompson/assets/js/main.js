@@ -42,7 +42,6 @@ var sortVimeoVideos = function() {
     if (slugify(vimeo_album_name) == slugify('this is hopeless')) {
       var vimeo_album_array = VIMEO_DATA.data[i]['uri'].split("/");
       var VIMEO_ALBUM_ID = vimeo_album_array[4];
-      console.log(VIMEO_ALBUM_ID);
       var vimeo_album_call = "https://api.vimeo.com/me/albums/" + VIMEO_ALBUM_ID + "/videos?access_token=049f90fd738b27db4783ccf398655e6e";
       $.ajax({
         // method: 'GET',
@@ -50,13 +49,11 @@ var sortVimeoVideos = function() {
 
       }).done(function(response) {
         VIMEO_GALLERY_1 = response;
-        console.log(VIMEO_GALLERY_1);
       });
     }
     else if (slugify(vimeo_album_name) == slugify('all access')) {
       var vimeo_album_array = VIMEO_DATA.data[i]['uri'].split("/");
       var VIMEO_ALBUM_ID = vimeo_album_array[4];
-      console.log(VIMEO_ALBUM_ID);
       var vimeo_album_call = "https://api.vimeo.com/me/albums/" + VIMEO_ALBUM_ID + "/videos?access_token=049f90fd738b27db4783ccf398655e6e";
       $.ajax({
         // method: 'GET',
@@ -64,7 +61,6 @@ var sortVimeoVideos = function() {
 
       }).done(function(response) {
         VIMEO_GALLERY_2 = response;
-        console.log(VIMEO_GALLERY_2);
       });
     }
   }
@@ -221,9 +217,6 @@ var showGallery = function(elm) {
 
     DARK_COLOR_SCHEME = true;
     colorScheme();
-    console.log(galleryType);
-    console.log($(elm).data());
-    console.log($(elm));
 
     $('.about-container').addClass('hidden');
     $('.curl').addClass('hidden');
@@ -396,6 +389,7 @@ var showSecretPhotoGallery = function(elm) {
       $.ajax({
         url: "/fetch-gallery/" + galleryId,
       }).done(function(response) {
+        // var gal_story = response['description'];
         var photos = response['photos'];
         for (var i = 0, l = photos.length; i < l; i++) {
           var photo = photos[i];
@@ -541,7 +535,6 @@ var showMedia = function(elm) {
   $('#mygallery a').each(function(i, el) {
     if ($(el)[0] == $(self)[0]) {
       CUR_GALLERY_INDEX = i;
-      console.log(CUR_GALLERY_INDEX);
     }
   });
 
@@ -611,7 +604,6 @@ var clearGalleryContainer = function() {
   $('iframe').attr('src', '');
   var galleryContainer = $('#mygallery');
   galleryContainer.empty();
-  console.log('THE GALLERY CONTAINER WAS CLEARED BRO! OMG OMG!');
   galleryContainer.css({
     'height': '5px'
   });
@@ -696,10 +688,8 @@ var showNav = function(target, forceRouteUpdate) {
 
   // Change the background image and typeface color on menu click!
    if (WHITE_BACKGROUND == true || screenWidth <= 600) {
-    console.log('the white background variable is true');
    }
   else {
-    console.log('the white background variable is false');
   }
 };
 
@@ -1121,7 +1111,6 @@ var fetchSecretGallery = function(i) {
   $.ajax({
     url: "/fetch-gallery/" + galleryId,
   }).done(function(response) {
-    console.log(response)
     var photos = response['photos'];
     for (var i = 0, l = photos.length; i < l; i++) {
       var photo = photos[i];
@@ -1282,7 +1271,6 @@ var initRouter = function() {
             setTimeout(function() {
             if (!!media_id) {
               var media_links = $('#mygallery a');
-              console.log(media_links);
               for (var j = 0, m = media_links.length; j < m; j++) {
                 var thumb_id =($(media_links[j]).data('thumb-id'));
                 if (thumb_id == media_id) {
