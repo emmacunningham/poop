@@ -310,12 +310,13 @@ var showGallery = function(elm) {
           var src = photo['src'];
           var description = photo['description'];
           var title = photo['title'];
+          var parsedTitle = title.split("##")[0];
           var id = photo['id'];
 
           var a = $('<a href="' + src + '"></a>');
-          var img = $('<img src="' + src + '" alt="' + title + '" />');
+          var img = $('<img src="' + src + '" alt="' + parsedTitle + '" />');
           var caption = $('<div class="caption"><span class="caption-text">' +
-            title + '</span></div>');
+            parsedTitle + '</span></div>');
           a.data('story-text', description);
           a.data('thumb-id', id);
           a.append(img);
