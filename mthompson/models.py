@@ -22,6 +22,23 @@ NAV_APPEARARNCE_CHOICES = (
     ('dark', 'Dark'),
 )
 
+class PhotoDisplay(models.Model):
+
+  # Link back to Photologue's Gallery model.
+  photo = models.OneToOneField(Photo, related_name='extended')
+
+  # Display title to show on front-end
+  display_title = models.CharField(max_length=255, null=True, blank=True)
+
+  # Boilerplate code to make a prettier display in the admin interface.
+  class Meta:
+    verbose_name = u'PhotoDisplay'
+    verbose_name_plural = u'PhotosDisplay'
+
+  def __str__(self):
+    return self.gallery.title
+
+
 class Category(Sortable):
 	class Meta(Sortable.Meta):
 		pass

@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^fetch-gallery/(\w*)', views.fetch_gallery, name='gallery'),
+    url(r'^fetch-all-thumbnail/', views.fetch_all_thumbnail, name='thumbnail'),
     (r'^photologue/', include('photologue.urls', namespace='photologue')),
     url(r'^.*', views.HomeView.as_view(), name='home'),
 

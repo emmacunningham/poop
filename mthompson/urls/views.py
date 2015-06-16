@@ -62,6 +62,23 @@ def fetch_gallery(request, id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+def fetch_all_thumbnail(request):
+    photos = Photo.objects.all()
+    photo_data = []
+    for photo in photos:
+        thumbnail_src = photo.get_admin_thumbnail_url()
+        id = photo.pk
+        data = {
+            'id': id,
+            'thumb': thumbnail_src
+        }
+        photo_data.append(data)
+
+    response_data = {
+        'photo_data': photo_data
+    }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
 def fetch_categories(request):
     categories = []
     cats = Category.objects.all()
