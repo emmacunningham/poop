@@ -14,7 +14,9 @@ env
 static/CACHE
 .sass-cache/
 *.scssc
-data/mthompson
+
 node_modules/*
 
 
+
+mthompson/media/photologue/photos/cache/CACHEDIR.TAG
