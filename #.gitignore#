@@ -14,7 +14,7 @@ env
 static/CACHE
 .sass-cache/
 *.scssc
-data/mthompson
+
 node_modules/*
 
 
