@@ -620,6 +620,8 @@ var showAbout = function() {
   });
   $('.about-container').removeClass('hidden');
   clearGalleryContainer();
+  $('.single-image-container').addClass('hidden');
+  $('.single-image-nav-container').addClass('hidden');
 };
 
 var showNav = function(target, forceRouteUpdate) {
