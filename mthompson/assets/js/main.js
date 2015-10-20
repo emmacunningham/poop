@@ -193,12 +193,21 @@ var showPortStory = function(p) {
     showGallery($(p).prev());
     updateRouteForGallery($(p).prev());
   }
+  // if story-link.active length == 1, then there is currently a story being displayed to users!
+  // if story-link.active length == 0, then there is NOT CURRENTLY a story being displayed to users
+
+  // IF there is a story currently being displayed to users!
   if ($('.story-link.active').length > 0) {
-    // check to see if the currently displayed story is the same as the story associated with the clicked-on link
+    // if the currently displayed story is the same as the story associated with the clicked-on link
+    // remove the class of "active" and hide the port story! (basically toggles it off!)
     if ($('.story-link.active')[0] == p[0]) {
       p.removeClass('active');
       $('.port-story').addClass('hidden');
     }
+    // if the displayed story IS NOT the same as the story associated with the clicked-on link THEN
+    // clear the active story link
+    // make the clicked-on link the new active story
+    // make sure the port-story is not hidden
     else {
       $('.story-link.active').removeClass('active');
       p.addClass('active');
@@ -585,6 +594,7 @@ var preloadImage = function (index, value) {
 var clearGalleryContainer = function() {
   $('iframe').attr('src', '');
   $('.port-story').addClass('hidden');
+  $('.story-link.active').removeClass('active');
   var galleryContainer = $('#mygallery');
   galleryContainer.empty();
   galleryContainer.css({
@@ -714,6 +724,7 @@ var initPage = function() {
   $('.expand-link').click(function(e) {
     e.preventDefault();
     showNav($(this), true);
+    galleryId = 9000;
   });
 
   // single-image nav click listeners! START ===
@@ -868,25 +879,8 @@ var initPage = function() {
 
   $('.story-link').click(function(e) {
     e.preventDefault();
+    console.log('Story Link has been clicked!');
     showPortStory($(this));
-
-    // if there is a story link currently being displayed
-    // if ($('.story-link.active').length > 0) {
-    //   // check to see if the currently displayed story is the same as the story associated with the clicked-on link
-    //   if ($('.story-link.active')[0] == $(this)[0]) {
-    //     $(this).removeClass('active');
-    //     $('.port-story').addClass('hidden');
-    //   }
-    //   else {
-    //     $('.story-link.active').removeClass('active');
-    //     $(this).addClass('active');
-    //     $('.port-story').removeClass('hidden');
-    //   }
-    // }
-    // else {
-    //   $(this).addClass('active');
-    //   $('.port-story').removeClass('hidden');
-    // }
   });
 
   $('.mobile-menu-button').click(function(e) {
