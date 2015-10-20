@@ -169,46 +169,35 @@ var sublinkRouteUpdate = function(elm) {
   updateRoute('/' + category + '/' + gallery)
 };
 
-var associatedGalleryDisplayed = function(k) {
-  // console.log('AssociatedGalleryDisplayed function has been called');
-  // IF story-link is on top-level nav we have to use .parent
-  // IF story-link is on a sub-nav, we have to use .prev
-
-  // the associated gallery is already being displayed, so only toggle the story!
-  if (k.prev().length == 0 && k.parent().data('gallery-id') == galleryId) {
-    console.log('Story Link == Top Nav && Gallery is already being displayed');
+var updateRouteForGallery = function(s) {
+  // If clicked link is under subnav
+  if (s.hasClass('sub-link')) {
+    sublinkRouteUpdate(s);
   }
-  else if (k.prev().length == 1 && k.prev().data('gallery-id') == galleryId) {
-    console.log('story link is on SUBLINK aaaaaaand associated gallery is already being displayed');
-  }
+  // If clicked link is top-level nav
   else {
-    console.log('gonna return false!');
+    var clickPath = s.text();
+    updateRoute('/' + slugify(clickPath));
+  }
+};
+
+var associatedGalleryDisplayed = function(k) {
+  // the associated gallery is already being displayed, so only toggle the story!
+ if (k.prev().data('gallery-id') != galleryId) {
     return false
   }
-
 };
 
 var showPortStory = function(p) {
-  console.log("showPortStory function has been called");
-  var prevElLength = p.prev().length;
-  // console.log('just before the if statement');
   if (associatedGalleryDisplayed(p) == false) {
-    console.log("associatedGalleryDisplayed has returned false")
-    if (prevElLength == 1) {
-      console.log('Calling showGallery with .prev');
-      showGallery($(p).prev());
-    }
-    else {
-      console.log('Calling showGallery with .parent');
-      showGallery($(p).parent());
-    }
+    showGallery($(p).prev());
+    updateRouteForGallery($(p).prev());
   }
   $('#port-story-text').text(p.data('story-text'));
   // }
 };
 
 var buildNav = function(x) {
-  console.log('buildNav has been called');
   var menuContainer = $('.nav-menu');
   for (var i = 0, l = x.length; i < l; i++) {
     var name = x[i]['name'];
@@ -225,7 +214,6 @@ var buildNav = function(x) {
 
       // adding the story icon to single gallery collections
       if (!!x[i]['galleries'][0]['story']) {
-        console.log(li);
         var story_icon = $('<a class="story-link" href=""></a>');
         li.append(story_icon);
         var story_text = x[i]['galleries'][0]['story'];
@@ -284,7 +272,6 @@ var updateJustifiedGallery = function() {
 };
 
 var showGallery = function(elm) {
-  console.log('showGallery function has been called!');
   // add items to gallery container
   clearGalleryContainer();
   galleryId = $(elm).data('gallery-id');
@@ -697,19 +684,8 @@ var initPage = function() {
   // When clicking on a portfolio link!!
   $('.port-link').click(function(e) {
     e.preventDefault();
-    console.log('a port-link has been clicked!');
     showGallery($(this));
-
-    // If clicked link is under subnav
-    if ($(this).hasClass('sub-link')) {
-      sublinkRouteUpdate($(this));
-    }
-
-    // If clicked link is top-level nav
-    else {
-      var clickPath = $(this).text();
-      updateRoute('/' + slugify(clickPath));
-    }
+    updateRouteForGallery($(this));
   });
 
   // When clicking the portfolio-story close 'x' button!
@@ -718,22 +694,12 @@ var initPage = function() {
     $('.port-story').addClass('hidden');
   });
 
-
-
-  // Event listener for clicking on the expand-link anchors
-  // Counts up the number of li's in each ul
-  // calculates height of one li
-  // adds hidden class on content-container div and port-story div
-  // resets all the expand-links to non-active besdies the one that is clicked on
-  // sets the max height of the subnav container div to liCount * liHeight
-  // takes the name of the expand-link and sets the background to the appropriate image
-  // sets the text color appropriate based on which background image is used
   $('.expand-link').click(function(e) {
     e.preventDefault();
     showNav($(this), true);
-
   });
 
+  // single-image nav click listeners! START ===
 
   // click listener for "next" image nav icon
   // checks to see if we're at the end of gallery slides
@@ -779,7 +745,6 @@ var initPage = function() {
         $('#single-image-story-text').append(' - ' + storyText);
       }
     }
-
   });
 
   // click listener for the "previous" nav icon
@@ -841,6 +806,8 @@ var initPage = function() {
     //updateRoute('/');
     updateRoute(currentUrl);
   });
+
+  // single-image nav click listeners! END ===
 
   var toggleImageStoryMode = function() {
     $('.img-story').toggleClass('hidden');
