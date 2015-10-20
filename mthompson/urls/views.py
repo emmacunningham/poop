@@ -61,26 +61,6 @@ def fetch_gallery(request, id):
     }
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-def fetch_galleryOG(request, id):
-    gallery = get_object_or_404(Gallery, pk=id)
-
-    photos = [];
-
-    for photo in gallery.photos.all():
-        src = photo.image.url
-        p = {
-            'title': photo.title,
-            'description': photo.caption,
-            'src': src,
-            'id': photo.pk
-        }
-        photos.append(p)
-
-    response_data = {
-        'photos': photos
-    }
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
-
 def fetch_all_thumbnail(request):
     photos = Photo.objects.all()
     photo_data = []
