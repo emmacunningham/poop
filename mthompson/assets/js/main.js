@@ -193,9 +193,6 @@ var showPortStory = function(p) {
     showGallery($(p).prev());
     updateRouteForGallery($(p).prev());
   }
-  // if story-link.active length == 1, then there is currently a story being displayed to users!
-  // if story-link.active length == 0, then there is NOT CURRENTLY a story being displayed to users
-
   // IF there is a story currently being displayed to users!
   if ($('.story-link.active').length > 0) {
     // if the currently displayed story is the same as the story associated with the clicked-on link
@@ -229,7 +226,10 @@ var buildNav = function(x) {
     var li =  $('<li></li>');
     var a = $('<a href="" class="nav-link">' + name + '</a>');
 
-    li.append(a);
+    if (name != 'Secret') {
+      li.append(a);
+    }
+
 
     // Single-gallery collection
     if (x[i]['galleries'].length <= 1) {
@@ -240,7 +240,9 @@ var buildNav = function(x) {
       // adding the story icon to single gallery collections
       if (!!x[i]['galleries'][0]['story']) {
         var story_icon = $('<a class="story-link" href=""></a>');
-        li.append(story_icon);
+        if (name != 'Secret') {
+          li.append(story_icon);
+        }
         var story_text = x[i]['galleries'][0]['story'];
         story_icon.data('story-text', story_text);
       }
@@ -321,9 +323,12 @@ $(document).ready(function() {
   $.ajax({
     url: "/fetch-categories/",
   }).done(function(response) {
+    console.log('Here comes the response from the fetch-categories call');
+    console.log(response);
     // Create nav elements based on nav labels
     // var menuContainer = $('.nav-menu');
     CATEGORY_DATA = response['categories'];
+    // console.log(CATEGORY_DATA);
     buildNav(CATEGORY_DATA);
     $('.about-link').click(function(e) {
       e.preventDefault();
@@ -335,91 +340,50 @@ $(document).ready(function() {
   });
 });
 
-
-var showSecretPhotoGallery = function(elm) {
-  // add items to gallery container
-    clearGalleryContainer();
-    var galleryId = elm;
-    var galleryType = 'photo';
-    var galleryContainer = $('#mygallery');
-
-    DARK_COLOR_SCHEME = true;
-    colorScheme();
-
-    $('.about-container').addClass('hidden');
-
-    if (galleryType == 'video') {
-
-      $.ajax({
-        url: "https://vimeo.com/api/v2/user3589164/videos.json",
-      }).done(function(response) {
-        VIMEO_DATA = response;
-
-        $('.curl').addClass('hidden');
-
-        galleryContainer.data('gallery-type', 'video');
-        for (var i = 0, l = VIMEO_DATA.length; i < l; i++) {
-          var src = VIMEO_DATA[i]['thumbnail_large'];
-          var title = VIMEO_DATA[i]['title'];
-          var a = $('<a class="vimeo-thumb" href=""></a>');
-          var img = $('<img src="' + src + '" alt="' + title + '" />');
-          var caption = $('<div class="caption"><span class="caption-text">' +
-              title + '</span></div>');
-          a.data('video-id', VIMEO_DATA[i]['id']);
-          a.data('thumb-id', VIMEO_DATA[i]['id']);
-          a.append(img);
-          a.append(caption);
-          galleryContainer.append(a);
-        }
-
-        // Applies the justified gallery plugin to the div with the mygallery ID
-        updateJustifiedGallery();
-
-        addVimeoThumbListeners();
-        addGalleryThumbsListener();
-
-
-      });
-
-
+var showSecretPortStory = function(p) {
+  console.log('showSecretPortStory called');
+  if ($('.story-link.active').length > 0) {
+    // if the currently displayed story is the same as the story associated with the clicked-on link
+    // remove the class of "active" and hide the port story! (basically toggles it off!)
+    if ($('.story-link.active')[0] == p[0]) {
+      // p.removeClass('active');
+      $('.port-story').addClass('hidden');
     }
+    // if the displayed story IS NOT the same as the story associated with the clicked-on link THEN
+    // clear the active story link
+    // make the clicked-on link the new active story
+    // make sure the port-story is not hidden
     else {
-      $('.curl').removeClass('hidden');
-      galleryContainer.data('gallery-type', 'image');
-      $.ajax({
-        url: "/fetch-gallery/" + galleryId,
-      }).done(function(response) {
-        // var gal_story = response['description'];
-        var photos = response['photos'];
-        for (var i = 0, l = photos.length; i < l; i++) {
-          var photo = photos[i];
-          var src = photo['src'];
-          var description = photo['description'];
-          var title = photo['title'];
-          var id = photo['id'];
-
-          var a = $('<a href="' + src + '"></a>');
-          var img = $('<img src="' + src + '" alt="' + title + '" />');
-          var caption = $('<div class="caption"><span class="caption-text">' +
-            title + '</span></div>');
-          a.data('story-text', description);
-          a.data('thumb-id', id);
-          a.append(img);
-          a.append(caption);
-          galleryContainer.append(a);
-
-        }
-
-        // Applies the justified gallery plugin to the div with the mygallery ID
-        updateJustifiedGallery();
-        addGalleryThumbsListener();
-      });
+      $('.story-link.active').removeClass('active');
+      // p.addClass('active');
+      $('.port-story').removeClass('hidden');
     }
+  }
+  else {
+    // p.addClass('active');
+    $('.port-story').removeClass('hidden');
+  }
+  $('#port-story-text').text(CATEGORY_DATA[7]['galleries'][p]['story']);
+};
 
-    $('.content-container').removeClass('hidden');
-    whiteBackground();
-    $('.single-image-container').addClass('hidden');
-    $('.single-image-nav-container').addClass('hidden');
+var showSecretGallery = function(elm, type, pos) {
+  // add items to gallery container
+  clearGalleryContainer();
+
+  var galleryName = 'Secret Video Gallery';
+  var galleryType = type;
+
+  setGalleryTypeOnGalleryContainer(galleryType);
+
+  if (galleryType == 'video') {
+    fetchAndShowVideoGallery(galleryName);
+  }
+  else {
+    showPhotoGallery(elm);
+  }
+
+  // show the story!
+  showSecretPortStory(pos);
 };
 
 var showSecretVideoGallery = function(elm) {
@@ -689,7 +653,6 @@ var showNav = function(target, forceRouteUpdate) {
 };
 
 var initPage = function() {
-
 
   if (window.location.pathname == "/" ) {
     // Fetch a random home background and set text based on color scheme
@@ -1289,13 +1252,13 @@ $('.easter-trigger.left').mouseout(function() {
 // click listeners for THEM EASTER EGGS!
 $('.easter-egg.top').click(function(e) {
   e.preventDefault();
-  showSecretPhotoGallery(11);
+  showSecretGallery(11, 'photo', 0);
   updateRoute('/secret-gallery-1');
 });
 
 $('.easter-egg.left').click(function(e) {
   e.preventDefault();
-  showSecretVideoGallery(12);
+  showSecretGallery(12, 'video', 1);
   updateRoute('/secret-gallery-2');
 });
 
