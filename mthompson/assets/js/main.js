@@ -16,7 +16,7 @@ var VIMEO_DATA;
 var VIMEO_GALLERY = [];
 var CATEGORY_DATA = [];
 var galleryContainer;
-var OUTSTANDING_AJAX = true;
+// var OUTSTANDING_AJAX = true;
 var screenWidth = $(window).width();
 
 
@@ -192,6 +192,22 @@ var showPortStory = function(p) {
   if (associatedGalleryDisplayed(p) == false) {
     showGallery($(p).prev());
     updateRouteForGallery($(p).prev());
+  }
+  if ($('.story-link.active').length > 0) {
+    // check to see if the currently displayed story is the same as the story associated with the clicked-on link
+    if ($('.story-link.active')[0] == p[0]) {
+      p.removeClass('active');
+      $('.port-story').addClass('hidden');
+    }
+    else {
+      $('.story-link.active').removeClass('active');
+      p.addClass('active');
+      $('.port-story').removeClass('hidden');
+    }
+  }
+  else {
+    p.addClass('active');
+    $('.port-story').removeClass('hidden');
   }
   $('#port-story-text').text(p.data('story-text'));
   // }
@@ -568,6 +584,7 @@ var preloadImage = function (index, value) {
 // by being REMOVED (src = '')
 var clearGalleryContainer = function() {
   $('iframe').attr('src', '');
+  $('.port-story').addClass('hidden');
   var galleryContainer = $('#mygallery');
   galleryContainer.empty();
   galleryContainer.css({
@@ -850,30 +867,26 @@ var initPage = function() {
   });
 
   $('.story-link').click(function(e) {
-    // ($('#port-story-text').text($(this).data('story-text')));
     e.preventDefault();
-    // associatedGalleryDisplayed($(this));
     showPortStory($(this));
-    // var self = this;
-    // var curStory = self;
 
     // if there is a story link currently being displayed
-    if ($('.story-link.active').length > 0) {
-      // check to see if the currently displayed story is the same as the story associated with the clicked-on link
-      if ($('.story-link.active')[0] == $(this)[0]) {
-        $(this).removeClass('active');
-        $('.port-story').addClass('hidden');
-      }
-      else {
-        $('.story-link.active').removeClass('active');
-        $(this).addClass('active');
-        $('.port-story').removeClass('hidden');
-      }
-    }
-    else {
-      $(this).addClass('active');
-      $('.port-story').removeClass('hidden');
-    }
+    // if ($('.story-link.active').length > 0) {
+    //   // check to see if the currently displayed story is the same as the story associated with the clicked-on link
+    //   if ($('.story-link.active')[0] == $(this)[0]) {
+    //     $(this).removeClass('active');
+    //     $('.port-story').addClass('hidden');
+    //   }
+    //   else {
+    //     $('.story-link.active').removeClass('active');
+    //     $(this).addClass('active');
+    //     $('.port-story').removeClass('hidden');
+    //   }
+    // }
+    // else {
+    //   $(this).addClass('active');
+    //   $('.port-story').removeClass('hidden');
+    // }
   });
 
   $('.mobile-menu-button').click(function(e) {
