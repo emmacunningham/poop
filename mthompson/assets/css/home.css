@@ -21,10 +21,13 @@ body.dark {
 }
 
 h1 {
-  margin: 0;
+  margin: 0px 0px -16px 0px;
+  width: 159px;
+  height: 80px;
   -webkit-margin: 0;
-  font-size: 23px;
-  font-family: adam;
+  background: url('./../../assets/img/icons/mtlogo.png');
+  background-repeat: no-repeat;
+  display: inline-block;
 }
 
 a {
@@ -93,7 +96,7 @@ ul {
   width: 260px;
   vertical-align: top;
   height: 100%;
-  padding: 40px 15px 26px;
+  padding: 15px 15px 26px;
   box-sizing: border-box;
 }
 
@@ -221,6 +224,25 @@ ul {
   vertical-align: top;
   overflow: hidden;
   transition: opacity 0.5s;
+}
+
+.about-text {
+  font-weight: 300;
+  font-size: 18px;
+  text-align: center;
+  padding: 80px 40px;
+  margin: 0 auto;
+  max-width: 720px;
+}
+
+
+.built {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  margin: 0;
+  font-size: x-small;
+  font-weight: 300;
 }
 
 .content-container {
@@ -528,7 +550,7 @@ ul {
     width: 100%;
     min-width: 220px;
     vertical-align: top;
-    height: 35px;
+    height: 85px;
     background: rgba(255, 255, 255, 0.7);
     padding: 0;
     padding-top: 2px;
@@ -540,6 +562,9 @@ ul {
   }
 
   h1 {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
     padding-top: 2px;
   }
 
@@ -574,7 +599,7 @@ ul {
   }
 
   .nav-menu.active {
-    padding-top: 40px;
+    margin-top: 12px;
     text-align: left;
     height: 100vh;
     max-height: 100vh;
@@ -597,7 +622,7 @@ ul {
     display: block;
     position: fixed;
     left: 15px;
-    top: 5px;
+    top: 33px;
     background-image: url('./../../assets/img/icons/mobile_menu.png');
     background-repeat: no-repeat;
   }
@@ -606,7 +631,7 @@ ul {
     display: block;
     position: fixed;
     left: 15px;
-    top: 5px;
+    top: 33px;
     background-image: url('./../../assets/img/icons/mobile_menu_close.png');
     background-repeat: no-repeat;
   }
@@ -617,8 +642,28 @@ ul {
 
   .content-container {
     width: 100%;
-    margin: 27px 0px 0px 0px;
+    margin: 118px 0px 0px 0px;
     overflow: hidden;
+  }
+
+  .about-container {
+    color: #ccc;
+    opacity: 1;
+    display: inline-block;
+    width: 100%;
+    height: 100vh;
+    margin-left: 0px;
+    vertical-align: top;
+    overflow: hidden;
+    transition: opacity 0.5s;
+  }
+
+  .about-text {
+    padding: 100px 40px;
+  }
+
+  .built a {
+    color: #ccc;
   }
 
   html, body, a {
