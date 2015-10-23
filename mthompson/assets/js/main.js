@@ -537,10 +537,10 @@ var showMedia = function(elm) {
 
 var colorScheme = function () {
  if (DARK_COLOR_SCHEME == true) {
-    $("html, body, a, .story-link").addClass('dark');
+    $("html, body, a, h1, .story-link").addClass('dark');
   }
     else {
-      $("html, body, a, .story-link").removeClass('dark');
+      $("html, body, a, h1, .story-link").removeClass('dark');
       DARK_COLOR_SCHEME = false;
     }
 };

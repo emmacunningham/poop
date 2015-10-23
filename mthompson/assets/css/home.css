@@ -8,7 +8,7 @@
 html, body {
   height: 100%;
   max-height: 100%;
-  color: #ccc;
+  color: #fff;
   font-family: 'Open Sans';
 }
 
@@ -24,15 +24,25 @@ h1 {
   margin: 0px 0px -16px 0px;
   width: 159px;
   height: 80px;
-  -webkit-margin: 0;
+  -webkit-margin: 0px 0px -16px 0px;
   background: url('./../../assets/img/icons/mtlogo.png');
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+h1.dark {
+  margin: 0px 0px -16px 0px;
+  width: 159px;
+  height: 80px;
+  -webkit-margin: 0px 0px -16px 0px;
+  background: url('./../../assets/img/icons/mtlogo_dark.png');
   background-repeat: no-repeat;
   display: inline-block;
 }
 
 a {
   text-decoration: none;
-  color: #ccc;
+  color: #fff;
 }
 
 a.dark {
@@ -647,7 +657,7 @@ ul {
   }
 
   .about-container {
-    color: #ccc;
+    color: #fff;
     opacity: 1;
     display: inline-block;
     width: 100%;
@@ -663,7 +673,7 @@ ul {
   }
 
   .built a {
-    color: #ccc;
+    color: #fff;
   }
 
   html, body, a {
