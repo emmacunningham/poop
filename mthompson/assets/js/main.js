@@ -316,9 +316,6 @@ var showGallery = function(elm) {
   }
 };
 
-
-// On document load, selects one of three randcom images for the background
-// if BG1 is selected, sets the text to dark, if not, left at light text
 $(document).ready(function() {
   $.ajax({
     url: "/fetch-categories/",
