@@ -528,6 +528,7 @@ var showMedia = function(elm) {
       var storyText = ($(elm).data('story-text'));
       if (storyText.length > 0) {
         $('#single-image-story-text').append(' - ' + storyText);
+        $('.curl').removeClass('hidden');
      }
     }
 };
