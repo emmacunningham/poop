@@ -157,8 +157,8 @@ var showPhotoGallery = function(elm) {
       a.append(img);
       a.append(caption);
       galleryContainer.append(a);
-      setPhotoGalleryView();
     }
+    setPhotoGalleryView();
   });
 };
 
