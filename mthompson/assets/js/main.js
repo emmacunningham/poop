@@ -525,10 +525,10 @@ var showMedia = function(elm) {
 
       var imgAlt = ($(elm).find('img').attr('alt'));
       $('#single-image-story-text').html(imgAlt);
+      $('.curl').removeClass('hidden');
       var storyText = ($(elm).data('story-text'));
       if (storyText.length > 0) {
         $('#single-image-story-text').append(' - ' + storyText);
-        $('.curl').removeClass('hidden');
      }
     }
 };
