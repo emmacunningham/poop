@@ -609,6 +609,7 @@ ul {
   }
 
   .nav-menu.active {
+    font-size: 8px;
     margin-top: 12px;
     text-align: left;
     height: 100vh;
