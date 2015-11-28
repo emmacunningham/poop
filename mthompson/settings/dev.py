@@ -14,17 +14,17 @@ PARENT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__),"../.."))
 DEFAULT_FROM_EMAIL = 'messenger@localhost'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': os.path.join(PARENT_DIR, 'data/mthompson'),                       # Or path to database file if using sqlite3.
-#         # The following settings are not used with sqlite3:
-#         'USER': '',
-#         'PASSWORD': '',
-#         'HOST': '',                       # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-#         'PORT': '',                       # Set to empty string for default.
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.path.join(PARENT_DIR, 'data/mthompson'),                       # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',                       # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                       # Set to empty string for default.
+    }
+}
 
 
 TIME_ZONE = 'Canada/Eastern'
