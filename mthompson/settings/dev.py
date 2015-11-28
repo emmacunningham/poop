@@ -46,8 +46,8 @@ ROOT_URLCONF = 'mthompson.urls.dev'
 
 ## Heroku deploy stuff below
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+# import dj_database_url
+# DATABASES['default'] =  dj_database_url.config()
 
 ## Don't know if we also need the stuff below or if just above for postgres migration...
 # # Honor the 'X-Forwarded-Proto' header for request.is_secure()
