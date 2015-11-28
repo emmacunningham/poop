@@ -17,6 +17,5 @@ static/CACHE
 
 node_modules/*
 
-
-
+mthompson/media/photologue/photos/cache/*
 mthompson/media/photologue/photos/cache/CACHEDIR.TAG
